@@ -1,0 +1,27 @@
+<ion-view class="login-view">
+    <ion-header-bar class="bar-royal">
+        <div class="title">Verificación TamTam</div>
+    </ion-header-bar>
+    <ion-content scroll="false">
+        <div class="bold login-label padding">
+            Introduzca su código SMS
+        </div>
+        <div class="list">
+            <label class="item item-input country" ng-click="openModal()">
+                <span>{{data.user.phone}}</span>
+            </label>
+            <label class="item item-input phone-number" ng-class="{error: data.err}">
+                <input type="number" placeholder="Código recibido" ng-model="data.user.code">
+            </label>
+        </div>
+
+        <div class="start text-center">
+            <button class="button button-royal" ng-disabled="!data.user.code" ng-click="verify()">Continuar</button>
+        </div>
+        <br>
+        <div class="term text-center" style="font-size: 12px">
+        <p>Introduzca código recibido vía SMS</p>
+        
+        </div>
+    </ion-content>
+</ion-view>

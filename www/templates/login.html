@@ -1,0 +1,38 @@
+<ion-view class="login-view">
+  <ion-header-bar class="bar-royal">
+    <div class="title">TamTam instalación</div>
+  </ion-header-bar>
+  <ion-content scroll="false">
+    <div class="bold login-label padding">
+      Escriba su número de teléfono
+    </div>
+    <div class="list">
+      <label class="item item-input country" ng-click="openModal()">
+        <span ng-if="!data.country">Por favor seleccione su país</span>
+        <span ng-if="data.country">{{data.country.name}} (<span
+          ng-repeat="item in data.country.callingCodes">+{{item}}<span
+          ng-if="$index != data.country.callingCodes.length - 1">, </span></span>) <i
+          class="ion ion-ios-plus-outline pull-right"></i></span>
+      </label>
+      <label class="item item-input phone-number">
+        <input type="text" placeholder="Usuario" ng-model="data.user.name">
+      </label>
+      <label class="item item-input phone-number">
+        <input type="tel" placeholder="Número sin el prefijo de país" ng-model="data.user.phone">
+      </label>
+    </div>
+
+    <div class="start text-center">
+      <button class="button button-royal" ui-sref="login"
+              ng-disabled="!data.country || !data.user.phone || !data.user.contacts.length || !data.user.name"
+              ng-click="login()">Continuar
+      </button>
+    </div>
+    <br>
+    <div class="term text-center f-small">
+      <p>Asegúrese de que puede recibir SMS.</p>
+      <P>De modo que podamos enviarle un código.</P>
+    </div>
+  </ion-content>
+
+</ion-view>

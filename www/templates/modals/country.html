@@ -1,0 +1,24 @@
+<ion-modal-view class="country-view">
+    <ion-header-bar class="bar-royal">
+        <button class="button button-icon icon ion-ios-close-empty" ng-click="closeModal()"></button>
+        <h1 class="title">Seleccione Páis</h1>
+    </ion-header-bar>
+    <ion-content>
+
+        <div class="list" ng-repeat="item in data.countries" id="group-{{$index}}">
+
+            <div class="item item-divider">
+                {{item.char}}
+            </div>
+
+            <a class="item" ng-repeat="country in item.data" ng-click="selectCountry(country)" ng-class="{royal: country.name == data.country.name}">
+                {{country.name}}
+            </a>
+
+        </div>
+    </ion-content>
+    <div class="list-char-country">
+        <a ng-repeat="item in data.countries" ng-click="goTo($index)">{{item.char}}</a>
+    </div>
+</ion-modal-view>
+
