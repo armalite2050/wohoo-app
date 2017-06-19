@@ -1,7 +1,7 @@
 angular.module('starter')
 
   .constant('config', {
-    url: 'http://localhost:8080/', //52.214.212.206
+    url: 'http://34.248.86.156:8080/', //34.248.86.156
     bucket: 'dmliZXItY2xvbmU=',
     accessKeyId: 'QUtJQUkzSFlDRUw2SUUySVJYWFE=',
     secretKey: 'NWJCSmtRYUh3bDM2VHhQL1ExQ3dXR3NSZzZ5alFzTmpkNDMrdm0xQw==',

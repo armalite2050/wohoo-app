@@ -162,6 +162,6 @@ angular.module('starter.controllers', [])
     };
   })
   .controller('DashCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService) {
-    
+
   })
 
