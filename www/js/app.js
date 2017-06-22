@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule'])
 
-  .run(function ($ionicPlatform) {
+  .run(function ($ionicPlatform, $rootScope, SessionService, $state) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -20,6 +20,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+    });
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
+      var shouldLogin = toState.data !== undefined
+        && toState.data.requireLogin
+        && !SessionService.isToken().isLoggedIn ;
+
+      // NOT authenticated - wants any private stuff
+      if(shouldLogin)
+      {
+        $state.go('intro');
+        event.preventDefault();
+        return;
+      }
+      // authenticated (previously) comming not to root main
+      if(SessionService.isToken().isLoggedIn) {
+        var shouldGoToMain = fromState.name === ''
+          && toState.name !== 'tab.contacts' ;
+        return;
+      }
+
+
     });
   })
 
@@ -52,56 +74,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       .state('tab', {
         url: '/tab',
         abstract: true,
-        templateUrl: 'templates/tabs.html'
+        templateUrl: 'templates/tabs.html',
+        controller: 'MainCtrl',
+        data : {requireLogin : true }
       })
 
       // Each tab has its own nav history stack:
 
-      .state('tab.dash', {
-        url: '/dash',
+      .state('tab.contacts', {
+        url: '/contacts',
         views: {
-          'tab-dash': {
-            templateUrl: 'templates/tab-dash.html',
-            controller: 'DashCtrl'
+          'tab-contacts': {
+            templateUrl: 'templates/tab-contacts.html',
+            controller: 'ContactCtrl'
           }
         }
       })
-
-      .state('tab.chats', {
-        url: '/chats',
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/tab-chats.html',
-            controller: 'ChatsCtrl'
-          }
-        }
-      })
-      .state('tab.chat-detail', {
-        url: '/chats/:chatId',
-        views: {
-          'tab-chats': {
-            templateUrl: 'templates/chat-detail.html',
-            controller: 'ChatDetailCtrl'
-          }
-        }
-      })
-
-      .state('tab.account', {
-        url: '/account',
-        views: {
-          'tab-account': {
-            templateUrl: 'templates/tab-account.html',
-            controller: 'AccountCtrl'
-          }
-        }
-      });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/dash');
+    $urlRouterProvider.otherwise('/tab/contacts');
 
     $urlRouterProvider.otherwise(function ($injector) {
       var $localStorageService = $injector.get('localStorageService');
-      if ($localStorageService.get('wohoo-user')) return '/tab/dash';
+      if ($localStorageService.get('wohoo-user')) return '/tab/contacts';
       return '/intro';
     });
 

@@ -30,6 +30,8 @@ angular.module('starter.services', [])
         contactsResult.push(obj)
       });
 
+      console.log(contactsResult)
+
       return contactsResult;
     }
 

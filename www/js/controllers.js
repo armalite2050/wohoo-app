@@ -29,8 +29,8 @@ angular.module('starter.controllers', [])
       $scope.closeModal();
     };
 
-    $scope.goTo = function(id){
-      $location.hash('group-'+id);
+    $scope.goTo = function (id) {
+      $location.hash('group-' + id);
       $ionicScrollDelegate.anchorScroll();
     };
 
@@ -59,7 +59,7 @@ angular.module('starter.controllers', [])
       }
     };
 
-    var getAllContacts = function() {
+    var getAllContacts = function () {
       function onSuccess(contacts) {
         $scope.data.user.contacts = contacts;
       }
@@ -71,10 +71,10 @@ angular.module('starter.controllers', [])
         });
       }
 
-      var options      = new ContactFindOptions();
+      var options = new ContactFindOptions();
       options.filter = "";
-      options.multiple=true;
-      options.hasPhoneNumber=true;
+      options.multiple = true;
+      options.hasPhoneNumber = true;
       var fields = ["*"];
       navigator.contacts.find(fields, onSuccess, onError, options);
     };
@@ -83,8 +83,12 @@ angular.module('starter.controllers', [])
       $http.get('./js/json/countries.json').success(function (response) {
         $scope.data.countries = response;
         $http.get('http://ip-api.com/json').success(function (response) {
-          var indexGroupCountry = _.findIndex($scope.data.countries, function(o) { return o.char == response.country[0]; });
-          var indexCountry = _.findIndex($scope.data.countries[indexGroupCountry].data, function(o) { return o.altSpellings == response.countryCode; });
+          var indexGroupCountry = _.findIndex($scope.data.countries, function (o) {
+            return o.char == response.country[0];
+          });
+          var indexCountry = _.findIndex($scope.data.countries[indexGroupCountry].data, function (o) {
+            return o.altSpellings == response.countryCode;
+          });
           if (indexGroupCountry !== -1 && indexCountry !== -1) {
             $scope.data.country = $scope.data.countries[indexGroupCountry].data[indexCountry];
             localStorageService.set('country', $scope.data.country);
@@ -103,15 +107,15 @@ angular.module('starter.controllers', [])
           if ($ionicPlatform.is('android')) {
 
             var checkPermissionCallback = function (status) {
-              if(!status.hasPermission) {
-                var errorCallback = function() {
+              if (!status.hasPermission) {
+                var errorCallback = function () {
                   //console.warn('Contact permission is not turned on');
                 }
 
                 permissions.requestPermission(
                   permissions.READ_CONTACTS,
-                  function(status) {
-                    if(!status.hasPermission) {
+                  function (status) {
+                    if (!status.hasPermission) {
                       errorCallback();
                     } else {
                       getAllContacts();
@@ -151,7 +155,7 @@ angular.module('starter.controllers', [])
       $http.post(config.url + config.api.verify, $scope.data.user).then(function successCallback(response) {
         if (response.data.success) {
           localStorageService.set('wohoo-user', response.data.user);
-          $state.go('tab.dash');
+          $state.go('tab.contacts');
         } else {
           $scope.data.err = true;
         }
@@ -161,7 +165,53 @@ angular.module('starter.controllers', [])
       });
     };
   })
-  .controller('DashCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService) {
 
+  .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService) {
+
+    $scope.rootData = {};
+    var colors = ['616161', '26a69a', 'C73e87', '4caf50', '26a69a', '4032e6', 'E5734c', 'Fc000', '888888', 'a46251']
+
+    var getRandomColor = function () {
+      var color = '#' + colors[Math.floor(Math.random() * 10)];
+      return color;
+    };
+
+    var _init = function () {
+      $scope.rootData.user = localStorageService.get('wohoo-user');
+      $http.get(config.url + config.api.users + $scope.rootData.user._id).then(function (response) {
+        angular.forEach(response.data.contacts, function (value) {
+          value.color = getRandomColor();
+        });
+        $scope.rootData.user = response.data;
+        console.log($scope.rootData.user)
+      })
+    };
+
+    _init();
+  })
+
+  .controller('ContactCtrl', function ($scope, $ionicScrollDelegate) {
+    $scope.scrollToTop = function () {
+      $ionicScrollDelegate.scrollTop();
+    };
+
+    $scope.sendSms = function(number, event) {
+      event.stopPropagation()
+      var message = 'Únase a mí en TamTam, una aplicación gratuita y sorprendente para llamadas y mensajes! www.tamtam.website';
+      console.log("number=" + number + ", message= " + message);
+
+      //CONFIGURATION
+      var options = {
+        replaceLineBreaks: false, // true to replace \n by a new line, false by default
+        android: {
+          intent: 'INTENT'  // send SMS with the native android SMS messaging
+          //intent: '' // send SMS without open any other app
+        }
+      };
+
+      var success = function () { };
+      var error = function (e) {  };
+      sms.send(number, message, options, success, error);
+    };
   })
 

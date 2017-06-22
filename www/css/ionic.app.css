@@ -9907,3 +9907,74 @@ body {
 
 .f-small {
   font-size: 12px; }
+
+ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active-royal .tab-item.active, ion-tabs.tabs-color-active-royal .tab-item.tab-item-active {
+  color: #006fff; }
+
+.item-color {
+  padding-right: 85px; }
+  .item-color .color {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    line-height: 40px; }
+  .item-color .icon-wohoo {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -15px; }
+  .item-color .invite-user {
+    position: absolute;
+    right: 10px;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 3px;
+    background-color: #006fff;
+    font-size: 14px;
+    top: 50%;
+    margin-top: -15px; }
+
+.contact-view .bar-subheader {
+  background-color: #fff;
+  padding: 8px 10px; }
+  .contact-view .bar-subheader .item-input {
+    width: 100%;
+    border-radius: 5px;
+    background-color: #eee; }
+
+.contact-view .tab-contact {
+  padding: 5px 0; }
+  .contact-view .tab-contact .content {
+    width: 160px;
+    margin: 2px auto;
+    border: 1px solid #006fff;
+    border-radius: 3px;
+    height: 30px;
+    line-height: 28px; }
+    .contact-view .tab-contact .content a {
+      width: 50%;
+      display: block;
+      float: left;
+      text-align: center;
+      font-weight: 400;
+      height: 28px;
+      font-size: 14px;
+      color: #006fff; }
+      .contact-view .tab-contact .content a:first-child {
+        border-bottom-left-radius: 3px;
+        border-top-left-radius: 3px; }
+      .contact-view .tab-contact .content a:last-child {
+        border-bottom-right-radius: 3px;
+        border-top-right-radius: 3px; }
+      .contact-view .tab-contact .content a.active {
+        background-color: #006fff;
+        color: #fff; }
