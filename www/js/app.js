@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule', 'ngFileUpload', 'angular-img-cropper', 'btford.socket-io'])
 
   .run(function ($ionicPlatform, $rootScope, SessionService, $state) {
     $ionicPlatform.ready(function () {
@@ -87,6 +87,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           'tab-contacts': {
             templateUrl: 'templates/tab-contacts.html',
             controller: 'ContactCtrl'
+          }
+        }
+      })
+
+      .state('tab.contactDetail', {
+        url: '/contacts/:id',
+        views: {
+          'tab-contacts': {
+            templateUrl: 'templates/tab-contact-detail.html',
+            controller: 'ContactDetailCtrl'
+          }
+        }
+      })
+
+      .state('tab.account', {
+        url: '/account',
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/tab-account.html',
+            controller: 'AccountCtrl'
           }
         }
       })

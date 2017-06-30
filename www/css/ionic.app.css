@@ -9978,3 +9978,47 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
       .contact-view .tab-contact .content a.active {
         background-color: #006fff;
         color: #fff; }
+
+.button {
+  border-color: transparent;
+  background-color: #006fff;
+  color: #fff; }
+
+.tab-account .bg-contact {
+  height: 350px;
+  overflow: hidden;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+  .tab-account .bg-contact i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 11px;
+    font-size: 40px;
+    color: #888; }
+    .tab-account .bg-contact i:before {
+      background-color: rgba(56, 126, 245, 0.78);
+      padding: 8px 10px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 30px; }
+
+.bar-royal .button {
+  border-color: #006fff;
+  background-color: #006fff;
+  color: #fff; }
+
+.contact-detail-view .contact-button {
+  padding: 20px 0;
+  background-color: #fff; }
+
+.contact-detail-view .item {
+  font-size: 14px; }
+  .contact-detail-view .item p {
+    color: #33cd5f;
+    font-size: 12px; }
+
+body {
+  font-family: "Helvetica Neue" !important; }

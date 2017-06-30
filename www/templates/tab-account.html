@@ -1,0 +1,114 @@
+<ion-view view-title="Account" class="tab-account">
+  <ion-header-bar class="bar-royal">
+    <button class="button button-icon icon btn-history" ng-click="modalHistory.show()">
+      <img src="./img/list-4.png" alt="" class="img-responsive" width="23">
+      <span class="badge" ng-if="rootData.histories.length">{{getHistoryNumber(rootData.histories)}}</span>
+    </button>
+
+    <div class="title">
+      Más
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div class="bg-contact horizontal layout center center-justified" ng-style="{'background-color': rootData.user.color}">
+      <img ng-src="{{rootData.user.avatar}}" alt="" class="img-responsive" ng-if="rootData.user.avatar" >
+      <div ng-if="!rootData.user.avatar" style="color: #fff">Por favor, añade color avatar o imagen</div>
+      <i class="ion-android-camera" ng-click="openModalCropImage()">
+      </i>
+    </div>
+
+    <div class="list">
+      <div class="item item-divider">
+        Usuario
+      </div>
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="Nombre usuario" ng-model="rootData.user.name">
+        </label>
+        <button class="button button-small" ng-click="saveName()">
+          Hecho
+        </button>
+      </div>
+
+      <div class="item item-divider">
+        Estado
+      </div>
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="Estado" ng-model="rootData.user.status">
+        </label>
+        <button class="button button-small" ng-click="saveStatus()">
+          Hecho
+        </button>
+      </div>
+
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper" style="background-color: #fff;  font-size: 15px;">
+                    <span style="display: inline-block;     width: 189px;
+    white-space: initial;">Tu color preferido avatar</span>
+          <input type="color" style="margin-left: 10px; width: 80px;" ng-model="rootData.user.color">
+        </label>
+        <button class="button button-small" ng-click="saveColor()" style="margin-left: 10px">
+          Hecho
+        </button>
+      </div>
+      <div class="item item-divider">
+        Número de móvil: {{rootData.user.phone}}
+      </div>
+
+      <div class="item item-toggle">
+        Notificaciones
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="rootData.user.notification" ng-change="changeNotification()">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+
+      <div class="item item-toggle">
+        Ocultar hora de conexión
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="rootData.user.hideInfo" ng-change="changeInformation()">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Tamaño fuente de letra chat
+        </div>
+        <select ng-options="option for option in rootData.fonts" ng-model="rootData.fontSize" ng-change="getFontSize()">
+        </select>
+      </label>
+
+      <a class="item" ui-sref="tab.background">
+
+        Fondos de chat
+      </a>
+
+      <a class="item">
+
+        Sticker Tienda, Proximamente...
+      </a>
+
+      <a class="item" ng-click="openAbout()">
+
+        Acerca de nosotros
+      </a>
+
+      <a class="item" ng-click="openAbout1()">
+        Novedades TamTam
+      </a>
+
+
+      <a class="item" ng-click="logOut()">
+
+        Salir de TamTam
+      </a>
+
+    </div>
+  </ion-content>
+</ion-view>

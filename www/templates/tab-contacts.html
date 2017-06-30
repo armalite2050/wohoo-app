@@ -23,7 +23,7 @@
   <ion-content class="has-subheader">
     <div class="list">
 
-      <a class="item item-avatar item-color" ng-repeat="item in rootData.user.contacts | filter:searchText">
+      <a class="item item-avatar item-color" ng-repeat="item in rootData.user.contacts | filter:searchText" ng-click="goToContactDetail(item, $index)">
         <div class="color" style="background-color: {{item.color}}" ng-if="!item.user">
           {{item.name[0]}}
         </div>

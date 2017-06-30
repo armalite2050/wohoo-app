@@ -1,0 +1,94 @@
+<ion-view class="contact-detail-view bg-app">
+  <ion-header-bar class="bar-royal">
+    <button class="button button-icon icon ion-ios-arrow-left" ui-sref="tab.contacts"></button>
+    <div class="title" ng-if="data.contact.active">
+      {{data.contact.user.name}}
+    </div>
+    <div class="title" ng-if="!data.contact.active">
+      {{data.contact.name}}
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div ng-if="data.contact.active">
+      <div class="bg-contact royal-bg horizontal layout center center-justified">
+        <img ng-src="{{data.contact.user.avatar}}" alt="" class="img-responsive"
+             ng-if="data.contact.user.avatar">
+        <div ng-if="!data.contact.user.avatar" ng-style="{'background-color': data.contact.user.color}"
+             style="width:100%;height:100%;color: rgb(255, 255, 255);text-align: center;font-size: 26px;line-height: 360px;background-color: rgb(246, 215, 118);">
+          {{data.contact.user.name[0]}}
+        </div>
+      </div>
+      <div class="light text-center" style="margin-top: 3px;margin-bottom: 3px;">
+        <span style="font-weight: bold; font-size: 18px;" ng-cloak ng-if="data.contact.user.phone">{{data.contact.user.name}}</span>
+        <p ng-if="data.contact.user.status" style="    padding: 0 10px;font-size: 16px;
+    margin: 0;" ng-cloak>{{data.contact.user.status}}</p>
+      </div>
+      <div class="horizontal layout contact-button">
+        <div class="flex text-center">
+          <button class="button button-royal" ng-click="openVideoView()">
+            Llamada gratis
+          </button>
+        </div>
+        <div class="flex text-center">
+          <button class="button button-royal" ng-click="createPrivateChat()">
+            Mensaje gratuito
+          </button>
+        </div>
+      </div>
+
+      <div class="list">
+
+        <div class="item item-divider">
+          Número de Móvil {{data.contact.user.phone}}
+        </div>
+
+
+        <a class="item" ng-click="blockContact()" ng-if="!data.isBlock">
+
+          Bloquear contacto
+        </a>
+
+        <a class="item" ng-click="unlockContact()" ng-if="data.isBlock">
+
+          Desbloquear contacto
+        </a>
+
+      </div>
+    </div>
+
+    <div ng-if="!data.contact.active">
+      <div class="bg-contact horizontal layout center center-justified">
+        <div ng-style="{'background-color': data.contact.color}"
+             style="width:100%;height:100%;color: rgb(255, 255, 255);text-align: center;font-size: 26px;line-height: 360px;background-color: rgb(246, 215, 118);">
+          {{data.contact.name[0]}}
+        </div>
+      </div>
+
+      <div class="horizontal layout contact-button">
+        <div class="flex text-center">
+          <button class="button button-royal">
+            Llamada externa
+          </button>
+        </div>
+        <div class="flex text-center">
+          <button class="button button-royal" ng-click="sendSms(data.contact.phone, $event)">
+            Invitar a TamTam
+          </button>
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="item item-divider">
+          Número de Móvil {{data.contact.phone}}
+        </div>
+
+        <a class="item">
+          llamada externa
+          <p class="balanced">Muy pronto llamadas a bajo coste desde TamTam!</p>
+        </a>
+
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

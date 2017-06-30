@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.tamtam.message" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.wohoo.message" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Wohoo</name>
     <description>An Wohoo message app</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -46,6 +46,16 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <hook src="hooks/iosrtc-swift-support.js" type="after_platform_add" />
+        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+            <string>Blink uses your camera to make video calls.</string>
+        </config-file>
+        <config-file parent="NSContactsUsageDescription" target="*-Info.plist">
+            <string>Blink needs access to your contacts in order to be able to call them.</string>
+        </config-file>
+        <config-file parent="NSMicrophoneUsageDescription" target="*-Info.plist">
+            <string>Blink uses your microphone to make calls.</string>
+        </config-file>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -86,6 +96,18 @@
     <icon src="resources/ios/icon/icon-small@3x.png" />
     <plugin name="cordova-sms-plugin" spec="~0.1.11" />
     <plugin name="cordova-plugin-contacts" spec="~2.3.0">
-      <variable name="CONTACTS_USAGE_DESCRIPTION" value=" " />
+        <variable name="CONTACTS_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-android-permissions" spec="~1.0.0" />
+    <plugin name="cordova-plugin-iosrtc" spec="~4.0.2" />
+    <plugin name="cordova-plugin-camera" spec="~2.4.1">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.7.1" />
+    <plugin name="cordova-plugin-geolocation" spec="~2.4.3">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <plugin name="onesignal-cordova-plugin" spec="~2.1.2" />
+    <plugin name="cordova-plugin-crosswalk-webview" spec="~2.3.0" />
 </widget>
