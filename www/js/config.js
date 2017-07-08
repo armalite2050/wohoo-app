@@ -1,7 +1,7 @@
 angular.module('starter')
 
   .constant('config', {
-    url: 'http://192.168.100.129:8080/', //34.248.86.156
+    url: 'http://192.168.1.151:8080/', //34.248.86.156
     bucket: 'dmliZXItY2xvbmU=',
     accessKeyId: 'QUtJQUkzSFlDRUw2SUUySVJYWFE=',
     secretKey: 'NWJCSmtRYUh3bDM2VHhQL1ExQ3dXR3NSZzZ5alFzTmpkNDMrdm0xQw==',
@@ -12,7 +12,7 @@ angular.module('starter')
       profile: 'api/users/profile/',
       chat: 'api/chats/',
       chatUpload: 'api/chats/upload/',
-      chanel: 'api/chanels/',
+      channel: 'api/channels/',
       getChanel: 'api/chanels/getChanel/',
       privateChanel: 'api/chanels/private',
       upload: 'api/uploads',
@@ -21,6 +21,8 @@ angular.module('starter')
       info: 'api/users/phone',
       history: 'api/histories/',
       typing: 'api/typing/',
-      clear: 'api/clear/'
+      clear: 'api/clear/',
+      message: 'api/messages/',
+      turn: 'api/users/turn/',
     }
   });

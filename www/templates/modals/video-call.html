@@ -1,0 +1,53 @@
+<ion-modal-view class="call-view">
+  <ion-content scroll="false" class="content-call-view">
+      <div class="remote-stream" ng-if="rootData.remoteStream" ng-class="{'only-audio': !rootData.streamOption.video}">
+        <video ng-src="{{rootData.remoteStream.src | trustUrl}}" autoplay></video>
+        <img ng-src="{{rootData.userSelected.avatar}}" alt="" class="img-responsive">
+        <div class="name">{{rootData.userSelected.name.formatted}}</div>
+
+      </div>
+
+      <div class="no-calling fit horizontal layout center center-justified" ng-if="!rootData.remoteStream">
+
+        <div class="text-center">
+          <div class="name">{{rootData.userCall.name}}</div>
+
+          <!--<div class="call-type" ng-if="!rootData.timeoutCall">-->
+          <!--<button class="button"><i class="ion ion-ios-videocam-outline"></i></button>-->
+          <!--<button class="button"><i class="ion ion-ios-mic-outline"></i></button>-->
+          <!--</div>-->
+
+          <div style="height: 100px;" ng-if="rootData.timeoutCall" class="horizontal layout center center-justified">
+            <div class="skype royal">
+              {{rootData.timeoutCall}}
+            </div>
+          </div>
+
+
+          <!--<div class="call-status">-->
+          <!--<button class="button button-royal" ng-click="calling()" ng-if="!rootData.timeoutCall"><i class="ion ion-ios-telephone-outline"></i></button>-->
+          <!--<button class="button button-assertive" ng-click="stopCall()" ng-if="rootData.timeoutCall"><i class="ion ion-ios-telephone-outline"></i></button>-->
+          <!--</div>-->
+        </div>
+      </div>
+
+      <!--<button class="button button-assertive button-stop-call" ng-click="destroyStream()" ng-if="rootData.remoteStream"><i class="ion ion-ios-close-empty"></i></button>-->
+  </ion-content>
+  <ion-footer-bar class="footer horizontal layout center center-justified">
+    <div class="flex horizontal layout center center-justified">
+      <div>
+        <i><img src="./img/colgar.png" style="width:50px;height:50px;margin-top:0px;margin:10px;"
+                ng-click="destroyStream()"></i>
+        <i><img src="./img/videocall.png" style="width:50px;height:50px;margin-top:0px;margin:10px;"
+                ng-click="calling(false)" ng-if="!rootData.timeoutCall"></i>
+        <i><img src="./img/call.png" style="width:50px;height:50px;margin-top:0px;margin:10px;" ng-click="calling(true)"
+                ng-if="!rootData.timeoutCall"></i>
+      </div>
+    </div>
+
+    <div class="local-video" ng-if="rootData.localStream">
+      <video ng-src="{{rootData.localStream.src | trustUrl}}" autoplay muted style="height:100px;"></video>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>
+

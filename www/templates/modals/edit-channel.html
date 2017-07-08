@@ -1,0 +1,60 @@
+<ion-modal-view class="create-group">
+    <ion-header-bar class="bar-light">
+        <button class="button button-icon icon" ng-click="modalEdit.hide()">
+            <img src="./img/close.png" alt="" class="img-responsive" width="27">
+        </button>
+        <div class="tab-contact title">
+            Editar Grupo
+        </div>
+        <button class="button button-default" ng-click="editGroup()">
+            Hecho
+        </button>
+
+    </ion-header-bar>
+
+    <ion-content class="create-group-view">
+        <div class="list">
+            <div class="item item-avatar">
+                <div class="img-avatar" style="background-color: #888">
+                  {{data.channelEditting.name[0]}}
+                </div>
+                <!--<img ng-src="{{data.chanelEditing.avatar}}"  ngf-select ng-model="data.imageEdit" name="fileImage" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">-->
+                <input type="text" placeholder="Hi! winter" ng-model="data.channelEditting.name">
+            </div>
+        </div>
+
+        <div class="padding">
+            <b>Usuarios de grupo</b>
+        </div>
+        <ion-list ng-if="data.channelEditting.from == rootData.user._id">
+
+            <ion-item item="item" class="item-avatar" ng-repeat="user in data.channelEditting.users" ng-if="user.user._id != rootData.user._id && user.user._id != user.from">
+
+                <img ng-src="{{user.user.avatar}}" alt="" ng-if="user.user.avatar">
+                <div class="img-avatar" ng-style="{'background-color': user.user.color}" ng-if="!user.user.avatar" >
+                  <span ng-if="user.user.name">{{user.user.name[0]}}</span>
+                </div>
+
+                <h2 ng-if="user.user.name">{{user.user.name}}</h2>
+                <h2 ng-if="!user.user.name">{{user.user.phone}}</h2>
+                <ion-option-button class="button-assertive horizontal layout center center-justified" ng-click="removeUsers($index)">
+                    <i class="ion ion-trash-a"></i>
+                </ion-option-button>
+            </ion-item>
+
+        </ion-list>
+
+        <div class="padding">
+            <button class="button button-royal button-block" ng-click="clearChat()" >
+                Limpiar chat
+            </button>
+            <button class="button button-assertive button-block" ng-click="leaveGroup()" ng-if="data.channelEditting.from != rootData.user._id">
+                Expulsar del grupo
+            </button>
+            <button class="button button-assertive button-block" ng-click="deleteGroup()"  ng-if="data.channelEditting.from == rootData.user._id">
+                Eliminar grupo
+            </button>
+        </div>
+    </ion-content>
+</ion-modal-view>
+

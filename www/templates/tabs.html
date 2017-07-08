@@ -5,17 +5,17 @@ navigation history that also transitions its views in and out.
 -->
 
 
-<ion-tabs class="tabs-icon-top tabs-color-active-royal tab-app">
+<ion-tabs class="tabs-icon-top tabs-color-active-royal tab-app" ng-class="{'has-chat-detail': stateName == 'tab.chatDetail'}">
 
   <!-- Dashboard Tab -->
-  <ion-tab title="Chats" icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble" href="#/tab/chats">
-    <ion-nav-view name="tab-chats"></ion-nav-view>
+  <ion-tab title="Chats" icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble" href="#/tab/chat">
+    <ion-nav-view name="tab-chat"></ion-nav-view>
   </ion-tab>
 
   <!-- Chats Tab -->
-  <ion-tab title="Llamadas" icon-off="ion-ios-telephone-outline" icon-on="ion-ios-telephone" href="#/tab/calls">
-    <ion-nav-view name="tab-calls"></ion-nav-view>
-  </ion-tab>
+  <!--<ion-tab title="Llamadas" icon-off="ion-ios-telephone-outline" icon-on="ion-ios-telephone" href="#/tab/calls">-->
+    <!--<ion-nav-view name="tab-calls"></ion-nav-view>-->
+  <!--</ion-tab>-->
 
   <!-- Account Tab -->
   <ion-tab title="Contactos" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/contacts">

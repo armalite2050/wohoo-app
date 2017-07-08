@@ -1,0 +1,44 @@
+<ion-view view-title="Chat" class="tab-chat">
+  <ion-header-bar class="bar-royal">
+    <button class="button button-icon icon btn-history" ng-click="modalHistory.show()">
+      <img src="./img/list-4.png" alt="" class="img-responsive" width="23">
+      <span class="badge badge-history assertive-bg">0</span>
+    </button>
+    <div class="title">Chats</div>
+    <button class="button button-icon" ng-click="modalGroup.show()">
+      <img src="./img/group.png" alt="" class="img-responsive" width="32">
+    </button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list ng-if="rootData.channels.length">
+
+      <ion-item item="item" class="item-avatar item-color" ng-repeat="item in rootData.channels " ng-click="goChatDetail(item)">
+
+        <div class="color" style="background-color: {{item.to.color}}" ng-if="!item.isGroup && !item.to.avatar">
+          {{item.to.name[0]}}
+        </div>
+        <img ng-src="{{item.to.avatar}}" ng-if="!item.isGroup && item.to.avatar">
+        <h2 ng-if="!item.isGroup">{{item.to.name}}</h2>
+
+        <div class="color" ng-if="item.isGroup && !item.avatar">
+          {{item.name[0]}}
+          <span>G</span>
+        </div>
+        <img ng-src="{{item.avatar}}" ng-if="item.isGroup && item.to.avatar">
+        <h2 ng-if="item.isGroup">
+          {{item.name}}
+        </h2>
+        <p ng-bind-html="item.lastMessage"></p>
+        <div class="left-chat-item">
+          <span class="number-read assertive-bg" ng-if="getReadNumber(item.users)">{{getReadNumber(item.users)}}</span>
+          <div class="time" am-time-ago="item.updatedAt"></div>
+
+        </div>
+        <ion-option-button class="button-assertive horizontal layout center center-justified" ng-click="delete(chanel, $index)">
+          <i class="ion ion-trash-a"></i>
+        </ion-option-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

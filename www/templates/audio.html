@@ -1,0 +1,8 @@
+<div class="audioplayer">
+    <i class="ion ion-ios-play pButton play" ng-click="play()" ng-if="audio.isStart == 1"></i>
+    <i class="ion ion-ios-pause pButton play" ng-click="pause()" ng-if="audio.isStart == 2"></i>
+    <ion-spinner ng-if="audio.isStart == 3"></ion-spinner>
+    <div class="timeline">
+        <div class="playhead" ng-style="{'margin-left': audio.percent}"></div>
+    </div>
+</div>

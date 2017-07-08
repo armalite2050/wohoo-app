@@ -110,4 +110,9 @@
     </plugin>
     <plugin name="onesignal-cordova-plugin" spec="~2.1.2" />
     <plugin name="cordova-plugin-crosswalk-webview" spec="~2.3.0" />
+    <plugin name="cordova-plugin-file" spec="~4.3.3" />
+    <plugin name="cordova-plugin-media" spec="~3.0.1">
+        <variable name="MICROPHONE_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <plugin name="cordova-plugin-insomnia" spec="~4.3.0" />
 </widget>

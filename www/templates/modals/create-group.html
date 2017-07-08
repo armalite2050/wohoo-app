@@ -1,0 +1,52 @@
+<ion-modal-view class="create-group">
+  <ion-header-bar class="bar-light">
+    <button class="button button-icon icon" ng-click="modalGroup.hide()">
+      <img src="./img/close.png" alt="" class="img-responsive" width="27">
+    </button>
+    <div class="tab-contact title">
+      Crear Grupo
+    </div>
+    <button class="button button-default" ng-click="createGroup($event)">
+      Hecho
+    </button>
+
+  </ion-header-bar>
+  <ion-content class="create-group-view">
+    <div class="list">
+
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="data.groupName" placeholder="Nombre de grupo">
+        </label>
+
+      </div>
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Búsqueda" ng-model="searchText">
+      </label>
+    </div>
+    <ion-list>
+      <div class="list">
+
+        <a class="item item-avatar item-color" ng-repeat="item in rootData.user.contacts | filter:searchText" ng-if="item.active && item.user._id != rootData.user._id" ng-click="selectedUser(item)">
+          <div class="color" style="background-color: {{item.color}}" ng-if="!item.user">
+            {{item.name[0]}}
+          </div>
+          <h2 ng-if="!item.user">{{item.name}}</h2>
+          <img ng-src="{{item.user.avatar}}" ng-if="item.user.avatar && item.user">
+          <div class="color" style="background-color: {{item.user.color}}" ng-if="!item.user.avatar && item.user">
+            {{item.user.name[0]}}
+          </div>
+          <h2 ng-if="item.user">{{item.user.name}}</h2>
+          <p>{{item.phone}}</p>
+
+          <div class="icon-wohoo" ng-if="item.selected">
+            <i class="ion ion-checkmark-circled"></i>
+          </div>
+        </a>
+
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>
+

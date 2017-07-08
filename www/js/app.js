@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule', 'ngFileUpload', 'angular-img-cropper', 'btford.socket-io'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule', 'ngFileUpload', 'angular-img-cropper', 'btford.socket-io', 'angularMoment', 'monospaced.elastic'])
 
   .run(function ($ionicPlatform, $rootScope, SessionService, $state) {
     $ionicPlatform.ready(function () {
@@ -20,24 +20,64 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+
+      if (window.cordova) {
+        var notificationOpenedCallback = function (jsonData) {
+          console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+          if (jsonData.notification.payload.additionalData.channel) {
+            $state.go('tab.chatDetail', {chatId: jsonData.notification.payload.additionalData.channel})
+          }
+        };
+        window.plugins.OneSignal
+          .startInit("d29a4fc1-ca50-4f05-9c12-99cd13d188b5")
+          .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+          .handleNotificationOpened(notificationOpenedCallback)
+          .endInit()
+
+
+        if ($ionicPlatform.is('IOS')) {
+          cordova.plugins.iosrtc.registerGlobals();
+        } else {
+          var checkPermissionCallback = function (status) {
+            if(!status.hasPermission) {
+              var errorCallback = function() {
+                console.warn('Camera permission is not turned on');
+              }
+
+              permissions.requestPermission(
+                permissions.CAMERA,
+                function(status) {
+                  if(!status.hasPermission) errorCallback();
+                },
+                errorCallback);
+            }
+          }
+          var permissions = cordova.plugins.permissions;
+          permissions.hasPermission(permissions.CAMERA, checkPermissionCallback, null);
+          console.log('permissions', permissions)
+        }
+      }
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
+
+      $rootScope.stateName = toState.name;
+      console.log('current state', $rootScope.stateName)
+
       var shouldLogin = toState.data !== undefined
         && toState.data.requireLogin
-        && !SessionService.isToken().isLoggedIn ;
+        && !SessionService.isToken().isLoggedIn;
 
       // NOT authenticated - wants any private stuff
-      if(shouldLogin)
-      {
+      if (shouldLogin) {
         $state.go('intro');
         event.preventDefault();
         return;
       }
       // authenticated (previously) comming not to root main
-      if(SessionService.isToken().isLoggedIn) {
+      if (SessionService.isToken().isLoggedIn) {
         var shouldGoToMain = fromState.name === ''
-          && toState.name !== 'tab.contacts' ;
+          && toState.name !== 'tab.contacts';
         return;
       }
 
@@ -76,7 +116,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         abstract: true,
         templateUrl: 'templates/tabs.html',
         controller: 'MainCtrl',
-        data : {requireLogin : true }
+        data: {requireLogin: true}
       })
 
       // Each tab has its own nav history stack:
@@ -111,6 +151,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       })
 
+      .state('tab.chat', {
+        url: '/chat',
+        views: {
+          'tab-chat': {
+            templateUrl: 'templates/tab-chat.html',
+            controller: 'ChatCtrl'
+          }
+        }
+      })
+
+      .state('tab.chatDetail', {
+        url: '/chat/:id',
+        views: {
+          'tab-chat': {
+            templateUrl: 'templates/tab-chat-detail.html',
+            controller: 'ChatDetailCtrl'
+          }
+        }
+      })
+
+      .state('tab.background', {
+        url: '/account/background',
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/tab-background.html',
+            controller: 'BackgroundCtrl'
+          }
+        }
+      })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/contacts');
 
@@ -124,4 +194,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.views.transition('none');
 
-  });
+  })
+
+  .filter("trustUrl", ['$sce', function ($sce) {
+    return function (recordingUrl) {
+      return $sce.trustAsResourceUrl(recordingUrl);
+    };
+  }])

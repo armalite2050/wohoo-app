@@ -1,0 +1,38 @@
+<ion-modal-view class="create-group contacts-view">
+    <ion-header-bar class="bar-royal">
+        <button class="button button-icon icon ion-ios-close-empty" ng-click="modalShareContact.hide()"></button>
+        <div class="tab-contact title">
+            Compartir contacto
+        </div>
+
+    </ion-header-bar>
+  <div class="bar bar-subheader">
+    <label class="item item-input"  style="width: 100%">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="text" placeholder="Búsqueda" ng-model="searchText.name" style="">
+    </label>
+  </div>
+    <ion-content class="create-group-view has-subheader" delegate-handle="shareContactCcroll">
+      <div class="list">
+
+        <a class="item item-avatar item-color" ng-repeat="item in rootData.user.contacts | filter:searchText" ng-click="shareContact(item)">
+          <div class="color" style="background-color: {{item.color}}" ng-if="!item.user">
+            {{item.name[0]}}
+          </div>
+          <h2 ng-if="!item.user">{{item.name}}</h2>
+          <img ng-src="{{item.user.avatar}}" ng-if="item.user.avatar && item.user">
+          <div class="color" style="background-color: {{item.user.color}}" ng-if="!item.user.avatar && item.user">
+            {{item.user.name[0]}}
+          </div>
+          <h2 ng-if="item.user">{{item.user.name}}</h2>
+          <p>{{item.phone}}</p>
+
+          <div class="icon-wohoo" ng-if="item.selected">
+            <i class="ion ion-checkmark-circled"></i>
+          </div>
+        </a>
+
+      </div>
+    </ion-content>
+</ion-modal-view>
+

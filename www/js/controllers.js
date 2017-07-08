@@ -44,7 +44,6 @@ angular.module('starter.controllers', [])
           user.phone = user.phone.substr(1);
         }
         user.phone = '+' + $scope.data.country.callingCodes[0] + user.phone;
-        console.log(user)
         if (user.contacts) {
           $ionicLoading.show();
           $http.post(config.url + config.api.login, user).then(function successCallback(response) {
@@ -166,35 +165,35 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket) {
+  .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket, $rootScope, $ionicPopup, $timeout, $interval, $ionicPlatform) {
+    $rootScope.getMap = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyB2em2A71pWii9i9m4Grt1HRytmTN-LISE&';
 
     $scope.rootData = {
-      fonts: ['Pequeña' , 'normal' , 'Grande']
+      fonts: ['Pequeña', 'normal', 'Grande']
     };
     $scope.cropper = {};
     $scope.cropper.sourceImage = null;
-    $scope.cropper.croppedImage   = null;
+    $scope.cropper.croppedImage = null;
     var colors = ['616161', '26a69a', 'C73e87', '4caf50', '26a69a', '4032e6', 'E5734c', 'Fc000', '888888', 'a46251'];
 
     $ionicModal.fromTemplateUrl('./templates/modals/crop-image.html', {
       scope: $scope,
       animation: 'slide-in-up'
-    }).then(function(modal) {
+    }).then(function (modal) {
       $scope.modalCrop = modal;
     });
 
-    $scope.openModalCropImage = function() {
+    $scope.openModalCropImage = function () {
       $scope.modalCrop.show();
     };
 
-    $scope.hideModalCropImage = function() {
+    $scope.hideModalCropImage = function () {
       $scope.modalCrop.hide();
     };
 
     $scope.getImageCrop = function () {
-      console.log($scope.cropper.croppedImage)
       $ionicLoading.show();
-      $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+      $http.put(config.url + config.api.users + $scope.rootData.user._id, {
         avatar: $scope.cropper.croppedImage
       }).then(function (response) {
         $scope.rootData.user.avatar = response.data.avatar;
@@ -207,7 +206,7 @@ angular.module('starter.controllers', [])
     $scope.saveName = function () {
       $ionicLoading.show();
 
-      $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+      $http.put(config.url + config.api.users + $scope.rootData.user._id, {
         name: $scope.rootData.user.name
       }).then(function (response) {
         localStorageService.set('userInfo', $scope.rootData.user)
@@ -218,7 +217,7 @@ angular.module('starter.controllers', [])
     $scope.saveStatus = function () {
       $ionicLoading.show();
 
-      $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+      $http.put(config.url + config.api.users + $scope.rootData.user._id, {
         status: $scope.rootData.user.status
       }).then(function (response) {
         localStorageService.set('userInfo', $scope.rootData.user)
@@ -229,7 +228,7 @@ angular.module('starter.controllers', [])
     $scope.saveColor = function () {
       $ionicLoading.show();
 
-      $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+      $http.put(config.url + config.api.users + $scope.rootData.user._id, {
         color: $scope.rootData.user.color
       }).then(function (response) {
         localStorageService.set('userInfo', $scope.rootData.user)
@@ -243,7 +242,7 @@ angular.module('starter.controllers', [])
 
     $scope.changeNotification = function () {
 
-      $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+      $http.put(config.url + config.api.users + $scope.rootData.user._id, {
         notification: $scope.rootData.user.notification || false
       }).then(function (response) {
         localStorageService.set('userInfo', $scope.rootData.user)
@@ -253,7 +252,7 @@ angular.module('starter.controllers', [])
 
     $scope.changeInformation = function () {
 
-      $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+      $http.put(config.url + config.api.users + $scope.rootData.user._id, {
         hideInfo: $scope.rootData.user.hideInfo || false
       }).then(function (response) {
         localStorageService.set('userInfo', $scope.rootData.user)
@@ -295,6 +294,365 @@ angular.module('starter.controllers', [])
       return '#' + colors[Math.floor(Math.random() * 10)];
     };
 
+
+    var getChanelSocket = function (event, channel) {
+      if (event == 'created') {
+        for (var i = 0; i < $scope.rootData.channels.length; i++) {
+          if (channel._id == $scope.rootData.channels[i]._id) {
+            $http.get(config.url + config.api.channel + channel._id).then(function (response) {
+              $scope.rootData.channels[i] = response.data;
+              $rootScope.$broadcast('channel-event', response.data);
+            })
+            return;
+          }
+        }
+
+        for (var j = 0; j < channel.users.length; j++) {
+          if (channel.users[j].user == $scope.rootData.user._id) {
+            $http.get(config.url + config.api.channel + channel._id).then(function (response) {
+              $scope.rootData.channels.unshift(response.data);
+              $rootScope.$broadcast('channel-event', response.data);
+            })
+            return
+          }
+        }
+      }
+
+      if (event == 'deleted') {
+        for (var i = 0; i < $scope.rootData.channels.length; i++) {
+          if (channel._id == $scope.rootData.channels[i]._id) {
+            $scope.rootData.channels.splice(i, 1);
+            if ($rootScope.stateName == 'tab.chatDetail') {
+              $state.go('tab.chat');
+            }
+            return;
+          }
+        }
+      }
+    };
+
+    $scope.getReadNumber = function (users) {
+      for (var i = 0; i < users.length; i++) {
+        if ($scope.rootData.user._id == users[i].user._id) {
+          return users[i].read
+        }
+      }
+      return 0;
+    };
+
+    $ionicModal.fromTemplateUrl('./templates/modals/video-call.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.videoCall = modal;
+    });
+
+    $scope.openUserCall = function (users) {
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].user._id != $scope.rootData.user._id) {
+          $scope.rootData.userCall = {
+            name: users[i].user.name,
+            phone: users[i].user.phone,
+            avatar: users[i].user.avatar,
+            _id: users[i].user._id
+          };
+          console.log($scope.rootData.userCall);
+          break;
+        }
+      }
+      $scope.videoCall.show();
+    };
+
+    var stop;
+    $scope.fight = function () {
+      // Don't start a new fight if we are already fighting
+      if (angular.isDefined(stop)) return;
+
+      stop = $interval(function () {
+        if ($scope.rootData.timeoutCall) {
+          $scope.rootData.timeoutCall--;
+          console.log($scope.rootData.timeoutCall);
+        } else {
+          $scope.stopFight();
+        }
+      }, 1000);
+    };
+
+    $scope.stopFight = function () {
+      if (angular.isDefined(stop)) {
+        $interval.cancel(stop);
+        $scope.rootData.timeoutCall = 0;
+        stop = undefined;
+      }
+    };
+
+    var iceServers = [{"url": "stun:global.stun.twilio.com:3478?transport=udp"}, {
+      "url": "turn:global.turn.twilio.com:3478?transport=udp",
+      "username": "19001b9bfbc741daae1cd31af3bfea1250fddf5b0297c05222e9de11a1e1cf5d",
+      "credential": "x+Qc+Mfm8/bZuVqsM57fFRFC0AAgSJgS8fpeO4t26qg="
+    }, {
+      "url": "turn:global.turn.twilio.com:3478?transport=tcp",
+      "username": "19001b9bfbc741daae1cd31af3bfea1250fddf5b0297c05222e9de11a1e1cf5d",
+      "credential": "x+Qc+Mfm8/bZuVqsM57fFRFC0AAgSJgS8fpeO4t26qg="
+    }, {
+      "url": "turn:global.turn.twilio.com:443?transport=tcp",
+      "username": "19001b9bfbc741daae1cd31af3bfea1250fddf5b0297c05222e9de11a1e1cf5d",
+      "credential": "x+Qc+Mfm8/bZuVqsM57fFRFC0AAgSJgS8fpeO4t26qg="
+    }]
+    var peerConnectionConfig = {
+      'iceServers': iceServers
+    };
+
+    var peerConnection;
+
+    socket.socket.on('webrtc:save', function (message) {
+      $scope.videoCall.hide();
+      if (message.status == 2 && message.uuid == $scope.rootData.user._id) {
+        gotMessageFromServer(message);
+      }
+
+      if (message.status == 3 && message.uuid == $scope.rootData.user._id) {
+        //$scope.destroyStream();
+        $scope.rootData.localStream.getTracks().forEach(function (track) {
+          track.stop(
+
+          )
+        })
+
+        $scope.rootData.remoteStream.getTracks().forEach(function (track) {
+          track.stop(
+
+          )
+        })
+        $scope.rootData.localStream = null;
+        $scope.rootData.remoteStream = null;
+        peerConnection = null;
+      }
+
+      if (message.status == 1 && $scope.rootData.user._id == message.uuid) {
+        var confirmPopup = $ionicPopup.confirm({
+          title: 'Bạn có một cuộc gọi từ bác sĩ',
+          cancelText: 'Cancel',
+          okText: 'Ok'
+        });
+
+        confirmPopup.then(function (res) {
+          if (res) {
+            $scope.rootData.uuid = message.from._id;
+            $scope.rootData.userCall = message.from;
+            $scope.videoCall.show();
+            $scope.rootData.streamOption = message.option;
+            $scope.openVideoView(true);
+          } else {
+
+          }
+        });
+
+        $timeout(function () {
+          confirmPopup.close();
+        }, 45000);
+      }
+    });
+
+    $scope.openVideoView = function (isStream) {
+      $scope.rootData.isStreaming = isStream;
+      if (isStream) {
+        $scope.openVideoCall();
+      }
+    };
+
+    $scope.openVideoCall = function (successCb) {
+      navigator.webkitGetUserMedia($scope.rootData.streamOption, function (stream) {
+        $scope.rootData.localStream = stream;
+        $scope.rootData.localStream.src = window.URL.createObjectURL(stream);
+        $scope.$apply();
+        if ($scope.rootData.isStreaming) {
+          $scope.connect(true)
+        }
+        if (successCb) {
+          successCb(stream);
+        }
+      }, function (e) {
+        console.log('No live audio input: ' + e);
+      });
+    };
+
+    $scope.connect = function (isCaller) {
+      peerConnection = new RTCPeerConnection(peerConnectionConfig);
+      peerConnection.onicecandidate = gotIceCandidate;
+      peerConnection.onaddstream = gotRemoteStream;
+      peerConnection.addStream($scope.rootData.localStream);
+      peerConnection.oniceconnectionstatechange = function () {
+        if (peerConnection.iceConnectionState == 'disconnected') {
+          $scope.rootData.localStream.getTracks().forEach(function (track) {
+            track.stop(
+
+            )
+          })
+          $scope.rootData.localStream = null;
+          peerConnection = null;
+          $scope.videoCall.hide();
+          $scope.$apply();
+        }
+      };
+
+      if (isCaller) {
+        peerConnection.createOffer().then(createdDescription).catch(errorHandler);
+      }
+    };
+
+    function gotMessageFromServer(message) {
+      if (!peerConnection) $scope.connect(false);
+
+      var signal = message;
+
+      // Ignore messages from ourself
+      if (signal.uuid == $scope.rootData.uuid) return;
+
+      if (signal.sdp) {
+        peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function () {
+          // Only create answers in response to offers
+          if (signal.sdp.type == 'offer') {
+            peerConnection.createAnswer().then(createdDescription).catch(errorHandler);
+          }
+        }).catch(errorHandler);
+      } else if (signal.ice) {
+        peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(errorHandler);
+      }
+    }
+
+    function gotIceCandidate(event) {
+      if (event.candidate != null) {
+        $http.post(config.url + config.api.webrtc, {
+          'ice': event.candidate,
+          'uuid': $scope.rootData.uuid,
+          status: 2
+        }).then(function (responsive) {
+          //console.log(responsive)
+        });
+      }
+    }
+
+    function gotRemoteStream(event) {
+      $scope.rootData.remoteStream = event.stream;
+      $scope.rootData.remoteStream.src = window.URL.createObjectURL(event.stream);
+      $scope.$apply();
+      if ($ionicPlatform.is('IOS')) {
+        $timeout(function () {
+          angular.forEach([0, 500, 1000, 1500], function (delay) {
+            $timeout(function () {
+              cordova.plugins.iosrtc.refreshVideos();
+            }, delay);
+          })
+
+          cordova.plugins.audioroute.overrideOutput('speaker',
+            function (success) {
+              console.log('success', success)
+              // Success
+            },
+            function (error) {
+              console.log('error', error)
+
+              // Error
+            }
+          );
+        }, 1000)
+      }
+
+    }
+
+    function createdDescription(description) {
+
+      peerConnection.setLocalDescription(description).then(function () {
+
+        $http.post(config.url + config.api.webrtc, {
+          'sdp': peerConnection.localDescription,
+          'uuid': $scope.rootData.uuid,
+          status: 2
+        }).then(function (responsive) {
+          //console.log(responsive)
+        });
+      }).catch(errorHandler);
+    }
+
+    function errorHandler(error) {
+      console.log(error);
+    }
+
+    $scope.calling = function (audio) {
+      $scope.rootData.streamOption = {
+        audio: true,
+        video: true
+      };
+
+      $scope.rootData.uuid = $scope.rootData.userCall._id;
+
+      if (audio) {
+        $scope.rootData.streamOption.video = false;
+      } else {
+        $scope.rootData.streamOption.video = true;
+      }
+
+      $scope.rootData.timeoutCall = 45;
+      $scope.fight();
+
+      $http.post(config.url + config.api.webrtc, {
+        'uuid': $scope.rootData.uuid, status: 1, option: $scope.rootData.streamOption, from: {
+          name: $scope.rootData.user.name,
+          phone: $scope.rootData.user.phone,
+          avatar: $scope.rootData.user.avatar,
+          _id: $scope.rootData.user._id
+        }
+      }).then(function (responsive) {
+        //console.log(responsive)
+      });
+      $scope.openVideoCall();
+    };
+
+    $scope.destroyStream = function (isMyStop) {
+      $scope.videoCall.hide();
+      $scope.rootData.localStream.getTracks().forEach(function (track) {
+        track.stop(
+
+        )
+      })
+      $scope.rootData.localStream = null;
+      peerConnection = null;
+
+      if (isMyStop) {
+        $http.post(config.url + config.api.webrtc, {
+          'uuid': $scope.rootData.uuid,
+          status: 3
+        }).then(function (responsive) {
+        });
+      }
+
+    };
+
+    $scope.changeOptionSpeaker = function (type) {
+      $timeout(function () {
+        angular.forEach([0, 500, 1000, 1500], function (delay) {
+          $timeout(function () {
+            cordova.plugins.iosrtc.refreshVideos();
+          }, delay);
+        });
+
+        cordova.plugins.audioroute.overrideOutput(type,
+          function (success) {
+            console.log('success', success)
+            // Success
+          },
+          function (error) {
+            console.log('error', error)
+
+            // Error
+          }
+        );
+      }, 1000)
+      $scope.popoverCall.hide();
+    };
+
+
     var _init = function () {
       if (localStorageService.get('fontSize')) {
         $scope.rootData.fontSize = localStorageService.get('fontSize');
@@ -303,21 +661,65 @@ angular.module('starter.controllers', [])
       }
 
       $scope.rootData.user = localStorageService.get('wohoo-user');
+
       $http.get(config.url + config.api.users + $scope.rootData.user._id).then(function (response) {
         angular.forEach(response.data.contacts, function (value) {
           value.color = getRandomColor();
         });
         $scope.rootData.user = response.data;
-        console.log($scope.rootData.user)
+        localStorageService.set('wohoo-user', response.data);
+        socket.syncUpdates('user', function (event, user) {
+
+          if ($rootScope.stateName == 'tab.chatDetail') {
+            $rootScope.$broadcast('user-event', user);
+          }
+        })
       });
 
+      $http.get(config.url + config.api.channel, {
+        params: {
+          userId: $scope.rootData.user._id
+        }
+      }).then(function (response) {
+        $scope.rootData.channels = response.data;
+        socket.syncUpdates('channel', function (event, channel) {
+          getChanelSocket(event, channel);
+        })
+      });
+
+
       socket.socket.on('connect', function () {
-        $http.put(config.url + config.api.users + $scope.rootData.user._id,  {
+        $http.put(config.url + config.api.users + $scope.rootData.user._id, {
           socketId: socket.socket.connect().id,
           online: true
-        })
-        console.log(socket.socket.connect().id)
+        });
       });
+
+      peerConnectionConfig.iceServers = localStorageService.get('iceServers');
+      // $http.get(config.url + config.api.users).then(function (response) {
+      //   peerConnectionConfig.iceServers = response.data;
+      //   localStorageService.set('iceServers', response.data)
+      // })
+
+      document.addEventListener("deviceready", function () {
+        window.plugins.OneSignal.getIds(function (ids) {
+          var token = ids.pushToken;
+          var userPush = ids.userId;
+
+          if (userPush != $scope.rootData.user.userPush) {
+            $http.put(config.url + config.api.users + $scope.rootData.user._id, {
+              pushToken: token,
+              userPush: userPush
+            }).then(function (response) {
+              $scope.rootData.user.pushToken = response.data.pushToken;
+              $scope.rootData.user.userPush = response.data.userPush;
+              localStorageService.set('wohoo-user', $scope.rootData.user);
+            })
+          }
+        });
+      })
+
+
     };
 
     _init();
@@ -328,10 +730,9 @@ angular.module('starter.controllers', [])
       $ionicScrollDelegate.scrollTop();
     };
 
-    $scope.sendSms = function(number, event) {
+    $scope.sendSms = function (number, event) {
       event.stopPropagation()
       var message = 'Únase a mí en TamTam, una aplicación gratuita y sorprendente para llamadas y mensajes! www.tamtam.website';
-      console.log("number=" + number + ", message= " + message);
 
       //CONFIGURATION
       var options = {
@@ -342,8 +743,10 @@ angular.module('starter.controllers', [])
         }
       };
 
-      var success = function () { };
-      var error = function (e) {  };
+      var success = function () {
+      };
+      var error = function (e) {
+      };
       sms.send(number, message, options, success, error);
     };
 
@@ -364,11 +767,805 @@ angular.module('starter.controllers', [])
     })
   })
 
-  .controller('ContactDetailCtrl', function ($scope, localStorageService) {
+  .controller('ContactDetailCtrl', function ($scope, localStorageService, $http, config, $ionicLoading, $state) {
     $scope.data = {
       contact: localStorageService.get('wohoo-contact')
+    };
+
+    $scope.createPrivateChat = function () {
+      var channel = {
+        users: [
+          {
+            user: $scope.rootData.user._id,
+            isRead: true
+          },
+          {
+            user: $scope.data.contact.user._id
+          }
+        ],
+        from: $scope.rootData.user._id,
+        to: $scope.data.contact.user._id
+      };
+
+      $ionicLoading.show()
+
+      $http.post(config.url + config.api.channel, channel).then(function (response) {
+        $ionicLoading.hide();
+        $state.go('tab.chatDetail', {id: response.data._id})
+      })
+    };
+
+  })
+
+  .controller('ChatCtrl', function ($scope, $ionicModal, $ionicLoading, $http, config, $state, localStorageService) {
+
+    $scope.data = {};
+
+    $ionicModal.fromTemplateUrl('./templates/modals/create-group.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalGroup = modal;
+    });
+
+    $scope.selectedUser = function (item) {
+      item.selected = !item.selected;
+    };
+
+    $scope.createGroup = function (event) {
+      event.preventDefault();
+      var channel = {
+        users: [],
+        from: $scope.rootData.user._id,
+        isGroup: true,
+        lastMessage: 'Sin mensajes',
+        name: $scope.data.groupName
+      };
+      var name = '';
+
+      angular.forEach($scope.rootData.user.contacts, function (value) {
+        if (value.selected) {
+          channel.users.push({
+            user: value.user._id
+          });
+        }
+      });
+
+
+      channel.users.push({
+        user: $scope.rootData.user._id
+      });
+
+      if (channel.users.length > 1 && $scope.data.groupName) {
+        $ionicLoading.show();
+        $http.post(config.url + config.api.channel, channel).then(function (response) {
+          $http.get(config.url + config.api.channel + response.data._id).then(function (response) {
+            localStorageService.set('chatDetail', response.data);
+            $state.go('tab.chatDetail', {id: response.data._id});
+            $ionicLoading.hide();
+            $scope.modalGroup.hide();
+          })
+        })
+      }
     }
 
-    console.log($scope.data.contact);
+    $scope.goChatDetail = function (item) {
+      localStorageService.set('chatDetail', item);
+      $state.go('tab.chatDetail', {id: item._id});
+    };
   })
+
+  .controller('ChatDetailCtrl', function ($scope, localStorageService, $http, config, $stateParams, $timeout, $ionicPlatform, $ionicActionSheet, $ionicScrollDelegate, $state, $ionicPopup, socket, $ionicLoading, codeService, unixString, $ionicModal) {
+    $scope.data = {
+      channel: localStorageService.get('chatDetail'),
+      messages: [],
+      message: {}
+    };
+
+
+    var txtInput;
+    $timeout(function () {
+      txtInput = angular.element(document.body.querySelector('#chat-input'));
+    }, 1000);
+
+    function keepKeyboardOpen() {
+      txtInput.one('blur', function () {
+        txtInput[0].focus();
+      });
+    }
+
+    $scope.data.heightFooter = 0;
+    $scope.data.heightScroll = 60;
+    window.addEventListener('native.keyboardshow', keyboardShowHandler);
+
+    if ($ionicPlatform.is('ios')) {
+      window.addEventListener('native.keyboardhide', keyboardHideHandler);
+    }
+
+    function keyboardShowHandler(e) {
+      $timeout(function () {
+        $ionicScrollDelegate.scrollBottom(true);
+        if ($ionicPlatform.is('ios')) {
+          $scope.data.heightFooter = e.keyboardHeight;
+          $scope.data.heightScroll = e.keyboardHeight + 88;
+        }
+      }, 100)
+    }
+
+    function keyboardHideHandler(e) {
+
+      $timeout(function () {
+        $scope.data.heightFooter = 0;
+        $scope.data.heightScroll = 60;
+        $scope.$apply();
+      }, 100)
+    }
+
+    $scope.showActionBar = function () {
+
+      // Show the action sheet
+      var hideSheet = $ionicActionSheet.show({
+        buttons: [
+          {text: 'Sticker'},
+          {text: 'Share contact'},
+          {text: 'Share location'}
+        ],
+        cancelText: 'Cancel',
+        cancel: function () {
+          // add cancel code..
+        },
+        buttonClicked: function (index) {
+          if (index == 0) {
+            $scope.openSticker();
+
+          }
+          if (index == 1) {
+            $scope.openShare();
+          }
+          if (index == 2) {
+            $scope.getLocation();
+          }
+          return true;
+        }
+      });
+
+    };
+
+
+    var sendMessage = function () {
+      var params = {
+        channel: $stateParams.id,
+        from: {
+          userId: $scope.rootData.user._id,
+          color: $scope.rootData.user.color,
+          name: $scope.rootData.user.name,
+          phone: $scope.rootData.user.phone,
+          avatar: $scope.rootData.user.avatar
+        }
+      };
+
+      params.updatedAt = new Date();
+
+      if ($scope.data.message.image) {
+        params.image = $scope.data.message.image;
+      }
+
+      if ($scope.data.message.text) {
+        params.text = $scope.data.message.text;
+      }
+
+      if ($scope.data.message.location) {
+        params.location = $scope.data.message.location;
+      }
+
+      if ($scope.data.message.contact) {
+        params.contact = $scope.data.message.contact;
+      }
+
+      if ($scope.data.message.voiceMessage) {
+        params.voiceMessage = $scope.data.message.voiceMessage;
+      }
+
+      $scope.data.messages.push(params);
+      var index = $scope.data.messages.length - 1;
+      if ($scope.data.message.image) {
+        $timeout(function () {
+          $ionicScrollDelegate.scrollBottom(true);
+        }, 1000)
+      }
+      $scope.data.message = {};
+      $ionicScrollDelegate.resize();
+      $ionicScrollDelegate.scrollBottom(true);
+      $http.post(config.url + config.api.message, params).then(function (response) {
+        $scope.data.messages[index]._id = response.data._id
+      })
+    };
+
+    $scope.sendMessage = function () {
+      keepKeyboardOpen();
+      if ($scope.data.message.text) sendMessage();
+    };
+
+    var urlRegEx = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+    $scope.urlify = function (text) {
+      return text.replace(urlRegEx, "<a ng-click=\"openLink('$1',\'_system\')\">$1</a>");
+    };
+
+    $scope.openLink = function (url) {
+      cordova.InAppBrowser.open(url, '_blank', 'location=yes')
+    };
+
+    $scope.viewProfile = function (item) {
+      var params = {
+        active: true,
+        color: item.color,
+        name: item.name,
+        phone: item.phone,
+        user: item
+      };
+
+      localStorageService.set('wohoo-contact', params)
+      $state.go('tab.contactDetail', {id: 1})
+    };
+
+    $scope.showConfirmDelte = function (id, index) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Eliminar mensaje',
+        template: 'Deseas eliminar este mensaje?',
+        cancelText: 'Cancelar',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          $scope.data.messages.splice(index, 1);
+          $http.delete(config.url + config.api.message + id);
+          console.log('You are sure');
+        } else {
+          console.log('You are not sure');
+        }
+      });
+    };
+
+    $scope.clearChat = function () {
+      var confirmPopup = $ionicPopup.confirm({
+        title: '¿Desea limpiar el chat?',
+        cancelText: 'Cancelar',
+        okText: 'Si'
+      });
+      confirmPopup.then(function (res) {
+        if (res) {
+          $http.put(config.url + config.api.channel + 'delete/' + $scope.data.channel._id, {
+            userId: $scope.rootData.user._id
+          }).then(function (response) {
+          })
+        } else {
+
+        }
+      });
+    };
+
+    $scope.uploadImage = function (file) {
+      if (file) {
+        $ionicLoading.show();
+
+        AWS.config.update({
+          accessKeyId: codeService.decode(config.accessKeyId),
+          secretAccessKey: codeService.decode(config.secretKey)
+        });
+        AWS.config.region = 'us-east-1';
+        var bucket = new AWS.S3({params: {Bucket: codeService.decode(config.bucket)}});
+        var uniqueFileName = unixString.uniqueString() + '-' + file.name;
+        var params1 = {Key: uniqueFileName, ContentType: file.type, Body: file, ServerSideEncryption: 'AES256'};
+        bucket.putObject(params1, function (err, data) {
+          if (err) {
+            $ionicLoading.hide();
+            return false;
+          }
+          else {
+            // Upload Successfully Finished
+            var urlFire = 'https://s3.amazonaws.com/viber-clone/' + uniqueFileName;
+            $scope.data.message.image = urlFire;
+            sendMessage();
+            $ionicLoading.hide();
+            // Reset The Progress Bar
+            setTimeout(function () {
+              $scope.$digest();
+            }, 4000);
+          }
+        })
+          .on('httpUploadProgress', function (progress) {
+            $scope.$digest();
+          });
+      }
+    };
+
+    $ionicModal.fromTemplateUrl('./templates/modals/location.html', {
+      scope: $scope,
+      viewType: 'bottom-sheet',
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalLocation = modal;
+    });
+
+    $scope.getLocation = function () {
+      if (location.lat) {
+        $scope.modalLocation.show();
+        $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        new google.maps.Marker({
+          map: $scope.map,
+          position: location,
+          icon: markerIcon
+        });
+      }
+
+    };
+
+    var location = {};
+    var markerIcon, mapOptions;
+    var _getLocation = function () {
+      var onSuccess = function (position) {
+        console.log('Latitude: ' + position.coords.latitude + '\n' +
+          'Longitude: ' + position.coords.longitude + '\n' +
+          'Altitude: ' + position.coords.altitude + '\n' +
+          'Accuracy: ' + position.coords.accuracy + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n' +
+          'Heading: ' + position.coords.heading + '\n' +
+          'Speed: ' + position.coords.speed + '\n' +
+          'Timestamp: ' + position.timestamp + '\n');
+        location = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        markerIcon = {
+          url: './img/icon-location-marker.png',
+          scaledSize: new google.maps.Size(32, 32)
+        };
+
+        mapOptions = {
+          center: location,
+          zoom: 18
+        };
+
+      };
+
+      // onError Callback receives a PositionError object
+      //
+      function onError(error) {
+        console.log('code: ' + error.code + '\n' +
+          'message: ' + error.message + '\n');
+      }
+
+
+      navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        maximumAge: 7000,
+        timeout: 10000,
+        enableHighAccuracy: true
+      });
+    };
+
+    $scope.sendLocation = function () {
+      if (location.lat) {
+        $scope.data.message.location = location;
+        $scope.modalLocation.hide();
+        sendMessage();
+      }
+    };
+
+    $scope.openSticker = function () {
+      $ionicModal.fromTemplateUrl('./templates/modals/stickers.html', {
+        scope: $scope,
+        viewType: 'bottom-sheet',
+        animation: 'slide-in-up'
+      }).then(function (modal) {
+        $scope.modalSticker = modal;
+        $scope.modalSticker.show();
+      });
+
+    };
+
+    $scope.selectStickerTab = function (tab) {
+      $scope.data.sticker = tab;
+    };
+
+    $scope.addSticker = function (item) {
+      $scope.data.message.sticker = item.url;
+      $scope.modalSticker.hide();
+    };
+
+    $ionicModal.fromTemplateUrl('./templates/modals/share-contact.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalShareContact = modal;
+    });
+
+    $scope.openShare = function () {
+      $ionicScrollDelegate.$getByHandle('shareContactScroll').scrollTop();
+      $scope.modalShareContact.show();
+    };
+
+    $scope.shareContact = function (user) {
+      $scope.data.message.contact = user;
+      $scope.modalShareContact.hide();
+      sendMessage();
+    };
+
+    $scope.goToContactDetail = function (item, $index) {
+      localStorageService.set('wohoo-contact', item)
+      $state.go('tab.contactDetail', {id: $index})
+    };
+
+    $scope.sendVoiceMessage = function (voiceMessage) {
+      var file = voiceMessage;
+      $ionicLoading.show();
+
+      AWS.config.update({
+        accessKeyId: codeService.decode(config.accessKeyId),
+        secretAccessKey: codeService.decode(config.secretKey)
+      });
+      AWS.config.region = 'us-east-1';
+      var bucket = new AWS.S3({params: {Bucket: codeService.decode(config.bucket)}});
+      var uniqueFileName = unixString.uniqueString() + '.wav';
+      file.name = uniqueFileName;
+      var params1 = {
+        Key: uniqueFileName,
+        ContentType: 'audio/wav',
+        Body: file,
+        ServerSideEncryption: 'AES256'
+      };
+      bucket.putObject(params1, function (err, data) {
+        if (err) {
+          $ionicLoading.hide();
+          return false;
+        }
+        else {
+          // Upload Successfully Finished
+          var urlFire = 'https://s3.amazonaws.com/viber-clone/' + uniqueFileName;
+          $scope.data.message.voiceMessage = urlFire;
+          $ionicLoading.hide();
+          sendMessage();
+          // Reset The Progress Bar
+          setTimeout(function () {
+            $scope.$digest();
+          }, 4000);
+        }
+      })
+        .on('httpUploadProgress', function (progress) {
+          $scope.$digest();
+        });
+    };
+
+    $scope.updateRecording = function (boolean) {
+      $scope.data.recordingStatus = boolean;
+    };
+
+    $ionicModal.fromTemplateUrl('./templates/modals/add-user.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalAddUser = modal;
+    });
+
+    $scope.openAddUser = function () {
+      $scope.data.contacts = [];
+      $scope.data.contacts = angular.copy($scope.rootData.user.contacts);
+      $scope.modalAddUser.show();
+    };
+
+    $scope.checkIsUser = function (user) {
+      for (var i = 0; i < $scope.data.channel.users.length; i++) {
+        if (user.user._id == $scope.data.channel.users[i].user._id) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    $scope.selectedUser = function (item) {
+      item.selected = !item.selected
+    };
+
+    $scope.updateUser = function () {
+      var users = [];
+      var name = '';
+      angular.forEach($scope.rootData.user.contacts, function (value) {
+        var check;
+        if (value.selected) {
+          console.log(value)
+          check = true;
+          $scope.data.channel.users.push({
+            user: {
+              _id: value.user._id,
+              name: value.user.name,
+              color: value.user.color,
+              avatar: value.user.avatar
+            },
+            read: 0
+          });
+
+          name += value.user.name + ', ';
+        }
+
+        if (check) {
+          var params = [];
+          angular.forEach($scope.data.channel.users, function (value) {
+            params.push({
+              read: value.read,
+              user: value.user._id,
+              deletedAt: value.deletedAt
+            })
+          })
+          console.log(params)
+          $ionicLoading.show();
+          $http.put(config.url + config.api.channel + $scope.data.channel._id, {
+            users: params
+          }).then(function (response) {
+            $scope.data.message.text = 'Added ' + name + 'to the group';
+            sendMessage();
+            $scope.modalAddUser.hide();
+            $ionicLoading.hide();
+          })
+        }
+      });
+    };
+
+    $ionicModal.fromTemplateUrl('./templates/modals/edit-channel.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalEdit = modal;
+    });
+
+    $scope.showModalChanel = function () {
+      $scope.data.channelEditting = angular.copy($scope.data.channel);
+      $scope.modalEdit.show();
+    };
+
+    $scope.deleteGroup = function () {
+      $ionicLoading.show();
+      $http.delete(config.url + config.api.channel + $scope.data.channel._id).then(function (response) {
+        $state.go('tab.chat');
+        $ionicLoading.hide();
+        $scope.modalEdit.hide();
+      })
+    };
+
+    $scope.removeUsers = function (index, check) {
+      $scope.data.channelEditting.users.splice(index, 1);
+      var params = [];
+      angular.forEach($scope.data.channelEditting.users, function (value) {
+        params.push({
+          read: value.read,
+          user: value.user._id,
+          deletedAt: value.deletedAt
+        })
+      });
+      $ionicLoading.show();
+      $http.put(config.url + config.api.channel + $scope.data.channel._id, {
+        users: params
+      }).then(function (response) {
+        $scope.data.channel.users = $scope.data.channelEditting.users;
+        $scope.modalEdit.hide();
+        if (check) {
+          $state.go('tab.chat');
+        }
+        $ionicLoading.hide();
+      })
+    };
+
+    $scope.leaveGroup = function () {
+      for (var i = 0; i < $scope.data.channelEditting.users.length; i++) {
+        if ($scope.data.channelEditting.users[i].user._id == $scope.rootData.user._id) {
+          $scope.removeUsers(index, true)
+          break;
+        }
+      }
+    };
+
+    $scope.editGroup = function () {
+      if ($scope.data.channelEditting.name) {
+        $ionicLoading.show();
+        $http.put(config.url + config.api.channel + $scope.data.channel._id, {
+          name: $scope.data.channelEditting.name
+        }).then(function (response) {
+          $scope.data.channel.name = $scope.data.channelEditting.name;
+          $scope.modalEdit.hide();
+          $ionicLoading.hide();
+        })
+      }
+    };
+
+    var _init = function () {
+      $http.get(config.url + config.api.channel + $stateParams.id).then(function (response) {
+        localStorageService.set('chatDetail', response.data);
+        $scope.data.channel = response.data;
+        getNotify($scope.data.channel);
+      });
+      var params = {
+        channel: $stateParams.id,
+        userId: $scope.rootData.user._id
+      };
+
+      for (var i = 0; i < $scope.data.channel.users.length; i++) {
+        if ($scope.data.channel.users[i].user._id == $scope.rootData.user._id && $scope.data.channel.users[i].deletedAt) {
+          params.deletedAt = $scope.data.channel.users[i].deletedAt;
+          break;
+        }
+      }
+      $http.get(config.url + config.api.message, {
+        params: params
+      }).then(function (response) {
+        $scope.data.messages = response.data;
+        $ionicScrollDelegate.scrollBottom(true);
+
+        $timeout(function () {
+          $ionicScrollDelegate.resize();
+          $ionicScrollDelegate.scrollBottom(true);
+        }, 1500)
+        socket.syncUpdates('message', function (event, message) {
+          if (event == 'deleted' && message.channel == $scope.data.channel._id) {
+            for (var i = 0; i < $scope.data.messages.length; i++) {
+              if ($scope.data.messages[i]._id = message._id) {
+                $scope.data.messages.splice(i, 1)
+              }
+            }
+          }
+
+          if (event == 'created' && message.channel == $scope.data.channel._id && message.from.userId != $scope.rootData.user._id) {
+            $scope.data.messages.push(message)
+          }
+        })
+      });
+
+      $http.get('./js/json/sticker.json').then(function (response) {
+        $scope.data.stickers = response.data;
+        $scope.selectStickerTab($scope.data.stickers[0]);
+      });
+
+      if (localStorageService.get('backgroundSelected')) {
+        $scope.data.background = localStorageService.get('backgroundSelected');
+      }
+
+      document.addEventListener("deviceready", function () {
+        _getLocation();
+      }, false);
+    };
+
+    var getNotify = function () {
+      var number = 0;
+      angular.forEach($scope.rootData.channels, function (value) {
+        angular.forEach(value.users, function (value) {
+          if (value.user._id == $scope.rootData.user._id) {
+            number += value.read;
+          }
+        })
+      });
+      $scope.data.notify = number;
+    };
+
+    $scope.$on('channel-event', function (event, args) {
+      if ($scope.data.channel._id == args._id) {
+        $scope.data.channel = args;
+      }
+      getNotify();
+    });
+
+    $scope.$on('user-event', function (event, args) {
+
+      for (var i = 0; i < $scope.data.channel.users.length; i++) {
+        if (args._id == $scope.data.channel.users[i].user._id) {
+          $scope.data.channel.users[i].user.lastConnection = args.lastConnection;
+          $scope.data.channel.users[i].user.online = args.online;
+          break;
+        }
+      }
+    });
+
+    $scope.$on('$destroy', function () {
+      if ($scope.modalSticker) {
+        $scope.modalSticker.remove();
+      }
+      socket.unsyncUpdates('message')
+      if ($ionicPlatform.is('ios') || $ionicPlatform.is('android')) {
+        cordova.plugins.Keyboard.disableScroll(true);
+        window.removeEventListener("native.keyboardshow");
+      }
+
+      if ($ionicPlatform.is('ios')) {
+        window.removeEventListener("native.keyboardhide");
+      }
+    })
+
+    _init();
+
+  })
+
+  .controller('BackgroundCtrl', function ($scope, $http, config, $ionicLoading, localStorageService, $ionicPopup, $state, codeService, unixString) {
+    $scope.rootData.fileBg = null;
+    if (localStorageService.get('backgrounds')) {
+      $scope.rootData.backgrounds = localStorageService.get('backgrounds');
+    } else {
+      $scope.rootData.backgrounds = [
+        {
+          url: './img/background/1.jpg'
+        },
+        {
+          url: './img/background/2.jpg'
+        },
+        {
+          url: './img/background/3.jpg'
+        }
+      ];
+
+      localStorageService.set('backgrounds', $scope.rootData.backgrounds)
+    }
+
+    $scope.addBackground = function (item) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Establecer fondo chat',
+        template: '¿Añadir este fondo?',
+        cancelText: 'Cancelar',
+        okText: 'Si'
+      });
+
+      confirmPopup.then(function (res) {
+        if (res) {
+          localStorageService.set('backgroundSelected', item);
+          $state.go('tab.account')
+        } else {
+          console.log('You are not sure');
+        }
+      });
+    }
+
+
+    $scope.uploadBg = function (file) {
+      if (file && file != null) {
+        $ionicLoading.show();
+        AWS.config.update({
+          accessKeyId: codeService.decode(config.accessKeyId),
+          secretAccessKey: codeService.decode(config.secretKey)
+        });
+        AWS.config.region = 'us-east-1';
+        var bucket = new AWS.S3({params: {Bucket: codeService.decode(config.bucket)}});
+        var uniqueFileName = unixString.uniqueString() + '-' + file.name;
+        var params1 = {Key: uniqueFileName, ContentType: file.type, Body: file, ServerSideEncryption: 'AES256'};
+        bucket.putObject(params1, function (err, data) {
+          if (err) {
+            $ionicLoading.hide();
+            return false;
+          }
+          else {
+            // Upload Successfully Finished
+            var urlFire = 'https://s3.amazonaws.com/viber-clone/' + uniqueFileName;
+            $scope.rootData.backgrounds.push({
+              url: urlFire
+            })
+            localStorageService.set('backgroundSelected', {
+              url: urlFire
+            });
+            localStorageService.set('backgrounds', $scope.rootData.backgrounds);
+            $ionicLoading.hide();
+            // Reset The Progress Bar
+            setTimeout(function () {
+              $scope.$digest();
+            }, 4000);
+          }
+        }).on('httpUploadProgress', function (progress) {
+          $scope.$digest();
+        });
+      }
+    };
+
+
+    $scope.setDefault = function () {
+      localStorageService.remove('backgroundSelected');
+      $state.go('tab.account')
+    }
+
+  });
+
 

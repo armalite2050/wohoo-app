@@ -1,0 +1,166 @@
+<div ng-if="data.background.url">
+  <style>
+    .background-image {
+      background: url('{{data.background.url}}') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      height: 100%;
+      width: 100%;
+      display: block;
+      background-size: contain;
+      background-position: center;
+    }
+  </style>
+</div>
+<ion-view class="bg-gray chat-detail no-tab pane {{rootData.fontSize}}" ng-class="{'background-image': data.background.url}">
+  <ion-header-bar class="bar-royal header-chat-detail horizontal layout center">
+    <button class="button button-icon icon ion-ios-arrow-left" ui-sref="tab.chat"></button>
+    <div class="chanel-notify assertive-bg" ng-if="data.notify">
+      {{data.notify}}
+    </div>
+
+    <div class="head-header flex" ng-if="!data.channel.isGroup">
+      <div class="name horizontal layout center" ng-repeat="item in data.channel.users" ng-if="item.user._id != rootData.user._id">
+        <span class="color-avatar" style="background-color: {{item.user.color}}" ng-if="!item.user.avatar">{{item.user.name[0]}}</span>
+        <img ng-src="{{item.user.avatar}}" alt="" class="img-avatar" ng-if="item.user.avatar">
+        <div class="username">
+          <div>
+            {{item.user.name}} <i class="ion ion-ios-circle-filled" ng-class="{'balanced': item.user.online }"></i>
+          </div>
+          <div class="online-status" ng-if="item.user.online">
+            Online
+          </div>
+          <div class="online-status" ng-if="!item.user.online">
+            Visto: <span am-time-ago="item.user.lastConnection"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div ng-if="!data.channel.isGroup">
+      <button class="button button-icon icon" ng-click="openUserCall(data.channel.users)"><img
+        src="./img/telephone-8.png" alt="" class="img-responsive" width="26"></button>
+      <button class="button button-icon icon" ng-click="clearChat()">
+        <img src="./img/speech-bubble-8.png" alt="" class="img-responsive" width="23">
+      </button>
+    </div>
+
+
+    <div class="head-header flex" ng-if="data.channel.isGroup">
+      <div class="name horizontal layout center">
+        <div class="username">
+          <div>
+            {{data.channel.name}}
+          </div>
+          <div class="online-status">
+            <span ng-repeat="item in data.channel.users">{{item.user.name}}<span ng-if="data.channel.users.length >  1 && (data.channel.users.length -1) != $index">, </span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="data.channel.isGroup">
+      <button class="button button-icon icon" ng-click="openAddUser()"><img src="./img/adduser.png" alt="" class="img-responsive" width="27">
+      </button>
+      <button class="button button-icon icon" ng-click="showModalChanel()">
+        <img src="./img/edit.png" alt="" class="img-responsive" width="27">
+      </button>
+    </div>
+  </ion-header-bar>
+
+  <ion-content class="padding chat-content-detail" style="bottom: {{data.heightScroll + 'px'}}">
+    <ul class="messages">
+      <li ng-repeat="item in data.messages" ng-class="{'from': item.from.userId == rootData.user._id, 'to': item.from.userId != rootData.user._id, 'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text}" ng-if="item.text || item.image || item.voiceMessage || item.sticker || item.video || item.contact ||item.location">
+        <img ng-src="{{item.from.avatar}}" alt="" class="avatar" ng-click="viewProfile(item.from)" ng-if="item.from.avatar">
+        <div class="bg-chat-avatar avatar" ng-if="!item.from.avatar" ng-style="{'background-color': item.from.color}" ng-click="viewProfile(item.from)">
+          {{item.from.name[0]}}
+        </div>
+        <div class="content-message" ng-class="{'no-bg': item.image}">
+          <div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>
+          <img ng-src="{{item.image}}" alt="" class="img-responsive" ng-if="item.image" style="max-width: 200px;">
+          <a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">
+            <img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img" style="max-width: 150px;">
+          </a>
+          <div class="contact" ng-if="item.contact" ng-click="goToContactDetail(item.contact, 1)">
+            <div ng-if="item.contact.user">
+              <img ng-src="{{item.contact.user.avatar}}" class="contact-avatar" ng-if="item.contact.user.avatar">
+              <div ng-style="{'background-color': item.contact.user.color}" class="contact-avatar" ng-if="!item.contact.user.avatar">{{item.contact.user.name[0]}}</div>
+              {{item.contact.user.name}}
+            </div>
+            <div ng-if="!item.contact.user">
+              <div ng-style="{'background-color': item.contact.color}" class="contact-avatar">{{item.contact.name[0]}}</div>
+              {{item.contact.name}}
+            </div>
+          </div>
+          <div ng-if="item.voiceMessage" class="voice-mess-item">
+            <voice-message link="item.voiceMessage">
+            </voice-message>
+          </div>
+          <div class="status-message">
+            <span class="time" am-time-ago="item.updatedAt"></span> <i class="ion ion-trash-a" ng-if="item.from.userId == rootData.user._id" ng-click="showConfirmDelte(item._id, $index)"></i>
+          </div>
+          <!--<div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>-->
+          <!--<img ng-src="{{item.image}}" alt="" class="img-reponsive img-show img-img" ng-if="item.image" ng-click="openFullImage(item.image)">-->
+          <!--<img ng-src="{{item.sticker}}" alt="" class="img-reponsive img-show img-sticker" ng-if="item.sticker">-->
+          <!--<div ng-if="item.voiceMessage" class="voice-mess-item">-->
+            <!--<voice-message link="item.voiceMessage">-->
+            <!--</voice-message>-->
+          <!--</div>-->
+          <!--<div class="video" ng-if="item.video">-->
+            <!--<video ng-src="{{item.video | trustUrl}}" controls></video>-->
+          <!--</div>-->
+          <!--<div class="contact" ng-if="item.contact" ng-click="goChatDetailContact($index, item.contact)">-->
+            <!--<div ng-if="item.contact.avatar"  style="color: #fff; text-align: center; width: 60px; height: 60px;font-size: 20px;-->
+      <!--margin: 0 auto;-->
+    <!--border-radius: 3px;">-->
+              <!--<img ng-src="{{item.contact.avatar}}" alt="" ng-click="viewProfile(item.from)"  width="50" height="50" style="width: 50px; height: 50px">-->
+
+            <!--</div>-->
+            <!--<div ng-if="!item.contact.avatar" ng-style="{'background-color': item.contact.color}" style="color: #fff; text-align: center; width: 60px; height: 60px;font-size: 20px;-->
+    <!--padding-top: 19px;     margin: 0 auto;-->
+    <!--border-radius: 3px;">-->
+              <!--<span ng-if="item.contact.name.formatted">{{item.contact.name.formatted[0] + item.contact.name.formatted[1]}}</span>-->
+
+            <!--</div>-->
+            <!--<div class="name" ng-if="item.contact.name.formatted">{{item.contact.name.formatted}}</div>-->
+            <!--<div class="phone" ng-if="item.contact.phoneNumbers">{{item.contact.phoneNumbers[0].value}}</div>-->
+          <!--</div>-->
+          <!--<a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">-->
+            <!--<img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img">-->
+          <!--</a>-->
+          <!--<div class="info-message">-->
+            <!--<span class="name-user">{{item.from.name}},</span> <span class="time" am-time-ago="item.updatedAt"></span>-->
+          <!--</div>-->
+
+          <!--<div class="delete-mes" ng-if="item.from.userId == rootData.user._id" ng-class="{'delete-mes-text': item.text}" ng-click="showConfirmDelte(item._id, $index)">-->
+            <!--<i class="ion ion-trash-a"></i>-->
+          <!--</div>-->
+        </div>
+      </li>
+    </ul>
+
+
+  </ion-content>
+  <ion-footer-bar class="horizontal layout" style="transition: all 0.1s ease; bottom: {{data.heightFooter + 'px'}}">
+    <div class="icon-writing horizontal layout center end" ng-click="showActionBar()" ng-if="!data.recordingStatus">
+      <i class="ion ion-ios-plus-empty"></i>
+    </div>
+    <textarea msd-elastic placeholder="Viết lời nhắn..." class="flex" ng-model="data.message.text" id="chat-input" autocorrect="off" autocapitalize="none" ng-if="!data.recordingStatus"></textarea>
+    <div class="icon-writing horizontal layout center end" ngf-select="uploadImage($file)" name="fileImage" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB" style="padding-left: 20px" ng-if="!data.recordingStatus">
+      <i class="ion ion-ios-camera-outline"></i>
+    </div>
+
+    <div class="icon-writing horizontal layout center end" ng-click="sendMessage()" ng-if="data.message.text" ng-if="!data.recordingStatus">
+      <i class="ion ion-ios-paperplane-outline"></i>
+    </div>
+
+    <div class="flex" ng-if="data.recordingStatus">Recording...</div>
+
+    <div class="icon-writing horizontal layout center end" hold-record ng-if="!data.message.text">
+      <i class="ion-ios-mic-outline"></i>
+    </div>
+
+  </ion-footer-bar>
+</ion-view>
