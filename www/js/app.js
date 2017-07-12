@@ -22,18 +22,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
 
       if (window.cordova) {
-        var notificationOpenedCallback = function (jsonData) {
-          console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-          if (jsonData.notification.payload.additionalData.channel) {
-            $state.go('tab.chatDetail', {chatId: jsonData.notification.payload.additionalData.channel})
-          }
-        };
-        window.plugins.OneSignal
-          .startInit("d29a4fc1-ca50-4f05-9c12-99cd13d188b5")
-          .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
-          .handleNotificationOpened(notificationOpenedCallback)
-          .endInit()
-
 
         if ($ionicPlatform.is('IOS')) {
           cordova.plugins.iosrtc.registerGlobals();

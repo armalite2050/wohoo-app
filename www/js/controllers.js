@@ -406,27 +406,12 @@ angular.module('starter.controllers', [])
     var peerConnection;
 
     socket.socket.on('webrtc:save', function (message) {
-      $scope.videoCall.hide();
       if (message.status == 2 && message.uuid == $scope.rootData.user._id) {
         gotMessageFromServer(message);
       }
 
       if (message.status == 3 && message.uuid == $scope.rootData.user._id) {
-        //$scope.destroyStream();
-        $scope.rootData.localStream.getTracks().forEach(function (track) {
-          track.stop(
-
-          )
-        })
-
-        $scope.rootData.remoteStream.getTracks().forEach(function (track) {
-          track.stop(
-
-          )
-        })
-        $scope.rootData.localStream = null;
-        $scope.rootData.remoteStream = null;
-        peerConnection = null;
+        $scope.destroyStream();
       }
 
       if (message.status == 1 && $scope.rootData.user._id == message.uuid) {
@@ -482,19 +467,6 @@ angular.module('starter.controllers', [])
       peerConnection.onicecandidate = gotIceCandidate;
       peerConnection.onaddstream = gotRemoteStream;
       peerConnection.addStream($scope.rootData.localStream);
-      peerConnection.oniceconnectionstatechange = function () {
-        if (peerConnection.iceConnectionState == 'disconnected') {
-          $scope.rootData.localStream.getTracks().forEach(function (track) {
-            track.stop(
-
-            )
-          })
-          $scope.rootData.localStream = null;
-          peerConnection = null;
-          $scope.videoCall.hide();
-          $scope.$apply();
-        }
-      };
 
       if (isCaller) {
         peerConnection.createOffer().then(createdDescription).catch(errorHandler);
@@ -537,6 +509,7 @@ angular.module('starter.controllers', [])
       $scope.rootData.remoteStream = event.stream;
       $scope.rootData.remoteStream.src = window.URL.createObjectURL(event.stream);
       $scope.$apply();
+      $scope.rootData.timeoutCall = 0;
       if ($ionicPlatform.is('IOS')) {
         $timeout(function () {
           angular.forEach([0, 500, 1000, 1500], function (delay) {
@@ -610,18 +583,32 @@ angular.module('starter.controllers', [])
     };
 
     $scope.destroyStream = function (isMyStop) {
+      console.log('destroy stream')
       $scope.videoCall.hide();
-      $scope.rootData.localStream.getTracks().forEach(function (track) {
-        track.stop(
+      if ($scope.rootData.localStream) {
+        $scope.rootData.localStream.getTracks().forEach(function (track) {
+          track.stop(
 
-        )
-      })
-      $scope.rootData.localStream = null;
+          )
+        })
+        $scope.rootData.localStream = null;
+
+      }
+      if ($scope.rootData.remoteStream) {
+        $scope.rootData.remoteStream.getTracks().forEach(function (track) {
+          track.stop(
+
+          )
+        })
+        $scope.rootData.remoteStream = null;
+
+      }
+
       peerConnection = null;
 
       if (isMyStop) {
         $http.post(config.url + config.api.webrtc, {
-          'uuid': $scope.rootData.uuid,
+          uuid: $scope.rootData.uuid,
           status: 3
         }).then(function (responsive) {
         });
@@ -696,27 +683,43 @@ angular.module('starter.controllers', [])
       });
 
       peerConnectionConfig.iceServers = localStorageService.get('iceServers');
-      // $http.get(config.url + config.api.users).then(function (response) {
-      //   peerConnectionConfig.iceServers = response.data;
-      //   localStorageService.set('iceServers', response.data)
-      // })
+      $http.get(config.url + config.api.users).then(function (response) {
+        peerConnectionConfig.iceServers = response.data;
+        localStorageService.set('iceServers', response.data)
+      })
 
       document.addEventListener("deviceready", function () {
-        window.plugins.OneSignal.getIds(function (ids) {
-          var token = ids.pushToken;
-          var userPush = ids.userId;
-
-          if (userPush != $scope.rootData.user.userPush) {
-            $http.put(config.url + config.api.users + $scope.rootData.user._id, {
-              pushToken: token,
-              userPush: userPush
-            }).then(function (response) {
-              $scope.rootData.user.pushToken = response.data.pushToken;
-              $scope.rootData.user.userPush = response.data.userPush;
-              localStorageService.set('wohoo-user', $scope.rootData.user);
-            })
+        console.log('device ready')
+        var notificationOpenedCallback = function (jsonData) {
+          console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+          if (jsonData.notification.payload.additionalData.channel) {
+            $state.go('tab.chatDetail', {chatId: jsonData.notification.payload.additionalData.channel})
           }
-        });
+        };
+        window.plugins.OneSignal
+          .startInit("d29a4fc1-ca50-4f05-9c12-99cd13d188b5")
+          .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+          .handleNotificationOpened(notificationOpenedCallback)
+          .endInit()
+
+        $timeout(function () {
+          window.plugins.OneSignal.getIds(function (ids) {
+            var token = ids.pushToken;
+            var userPush = ids.userId;
+            console.log(ids.userId, userPush)
+            if (userPush != $scope.rootData.user.userPush) {
+              $http.put(config.url + config.api.users + $scope.rootData.user._id, {
+                pushToken: token,
+                userPush: userPush
+              }).then(function (response) {
+                $scope.rootData.user.pushToken = response.data.pushToken;
+                $scope.rootData.user.userPush = response.data.userPush;
+                localStorageService.set('wohoo-user', $scope.rootData.user);
+              })
+            }
+          });
+        }, 2000)
+
       })
 
 
