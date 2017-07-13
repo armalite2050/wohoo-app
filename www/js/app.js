@@ -23,6 +23,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
       if (window.cordova) {
 
+        var notificationOpenedCallback = function (jsonData) {
+          console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+          if (jsonData.notification.payload.additionalData.channel) {
+            $state.go('tab.chatDetail', {id: jsonData.notification.payload.additionalData.channel})
+          }
+        };
+
+        window.plugins.OneSignal
+          .startInit("9bb36e2d-49d3-43da-803d-c628153c228f")
+          .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+          .handleNotificationOpened(notificationOpenedCallback)
+          .endInit()
+
         if ($ionicPlatform.is('IOS')) {
           cordova.plugins.iosrtc.registerGlobals();
         } else {

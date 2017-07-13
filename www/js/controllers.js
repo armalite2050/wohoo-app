@@ -690,17 +690,6 @@ angular.module('starter.controllers', [])
 
       document.addEventListener("deviceready", function () {
         console.log('device ready')
-        var notificationOpenedCallback = function (jsonData) {
-          console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-          if (jsonData.notification.payload.additionalData.channel) {
-            $state.go('tab.chatDetail', {chatId: jsonData.notification.payload.additionalData.channel})
-          }
-        };
-        window.plugins.OneSignal
-          .startInit("d29a4fc1-ca50-4f05-9c12-99cd13d188b5")
-          .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
-          .handleNotificationOpened(notificationOpenedCallback)
-          .endInit()
 
         $timeout(function () {
           window.plugins.OneSignal.getIds(function (ids) {
@@ -728,7 +717,11 @@ angular.module('starter.controllers', [])
     _init();
   })
 
-  .controller('ContactCtrl', function ($scope, $ionicScrollDelegate, $state, localStorageService) {
+  .controller('ContactCtrl', function ($scope, $ionicScrollDelegate, $state, localStorageService, $timeout) {
+    $scope.data = {
+      contacts: []
+    }
+
     $scope.scrollToTop = function () {
       $ionicScrollDelegate.scrollTop();
     };
@@ -757,6 +750,13 @@ angular.module('starter.controllers', [])
       localStorageService.set('wohoo-contact', item)
       $state.go('tab.contactDetail', {id: $index})
     };
+
+    var _init = function () {
+      $scope.data.contacts = localStorageService.get('wohoo-user').contacts;
+    };
+    $timeout(function () {
+      _init();
+    }, 0)
   })
 
   .controller('AccountCtrl', function ($scope) {
@@ -1259,12 +1259,14 @@ angular.module('starter.controllers', [])
     };
 
     $scope.checkIsUser = function (user) {
-      for (var i = 0; i < $scope.data.channel.users.length; i++) {
-        if (user.user._id == $scope.data.channel.users[i].user._id) {
-          return true;
+      if ($scope.data.channel && $scope.data.channel.users) {
+        for (var i = 0; i < $scope.data.channel.users.length; i++) {
+          if (user.user._id == $scope.data.channel.users[i].user._id) {
+            return true;
+          }
         }
+        return false;
       }
-      return false;
     };
 
     $scope.selectedUser = function (item) {
@@ -1381,12 +1383,7 @@ angular.module('starter.controllers', [])
       }
     };
 
-    var _init = function () {
-      $http.get(config.url + config.api.channel + $stateParams.id).then(function (response) {
-        localStorageService.set('chatDetail', response.data);
-        $scope.data.channel = response.data;
-        getNotify($scope.data.channel);
-      });
+    var getMessages = function () {
       var params = {
         channel: $stateParams.id,
         userId: $scope.rootData.user._id
@@ -1422,6 +1419,15 @@ angular.module('starter.controllers', [])
           }
         })
       });
+    };
+
+    var _init = function () {
+      $http.get(config.url + config.api.channel + $stateParams.id).then(function (response) {
+        localStorageService.set('chatDetail', response.data);
+        $scope.data.channel = response.data;
+        getNotify($scope.data.channel);
+        getMessages();
+      });
 
       $http.get('./js/json/sticker.json').then(function (response) {
         $scope.data.stickers = response.data;
@@ -1454,6 +1460,13 @@ angular.module('starter.controllers', [])
         $scope.data.channel = args;
       }
       getNotify();
+      $scope.data.channel.allRead = false;
+      for (var i = 0; i < $scope.data.channel.users.length; i++) {
+        if ($scope.data.channel.users[i].read) {
+          $scope.data.channel.allRead = true;
+          break;
+        }
+      }
     });
 
     $scope.$on('user-event', function (event, args) {
