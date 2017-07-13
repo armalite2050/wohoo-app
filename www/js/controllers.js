@@ -1427,6 +1427,24 @@ angular.module('starter.controllers', [])
         $scope.data.channel = response.data;
         getNotify($scope.data.channel);
         getMessages();
+
+        $scope.$on('channel-event', function (event, args) {
+          if ($scope.data.channel._id == args._id) {
+            $scope.data.channel = args;
+          }
+          getNotify();
+        });
+
+        $scope.$on('user-event', function (event, args) {
+
+          for (var i = 0; i < $scope.data.channel.users.length; i++) {
+            if (args._id == $scope.data.channel.users[i].user._id) {
+              $scope.data.channel.users[i].user.lastConnection = args.lastConnection;
+              $scope.data.channel.users[i].user.online = args.online;
+              break;
+            }
+          }
+        });
       });
 
       $http.get('./js/json/sticker.json').then(function (response) {
@@ -1455,30 +1473,6 @@ angular.module('starter.controllers', [])
       $scope.data.notify = number;
     };
 
-    $scope.$on('channel-event', function (event, args) {
-      if ($scope.data.channel._id == args._id) {
-        $scope.data.channel = args;
-      }
-      getNotify();
-      $scope.data.channel.allRead = false;
-      for (var i = 0; i < $scope.data.channel.users.length; i++) {
-        if ($scope.data.channel.users[i].read) {
-          $scope.data.channel.allRead = true;
-          break;
-        }
-      }
-    });
-
-    $scope.$on('user-event', function (event, args) {
-
-      for (var i = 0; i < $scope.data.channel.users.length; i++) {
-        if (args._id == $scope.data.channel.users[i].user._id) {
-          $scope.data.channel.users[i].user.lastConnection = args.lastConnection;
-          $scope.data.channel.users[i].user.online = args.online;
-          break;
-        }
-      }
-    });
 
     $scope.$on('$destroy', function () {
       if ($scope.modalSticker) {

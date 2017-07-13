@@ -139,7 +139,7 @@
           <!--</div>-->
         </div>
       </li>
-      <li ng-if="data.channel.allRead">
+      <li class="text-center">
         Visto por <span ng-repeat="item in data.channel.users" ng-if="!item.read">{{item.user.name}}<span ng-if="data.channel.users.length > 1 && $index != data.channel.users.length - 1">, </span></span> <i class="ion ion-checkmark-circled balanced"></i>
       </li>
     </ul>
