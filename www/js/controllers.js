@@ -862,7 +862,8 @@ angular.module('starter.controllers', [])
     $scope.data = {
       channel: localStorageService.get('chatDetail'),
       messages: [],
-      message: {}
+      message: {},
+      typing: []
     };
 
 
@@ -1421,6 +1422,21 @@ angular.module('starter.controllers', [])
       });
     };
 
+    $scope.typing = function () {
+      if (!$scope.data.isTyping) {
+        $scope.data.isTyping = true;
+        $http.post(config.url + config.api.typing,  {
+          name: $scope.rootData.user.name,
+          _id: $scope.rootData.user._id,
+          channel: $scope.data.channel._id
+        })
+
+        $timeout(function () {
+          $scope.data.isTyping = false;
+        }, 10000)
+      }
+    };
+
     var _init = function () {
       $http.get(config.url + config.api.channel + $stateParams.id).then(function (response) {
         localStorageService.set('chatDetail', response.data);
@@ -1433,6 +1449,13 @@ angular.module('starter.controllers', [])
             $scope.data.channel = args;
           }
           getNotify();
+          $scope.data.channel.readAll = false;
+          for (var i = 0; i < $scope.data.channel.users.length; i++) {
+            if (!$scope.data.channel.users[i].read && $scope.data.channel.users[i].user._id != $scope.rootData.user._id) {
+              $scope.data.channel.readAll = true;
+              break
+            }
+          }
         });
 
         $scope.$on('user-event', function (event, args) {
@@ -1445,6 +1468,33 @@ angular.module('starter.controllers', [])
             }
           }
         });
+
+        socket.syncUpdates('typing', function (event, user) {
+          if (user._id != $scope.rootData.user._id && user.channel == $scope.data.channel._id) {
+            var check;
+            var setTime = function (user) {
+              $timeout(function () {
+                for (var j = 0; j < $scope.data.typing.length; j++) {
+                  if (user._id == $scope.data.typing[j]._id) {
+                    $scope.data.typing.splice(j, 1);
+                    break;
+                  }
+                }
+              }, 10000)
+            };
+            for (var i = 0; i < $scope.data.typing.length; i++) {
+              if (user._id == $scope.data.typing[i]._id) {
+                check = true;
+                setTime(user)
+                break;
+              }
+            }
+            if (!check) {
+              $scope.data.typing.push(user)
+              setTime(user)
+            }
+          }
+        })
       });
 
       $http.get('./js/json/sticker.json').then(function (response) {

@@ -1,7 +1,7 @@
 angular.module('starter')
 
   .constant('config', {
-    url: 'http://34.248.86.156:8080/', //34.248.86.156
+    url: 'http://192.168.1.84:8080/', //34.248.86.156
     bucket: 'dmliZXItY2xvbmU=',
     accessKeyId: 'QUtJQUkzSFlDRUw2SUUySVJYWFE=',
     secretKey: 'NWJCSmtRYUh3bDM2VHhQL1ExQ3dXR3NSZzZ5alFzTmpkNDMrdm0xQw==',
@@ -23,6 +23,6 @@ angular.module('starter')
       typing: 'api/typing/',
       clear: 'api/clear/',
       message: 'api/messages/',
-      turn: 'api/users/turn/',
+      turn: 'api/users/turn/'
     }
   });

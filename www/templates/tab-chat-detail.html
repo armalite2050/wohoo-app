@@ -139,19 +139,20 @@
           <!--</div>-->
         </div>
       </li>
-      <li class="text-center">
-        Visto por <span ng-repeat="item in data.channel.users" ng-if="!item.read">{{item.user.name}}<span ng-if="data.channel.users.length > 1 && $index != data.channel.users.length - 1">, </span></span> <i class="ion ion-checkmark-circled balanced"></i>
+      <li class="text-right" ng-if="data.channel.readAll">
+        Visto por <span ng-repeat="item in data.channel.users" ng-if="!item.read && item.user._id != rootData.user._id">{{item.user.name}}<span ng-if="data.channel.users.length > 1 && $index != data.channel.users.length - 1">, </span></span> <i class="ion ion-checkmark-circled balanced"></i>
       </li>
     </ul>
 
-
-
   </ion-content>
   <ion-footer-bar class="horizontal layout" style="transition: all 0.1s ease; bottom: {{data.heightFooter + 'px'}}">
+    <div class="typing" ng-if="data.typing.length">
+      <span ng-repeat="item in data.typing">{{item.name}}</span> typing...
+    </div>
     <div class="icon-writing horizontal layout center end" ng-click="showActionBar()" ng-if="!data.recordingStatus">
       <i class="ion ion-ios-plus-empty"></i>
     </div>
-    <textarea msd-elastic placeholder="Viết lời nhắn..." class="flex" ng-model="data.message.text" id="chat-input" autocorrect="off" autocapitalize="none" ng-if="!data.recordingStatus"></textarea>
+    <textarea msd-elastic placeholder="Viết lời nhắn..." class="flex" ng-model="data.message.text" id="chat-input" autocorrect="off" autocapitalize="none" ng-if="!data.recordingStatus" ng-change="typing()"></textarea>
     <div class="icon-writing horizontal layout center end" ngf-select="uploadImage($file)" name="fileImage" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB" style="padding-left: 20px" ng-if="!data.recordingStatus">
       <i class="ion ion-ios-camera-outline"></i>
     </div>

@@ -830,3 +830,14 @@ body {
     transform: scale(1);
   }
 }
+
+.typing {
+  position: absolute;
+  top: -24px;
+  background-color: rgba(0, 0, 0, 0.58);
+  color: #fff;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  left: 10px;
+}
