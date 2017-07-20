@@ -10445,7 +10445,13 @@ body {
     content: ''; }
   .tab-item .icon.ion-ios-chatbubble-outline {
     background: url(../img/4.png) no-repeat 50% 50%/cover; }
+  .tab-item .icon.ion-ios-chatbubble {
+    background: url(../img/3.png) no-repeat 50% 50%/cover; }
   .tab-item .icon.ion-ios-person {
     background: url(../img/8.png) no-repeat 50% 50%/cover; }
+  .tab-item .icon.ion-ios-person-outline {
+    background: url(../img/7.png) no-repeat 50% 50%/cover; }
+  .tab-item .icon.icon.ion-ios-more {
+    background: url(../img/2.png) no-repeat 50% 50%/cover; }
   .tab-item .icon.ion-ios-more-outline {
     background: url(../img/1.png) no-repeat 50% 50%/cover; }
