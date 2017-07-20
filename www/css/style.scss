@@ -129,20 +129,22 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
 
 .item-color {
   padding-right: 85px;
+  padding-left: 80px;
 
   .color {
     position: absolute;
-    top: 16px;
+    top: 10px;
     left: 16px;
-    max-width: 40px;
-    max-height: 40px;
+    max-width: 50px;
+    max-height: 50px;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     text-align: center;
     color: #fff;
-    line-height: 40px;
+    line-height: 50px;
     background-color: gray;
+    text-transform: uppercase;
 
     span {
       position: absolute;
@@ -840,4 +842,28 @@ body {
   border-radius: 4px;
   font-size: 11px;
   left: 10px;
+}
+
+.tab-item .icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  background-color: blue;
+  margin-top: 5px;
+
+  &:before {
+    content: '';
+  }
+
+  &.ion-ios-chatbubble-outline {
+    background: url(../img/4.png) no-repeat 50% 50%/cover;
+  }
+
+  &.ion-ios-person {
+    background: url(../img/8.png) no-repeat 50% 50%/cover;
+  }
+
+  &.ion-ios-more-outline {
+    background: url(../img/1.png) no-repeat 50% 50%/cover;
+  }
 }
