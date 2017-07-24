@@ -1,0 +1,48 @@
+<ion-view view-title="Public" class="tab-public-detail chat-detail">
+  <ion-header-bar class="bar-royal">
+    <button class="button button-icon icon ion-ios-arrow-left" ui-sref="tab.public"></button>
+    <div class="title" ng-click="openPublic()"><img ng-src="{{data.public.avatar}}" alt="" style="width: 30px;
+    height: 30px;
+    position: relative;
+    top: 7px;"> {{data.public.name}}</div>
+    <button class="button button-icon" ng-click="addMessage()" ng-if="data.public.from == rootData.user._id">
+      <img src="./img/add.png" alt="" class="img-responsive" width="20">
+    </button>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <ul class="messages">
+      <li ng-repeat="item in data.messages" class="to" ng-class="{'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text}" ng-if="item.text || item.image || item.voiceMessage || item.sticker || item.video || item.contact ||item.location">
+        <img ng-src="{{item.from.avatar}}" alt="" class="avatar" ng-click="viewProfile(item.from)" ng-if="item.from.avatar">
+        <div class="bg-chat-avatar avatar" ng-if="!item.from.avatar" ng-style="{'background-color': item.from.color}" ng-click="viewProfile(item.from)">
+          {{item.from.name[0]}}
+        </div>
+        <div class="content-message" ng-class="{'no-bg': item.image}">
+          <div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>
+          <img ng-src="{{item.image}}" alt="" class="img-responsive" ng-if="item.image" style="max-width: 200px;">
+          <a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">
+            <img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img" style="max-width: 150px;">
+          </a>
+          <div class="contact" ng-if="item.contact" ng-click="goToContactDetail(item.contact, 1)">
+            <div ng-if="item.contact.user">
+              <img ng-src="{{item.contact.user.avatar}}" class="contact-avatar" ng-if="item.contact.user.avatar">
+              <div ng-style="{'background-color': item.contact.user.color}" class="contact-avatar" ng-if="!item.contact.user.avatar">{{item.contact.user.name[0]}}</div>
+              {{item.contact.user.name}}
+            </div>
+            <div ng-if="!item.contact.user">
+              <div ng-style="{'background-color': item.contact.color}" class="contact-avatar">{{item.contact.name[0]}}</div>
+              {{item.contact.name}}
+            </div>
+          </div>
+          <div ng-if="item.voiceMessage" class="voice-mess-item">
+            <voice-message link="item.voiceMessage">
+            </voice-message>
+          </div>
+          <div class="status-message">
+            <span class="time" am-time-ago="item.updatedAt"></span> <i class="ion ion-trash-a" ng-if="item.from.userId == rootData.user._id" ng-click="showConfirmDelte(item._id, $index)"></i>
+          </div>
+
+        </div>
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>

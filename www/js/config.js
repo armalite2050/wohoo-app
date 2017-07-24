@@ -23,6 +23,7 @@ angular.module('starter')
       typing: 'api/typing/',
       clear: 'api/clear/',
       message: 'api/messages/',
-      turn: 'api/users/turn/'
+      turn: 'api/users/turn/',
+      public: 'api/publics/'
     }
   });

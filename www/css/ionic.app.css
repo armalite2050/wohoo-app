@@ -10455,3 +10455,32 @@ body {
     background: url(../img/2.png) no-repeat 50% 50%/cover; }
   .tab-item .icon.ion-ios-more-outline {
     background: url(../img/1.png) no-repeat 50% 50%/cover; }
+  .tab-item .icon.ion-ios-telephone {
+    background: url(../img/homechatover.png) no-repeat 50% 50%/cover; }
+
+.public-banner .input-banner .input-label {
+  margin-bottom: 10px; }
+
+.public-banner .input-banner b {
+  color: #0c60ee; }
+
+.public-banner .input-banner img {
+  max-width: 300px; }
+
+.public-banner .input-banner ul li {
+  width: 30%;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative; }
+  .public-banner .input-banner ul li img {
+    max-width: 100%; }
+  .public-banner .input-banner ul li i {
+    position: absolute;
+    left: -7px;
+    top: -10px;
+    color: red;
+    font-size: 23px; }
+
+.tab-public {
+  background-color: #f1f1f1 !important; }

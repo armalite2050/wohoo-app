@@ -1,0 +1,55 @@
+<ion-modal-view class="create-group public-banner">
+  <ion-header-bar class="bar-light">
+    <button class="button button-icon icon" ng-click="modalPublic.hide()">
+      <img src="./img/close.png" alt="" class="img-responsive" width="27">
+    </button>
+    <div class="tab-contact title">
+      Add New
+    </div>
+
+
+  </ion-header-bar>
+  <ion-content class="create-group-view">
+    <form class="list" name="publicForm">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Name</span>
+        <input type="text" placeholder="ABC New" ng-model="data.public.name" required>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">About</span>
+        <input type="text" placeholder="Suhr" ng-model="data.public.about" required>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Location</span>
+        <input type="text" placeholder="NY, USA" ng-model="data.public.location" required>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Website</span>
+        <input type="text" placeholder="wohoo.com" ng-model="data.public.website" required>
+      </label>
+      <div class="item item-input item-stacked-label input-banner">
+        <span class="input-label">Banner <b ngf-select="uploadImageBanner($file)" name="fileImage1" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">Upload <i class="ion ion-upload"></i></b></span>
+        <img ng-src="{{data.public.avatar}}" alt="" class="img-responsive" ng-if="data.public.avatar">
+      </div>
+
+      <div class="item item-input item-stacked-label input-banner">
+        <span class="input-label">Images <b ngf-select="uploadImagePublic($file)" name="fileImage1" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">Upload <i class="ion ion-upload"></i></b></span>
+        <ul>
+          <li ng-repeat="item in data.public.images">
+            <img ng-src="{{item}}" alt="" class="img-responsive">
+
+            <i class="ion ion-close-circled" ng-click="removeImage($index)"></i>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div class="padding">
+        <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="createPublic()" ng-if="!data.public._id">Create Public Channel</button>
+        <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="editPublic()" ng-if="data.public._id">Edit Public Channel</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>
+

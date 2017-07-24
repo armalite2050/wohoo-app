@@ -21,7 +21,7 @@
     </div>
 
     <div class="head-header flex" ng-if="!data.channel.isGroup">
-      <div class="name horizontal layout center" ng-repeat="item in data.channel.users" ng-if="item.user._id != rootData.user._id">
+      <div class="name horizontal layout center" ng-repeat="item in data.channel.users" ng-if="item.user._id != rootData.user._id" ng-click="viewProfile(item.user)">
         <span class="color-avatar" style="background-color: {{item.user.color}}" ng-if="!item.user.avatar">{{item.user.name[0]}}</span>
         <img ng-src="{{item.user.avatar}}" alt="" class="img-avatar" ng-if="item.user.avatar">
         <div class="username">

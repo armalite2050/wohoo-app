@@ -182,6 +182,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       })
 
+      .state('tab.public', {
+        url: '/public',
+        views: {
+          'tab-public': {
+            templateUrl: 'templates/tab-public.html',
+            controller: 'PublicCtrl'
+          }
+        }
+      })
+
+      .state('tab.publicDetail', {
+        url: '/public/:id',
+        views: {
+          'tab-public': {
+            templateUrl: 'templates/tab-public-detail.html',
+            controller: 'PublicDetailCtrl'
+          }
+        }
+      })
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/contacts');
 

@@ -1400,6 +1400,11 @@ angular.module('starter.controllers', [])
         params: params
       }).then(function (response) {
         $scope.data.messages = response.data;
+        var groups = _.groupBy(response.data, function (item) {
+          return moment(item.createdAt).startOf('day').format();
+        });
+        console.log(groups)
+
         $ionicScrollDelegate.scrollBottom(true);
 
         $timeout(function () {
@@ -1425,7 +1430,7 @@ angular.module('starter.controllers', [])
     $scope.typing = function () {
       if (!$scope.data.isTyping) {
         $scope.data.isTyping = true;
-        $http.post(config.url + config.api.typing,  {
+        $http.post(config.url + config.api.typing, {
           name: $scope.rootData.user.name,
           _id: $scope.rootData.user._id,
           channel: $scope.data.channel._id
@@ -1626,6 +1631,202 @@ angular.module('starter.controllers', [])
       $state.go('tab.account')
     }
 
-  });
+  })
 
+  .controller('PublicCtrl', function ($scope, $ionicModal, $ionicLoading, codeService, unixString, config, $http, $state, socket) {
+    $scope.data = {
+      public: {
+        images: []
+      }
+    };
 
+    $ionicModal.fromTemplateUrl('./templates/modals/public.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalPublic = modal;
+    });
+
+    $scope.openModalPublic = function () {
+      $scope.modalPublic.show();
+    };
+
+    $scope.closeModalPublic = function () {
+      $scope.modalPublic.hide();
+    };
+
+    $scope.uploadImageBanner = function (file) {
+      if (file && file != null) {
+        $ionicLoading.show();
+        AWS.config.update({
+          accessKeyId: codeService.decode(config.accessKeyId),
+          secretAccessKey: codeService.decode(config.secretKey)
+        });
+        AWS.config.region = 'us-east-1';
+        var bucket = new AWS.S3({params: {Bucket: codeService.decode(config.bucket)}});
+        var uniqueFileName = unixString.uniqueString() + '-' + file.name;
+        var params1 = {Key: uniqueFileName, ContentType: file.type, Body: file, ServerSideEncryption: 'AES256'};
+        bucket.putObject(params1, function (err, data) {
+          if (err) {
+            $ionicLoading.hide();
+            return false;
+          }
+          else {
+            // Upload Successfully Finished
+            $scope.data.public.avatar = 'https://s3.amazonaws.com/viber-clone/' + uniqueFileName;
+            console.log($scope.data.public);
+            $ionicLoading.hide();
+            // Reset The Progress Bar
+            setTimeout(function () {
+              $scope.$digest();
+            }, 4000);
+          }
+        }).on('httpUploadProgress', function (progress) {
+          $scope.$digest();
+        });
+      }
+    };
+
+    $scope.uploadImagePublic = function (file) {
+      if (file && file != null) {
+        $ionicLoading.show();
+        AWS.config.update({
+          accessKeyId: codeService.decode(config.accessKeyId),
+          secretAccessKey: codeService.decode(config.secretKey)
+        });
+        AWS.config.region = 'us-east-1';
+        var bucket = new AWS.S3({params: {Bucket: codeService.decode(config.bucket)}});
+        var uniqueFileName = unixString.uniqueString() + '-' + file.name;
+        var params1 = {Key: uniqueFileName, ContentType: file.type, Body: file, ServerSideEncryption: 'AES256'};
+        bucket.putObject(params1, function (err, data) {
+          if (err) {
+            $ionicLoading.hide();
+            return false;
+          }
+          else {
+            // Upload Successfully Finished
+            $scope.data.public.images.push('https://s3.amazonaws.com/viber-clone/' + uniqueFileName);
+            console.log($scope.data.public);
+            $ionicLoading.hide();
+            // Reset The Progress Bar
+            setTimeout(function () {
+              $scope.$digest();
+            }, 4000);
+          }
+        }).on('httpUploadProgress', function (progress) {
+          $scope.$digest();
+        });
+      }
+    };
+
+    $scope.removeImage = function (index) {
+      $scope.data.public.images.splice(index, 1);
+    };
+
+    $scope.createPublic = function () {
+      $scope.data.public.from = $scope.rootData.user._id;
+      $ionicLoading.show();
+      $http.post(config.url + config.api.public, $scope.data.public).then(function (response) {
+        console.log(response);
+        $ionicLoading.hide();
+        $scope.modalPublic.hide();
+        $scope.data.public = {
+          images: []
+        }
+      })
+    };
+
+    $scope.goPublicDetail = function (id) {
+      $state.go('tab.publicDetail', {id: id})
+    };
+
+    var _init = function () {
+      $scope.data.publics = [];
+      $http.get(config.url + config.api.public).then(function (response) {
+        console.log(response);
+        $scope.data.publics = response.data;
+
+        socket.syncUpdates('publicChannel', function (event, item) {
+          var oldItem = _.find($scope.data.publics, {_id: item._id});
+          var index = $scope.data.publics.indexOf(oldItem);
+          var event = 'created';
+
+          // replace oldItem if it exists
+          // otherwise just add item to the collection
+          if (oldItem) {
+            $scope.data.publics.splice(index, 1, item);
+            event = 'updated';
+          } else {
+            $scope.data.publics.push(item)
+          }
+
+        })
+      })
+    };
+
+    _init();
+  })
+
+  .controller('PublicDetailCtrl', function ($scope, $ionicModal, $ionicLoading, codeService, unixString, config, $http, $state, $stateParams, $ionicScrollDelegate, $timeout) {
+    $scope.data = {}
+
+    $ionicModal.fromTemplateUrl('./templates/modals/public.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalPublic = modal;
+    });
+
+    $scope.openModalPublic = function () {
+      $scope.modalPublic.show();
+    };
+
+    $scope.closeModalPublic = function () {
+      $scope.modalPublic.hide();
+    };
+
+    $scope.addMessage = function () {
+      $state.go('tab.chatDetail', {id: $scope.data.public.channel})
+    };
+
+    $scope.openPublic = function () {
+      if ($scope.data.public.from == $scope.rootData.user._id) {
+        $scope.modalPublic.show();
+      }
+    };
+
+    $scope.editPublic = function () {
+      $ionicLoading.show();
+      $http.put(config.url + config.api.public + $scope.data.public._id, $scope.data.public).then(function (response) {
+        $scope.data.public = response.data;
+        $ionicLoading.hide();
+        $scope.modalPublic.hide();
+      })
+    };
+
+    var _init = function () {
+      $http.get(config.url + config.api.public + $stateParams.id).then(function (response) {
+        console.log(response)
+        $scope.data.public = response.data;
+        var params = {
+          channel: $scope.data.public.channel,
+          userId: $scope.rootData.user._id
+        };
+        $http.get(config.url + config.api.message, {
+          params: params
+        }).then(function (response) {
+          $scope.data.messages = response.data;
+          console.log(response.data)
+          $ionicScrollDelegate.scrollBottom(true);
+
+          $timeout(function () {
+            $ionicScrollDelegate.resize();
+            $ionicScrollDelegate.scrollBottom(true);
+          }, 1500)
+
+        });
+      })
+    };
+
+    _init();
+  })

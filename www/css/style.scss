@@ -873,8 +873,55 @@ body {
   &.icon.ion-ios-more {
     background: url(../img/2.png) no-repeat 50% 50%/cover;
   }
-  
+
   &.ion-ios-more-outline {
     background: url(../img/1.png) no-repeat 50% 50%/cover;
   }
+
+  &.ion-ios-telephone {
+    background: url(../img/homechatover.png) no-repeat 50% 50%/cover;
+  }
+}
+
+.public-banner {
+  .input-banner {
+
+    .input-label {
+      margin-bottom: 10px;
+    }
+
+    b {
+      color: #0c60ee;
+    }
+
+    img {
+      max-width: 300px;
+    }
+
+    ul {
+      li {
+        width: 30%;
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        position: relative;
+
+        img {
+          max-width: 100%
+        }
+
+        i {
+          position: absolute;
+          left: -7px;
+          top: -10px;
+          color: red;
+          font-size: 23px;
+        }
+      }
+    }
+  }
+}
+
+.tab-public {
+  background-color: #f1f1f1 !important;
 }
