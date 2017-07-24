@@ -1763,6 +1763,9 @@ angular.module('starter.controllers', [])
         })
       })
     };
+    $scope.$on('$destroy', function () {
+      socket.unsyncUpdates('publicChannel')
+    })
 
     _init();
   })
@@ -1803,6 +1806,15 @@ angular.module('starter.controllers', [])
         $scope.modalPublic.hide();
       })
     };
+
+    $scope.deletePublic = function () {
+      $ionicLoading.show();
+      $http.delete(config.url + config.api.public + $scope.data.public._id).then(function (response) {
+        $ionicLoading.hide();
+        $scope.modalPublic.hide();
+        $state.go('tab.public');
+      })
+    }
 
     var _init = function () {
       $http.get(config.url + config.api.public + $stateParams.id).then(function (response) {

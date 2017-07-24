@@ -46,6 +46,7 @@
       </div>
 
       <div class="padding">
+        <button class="button button-block button-assertive" ng-click="deletePublic()" ng-if="data.public._id">Delete Public Channel</button>
         <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="createPublic()" ng-if="!data.public._id">Create Public Channel</button>
         <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="editPublic()" ng-if="data.public._id">Edit Public Channel</button>
       </div>
