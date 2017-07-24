@@ -10484,3 +10484,20 @@ body {
 
 .tab-public {
   background-color: #f1f1f1 !important; }
+
+.chat-day {
+  overflow: hidden; }
+
+.line-time {
+  border-bottom: 1px solid red;
+  margin: 16px 0;
+  position: relative; }
+  .line-time span {
+    display: block;
+    position: absolute;
+    left: 50%;
+    width: 120px;
+    text-align: center;
+    margin-left: -60px;
+    top: -10px;
+    background-color: #ddd; }

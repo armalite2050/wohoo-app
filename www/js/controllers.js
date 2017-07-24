@@ -970,8 +970,8 @@ angular.module('starter.controllers', [])
         params.voiceMessage = $scope.data.message.voiceMessage;
       }
 
-      $scope.data.messages.push(params);
-      var index = $scope.data.messages.length - 1;
+      $scope.data.messages[$scope.data.messages.length - 1].chats.push(params);
+      var index = $scope.data.messages[$scope.data.messages.length - 1].chats.length - 1;
       if ($scope.data.message.image) {
         $timeout(function () {
           $ionicScrollDelegate.scrollBottom(true);
@@ -981,7 +981,7 @@ angular.module('starter.controllers', [])
       $ionicScrollDelegate.resize();
       $ionicScrollDelegate.scrollBottom(true);
       $http.post(config.url + config.api.message, params).then(function (response) {
-        $scope.data.messages[index]._id = response.data._id
+        $scope.data.messages[$scope.data.messages.length - 1].chats[index]._id = response.data._id
       })
     };
 
@@ -1022,7 +1022,7 @@ angular.module('starter.controllers', [])
 
       confirmPopup.then(function (res) {
         if (res) {
-          $scope.data.messages.splice(index, 1);
+          $scope.data.messages[$scope.data.messages.length - 1].chats.splice(index, 1);
           $http.delete(config.url + config.api.message + id);
           console.log('You are sure');
         } else {
@@ -1399,11 +1399,24 @@ angular.module('starter.controllers', [])
       $http.get(config.url + config.api.message, {
         params: params
       }).then(function (response) {
-        $scope.data.messages = response.data;
+        //$scope.data.messages = response.data;
         var groups = _.groupBy(response.data, function (item) {
           return moment(item.createdAt).startOf('day').format();
         });
-        console.log(groups)
+        $scope.data.messages = _.map(groups, function(group, day){
+          return {
+            day: day,
+            chats: group
+          }
+        });
+
+        if ($scope.data.messages.length && new Date($scope.data.messages[$scope.data.messages.length - 1].day).getDate() != new Date().getDate()) {
+          $scope.data.messages.push({
+            day: new Date(),
+            chats: []
+          })
+        }
+        $scope.indexMessage = $scope.data.messages.length;
 
         $ionicScrollDelegate.scrollBottom(true);
 
@@ -1413,15 +1426,15 @@ angular.module('starter.controllers', [])
         }, 1500)
         socket.syncUpdates('message', function (event, message) {
           if (event == 'deleted' && message.channel == $scope.data.channel._id) {
-            for (var i = 0; i < $scope.data.messages.length; i++) {
-              if ($scope.data.messages[i]._id = message._id) {
-                $scope.data.messages.splice(i, 1)
+            for (var i = 0; i < $scope.data.messages[$scope.data.messages.length - 1].chats.length; i++) {
+              if ($scope.data.messages[$scope.data.messages.length - 1].chats[i]._id = message._id) {
+                $scope.data.messages[$scope.data.messages.length - 1].chats.splice(i, 1)
               }
             }
           }
 
           if (event == 'created' && message.channel == $scope.data.channel._id && message.from.userId != $scope.rootData.user._id) {
-            $scope.data.messages.push(message)
+            $scope.data.messages[$scope.data.messages.length - 1].chats.push(message)
           }
         })
       });
