@@ -1396,6 +1396,7 @@ angular.module('starter.controllers', [])
           break;
         }
       }
+      $scope.data.messages = [];
       $http.get(config.url + config.api.message, {
         params: params
       }).then(function (response) {
@@ -1411,6 +1412,13 @@ angular.module('starter.controllers', [])
         });
 
         if ($scope.data.messages.length && new Date($scope.data.messages[$scope.data.messages.length - 1].day).getDate() != new Date().getDate()) {
+          $scope.data.messages.push({
+            day: new Date(),
+            chats: []
+          })
+        }
+
+        if (!$scope.data.messages.length) {
           $scope.data.messages.push({
             day: new Date(),
             chats: []
