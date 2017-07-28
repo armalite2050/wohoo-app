@@ -3,27 +3,62 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
+<ion-header-bar class="remove-style-bar horizontal layout center">
+  <div class="button button-icon icon ion-android-add">
+  </div>
+  <div class="flex horizontal layout center center-justified root-avatar">
+    <div class="img-color" ng-if="!rootData.user.avatar">{{rootData.user.name[0]}}</div>
+    <img ng-src="{{rootData.user.avatar}}" alt="" ng-if="rootData.user.avatar" class="img-color">
+  </div>
+
+  <div class="button button-icon icon ion-ios-list" ng-click="openModalContacts()">
+  </div>
+</ion-header-bar>
+<ion-content scroll="false" class="content-has-slide">
+  <tab-slide-box>
+    <div class="tsb-icons">
+      <div class="tsb-ic-wrp">
+        <a href="javascript:;">Public</a>
+        <a href="javascript:;">Chats</a>
+        <a href="javascript:;">Account</a>
+      </div>
+    </div>
+    <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+      <ion-slide>
+        <ion-nav-view name="tab-public"></ion-nav-view>
+      </ion-slide>
+      <ion-slide>
+        <ion-nav-view name="tab-chat"></ion-nav-view>
+      </ion-slide>
+      <ion-slide>
+        <ion-nav-view name="tab-account"></ion-nav-view>
+      </ion-slide>
+
+    </ion-slide-box>
+  </tab-slide-box>
+</ion-content>
 
 
-<ion-tabs class="tabs-icon-top tabs-color-active-royal tab-app" ng-class="{'has-chat-detail': stateName == 'tab.chatDetail'}">
 
-  <!-- Dashboard Tab -->
-  <ion-tab title="Chats" icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble" href="#/tab/chat">
-    <ion-nav-view name="tab-chat"></ion-nav-view>
-  </ion-tab>
+<!--<ion-tabs class="tabs-icon-top tabs-color-active-royal tab-app" ng-class="{'has-chat-detail': stateName == 'tab.chatDetail'}">-->
 
-  <ion-tab title="Public" icon-off="ion-ios-telephone" icon-on="ion-ios-telephone" href="#/tab/public">
-    <ion-nav-view name="tab-public"></ion-nav-view>
-  </ion-tab>
+  <!--&lt;!&ndash; Dashboard Tab &ndash;&gt;-->
+  <!--<ion-tab title="Chats" icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble" href="#/tab/chat">-->
+    <!--<ion-nav-view name="tab-chat"></ion-nav-view>-->
+  <!--</ion-tab>-->
 
-  <!-- Account Tab -->
-  <ion-tab title="Contactos" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/contacts">
-    <ion-nav-view name="tab-contacts"></ion-nav-view>
-  </ion-tab>
+  <!--<ion-tab title="Public" icon-off="ion-ios-telephone" icon-on="ion-ios-telephone" href="#/tab/public">-->
+    <!--<ion-nav-view name="tab-public"></ion-nav-view>-->
+  <!--</ion-tab>-->
 
-  <!-- Account Tab -->
-  <ion-tab title="Más" icon-off="ion-ios-more-outline" icon-on="ion-ios-more" href="#/tab/account">
-    <ion-nav-view name="tab-account"></ion-nav-view>
-  </ion-tab>
+  <!--&lt;!&ndash; Account Tab &ndash;&gt;-->
+  <!--<ion-tab title="Contactos" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/contacts">-->
+    <!--<ion-nav-view name="tab-contacts"></ion-nav-view>-->
+  <!--</ion-tab>-->
 
-</ion-tabs>
+  <!--&lt;!&ndash; Account Tab &ndash;&gt;-->
+  <!--<ion-tab title="Más" icon-off="ion-ios-more-outline" icon-on="ion-ios-more" href="#/tab/account">-->
+    <!--<ion-nav-view name="tab-account"></ion-nav-view>-->
+  <!--</ion-tab>-->
+
+<!--</ion-tabs>-->

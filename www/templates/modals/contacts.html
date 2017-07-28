@@ -1,0 +1,43 @@
+<ion-modal-view class="contact-view" ng-controller="ContactCtrl">
+  <ion-header-bar class="bar-royal bar bar-header">
+    <button class="button button-icon icon ion-ios-close-empty" ng-click="hideModalContacts()"></button>
+
+
+    <div class="tab-contact title">
+      <div class="content">
+        <a ng-click="searchText = {active: true}; scrollToTop();" ng-class="{active: searchText.active}">Wohoo</a>
+        <a ng-click="searchText = {}; scrollToTop();" ng-class="{active: !searchText.active}">Todo</a>
+      </div>
+    </div>
+    <button class="button button-icon" ng-click="refreshContact()">
+      <img src="./img/reload.png" alt="" class="img-responsive" width="28">
+    </button>
+  </ion-header-bar>
+  <div class="bar bar-subheader">
+    <label class="item item-input">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="text" placeholder="Búsqueda" ng-model="searchText.name" style="">
+    </label>
+  </div>
+  <ion-content class="has-subheader">
+    <div class="list">
+
+      <a class="item item-avatar item-color" ng-repeat="item in data.contacts | filter:searchText" ng-click="goToContactDetail(item, $index)">
+        <div class="color" style="background-color: {{item.color}}" ng-if="!item.user">
+          {{item.name[0]}}
+        </div>
+        <h2 ng-if="!item.user">{{item.name}}</h2>
+        <img ng-src="{{item.user.avatar}}" ng-if="item.user.avatar && item.user">
+        <div class="color" style="background-color: {{item.user.color}}" ng-if="!item.user.avatar && item.user">
+          {{item.user.name[0]}}
+        </div>
+        <h2 ng-if="item.user">{{item.user.name}}</h2>
+        <p>{{item.phone}}</p>
+
+        <div class="icon-wohoo" ng-if="item.user"><img src="./img/icon-phone.png" alt="" class="img-responsive"></div>
+        <div class="invite-user bg-royal" ng-if="!item.user" ng-click="sendSms(item.phone, $event)">Invitar</div>
+      </a>
+
+    </div>
+  </ion-content>
+</ion-modal-view>

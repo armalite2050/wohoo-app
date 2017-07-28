@@ -1,10 +1,10 @@
 <ion-view view-title="Public" class="tab-public">
-  <ion-header-bar class="bar-royal">
-    <div class="title">Public</div>
-    <button class="button button-icon" ng-click="modalPublic.show()">
-      <img src="./img/add.png" alt="" class="img-responsive" width="20">
-    </button>
-  </ion-header-bar>
+  <!--<ion-header-bar class="bar-royal">-->
+    <!--<div class="title">Public</div>-->
+    <!--<button class="button button-icon" ng-click="modalPublic.show()">-->
+      <!--<img src="./img/add.png" alt="" class="img-responsive" width="20">-->
+    <!--</button>-->
+  <!--</ion-header-bar>-->
   <ion-content>
     <div class="list">
 
@@ -15,6 +15,11 @@
         <p>{{item.follows.length}} Follow</p>
       </a>
 
+    </div>
+
+    <div class="no-public-channel text-center" ng-if="!data.publics.length" ng-click="modalPublic.show()">
+      <i class="ion ion-ios-plus-outline"></i>
+      <div>You can click here create channel public for all user</div>
     </div>
   </ion-content>
 </ion-view>

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule', 'ngFileUpload', 'angular-img-cropper', 'btford.socket-io', 'angularMoment', 'monospaced.elastic'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'LocalStorageModule', 'ngFileUpload', 'angular-img-cropper', 'btford.socket-io', 'angularMoment', 'monospaced.elastic', 'tabSlideBox'])
 
   .run(function ($ionicPlatform, $rootScope, SessionService, $state) {
     $ionicPlatform.ready(function () {
@@ -63,7 +63,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
 
       $rootScope.stateName = toState.name;
-      console.log('current state', $rootScope.stateName)
+      if ($rootScope.stateName == 'tab.chatDetail' || $rootScope.stateName == 'tab.publicDetail') {
+        $rootScope.hideSlide = true;
+      } else {
+        $rootScope.hideSlide = false;
+      }
+      console.log('current state', $rootScope.stateName, $rootScope.hideSlide)
 
       var shouldLogin = toState.data !== undefined
         && toState.data.requireLogin
@@ -202,11 +207,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       })
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/contacts');
+    $urlRouterProvider.otherwise('/tab/chat');
 
     $urlRouterProvider.otherwise(function ($injector) {
       var $localStorageService = $injector.get('localStorageService');
-      if ($localStorageService.get('wohoo-user')) return '/tab/contacts';
+      if ($localStorageService.get('wohoo-user')) return '/tab/chat';
       return '/intro';
     });
 

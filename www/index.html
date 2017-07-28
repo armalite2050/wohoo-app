@@ -24,7 +24,7 @@
     <link href="css/flex.css" rel="stylesheet">
 
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" ng-class="{'hide-slide': hideSlide}">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
@@ -51,6 +51,7 @@
     <script src="lib/aws-sdk/dist/aws-sdk.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2em2A71pWii9i9m4Grt1HRytmTN-LISE&amp;libraries=places"></script>
     <script src="js/adapter.js"></script>
+    <script src="js/tabSlideBox.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>

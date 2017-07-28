@@ -10060,32 +10060,32 @@ body {
 .bar .button.button-icon, .bar button.button-icon {
   color: #006fff; }
 
-.tab-chat .time {
-  font-size: 11px;
-  color: #888; }
-
-.tab-chat .left-chat-item {
-  position: absolute;
-  right: 10px;
-  top: 15px; }
-  .tab-chat .left-chat-item .number-read {
-    background-color: #ef473a;
-    display: block;
-    float: right;
-    color: #fff;
+.tab-chat {
+  background-color: #f1f1f1 !important; }
+  .tab-chat .time {
     font-size: 11px;
-    width: 21px;
-    height: 21px;
-    text-align: center;
-    line-height: 21px;
-    border-radius: 50%; }
-  .tab-chat .left-chat-item .time {
-    clear: both; }
-
-.tab-chat .item-color {
-  padding-right: 0; }
-  .tab-chat .item-color .item-content {
-    padding-right: 99px; }
+    color: #888; }
+  .tab-chat .left-chat-item {
+    position: absolute;
+    right: 10px;
+    top: 15px; }
+    .tab-chat .left-chat-item .number-read {
+      background-color: #ef473a;
+      display: block;
+      float: right;
+      color: #fff;
+      font-size: 11px;
+      width: 21px;
+      height: 21px;
+      text-align: center;
+      line-height: 21px;
+      border-radius: 50%; }
+    .tab-chat .left-chat-item .time {
+      clear: both; }
+  .tab-chat .item-color {
+    padding-right: 0; }
+    .tab-chat .item-color .item-content {
+      padding-right: 99px; }
 
 .chat-detail {
   background-color: #dfe0e2 !important; }
@@ -10501,3 +10501,133 @@ body {
     margin-left: -60px;
     top: -10px;
     background-color: #ddd; }
+
+.tabbed-slidebox .slider {
+  height: 100%; }
+
+.tabbed-slidebox.btm .slider {
+  margin-bottom: -50px; }
+
+.tabbed-slidebox .slider-slides {
+  width: 100%; }
+
+.tabbed-slidebox .tsb-icons {
+  text-align: center;
+  margin: 10px 0;
+  position: relative;
+  background-color: #fff; }
+
+.tabbed-slidebox .tsb-ic-wrp {
+  display: flex;
+  position: relative;
+  -webkit-transition: -webkit-transform 0.3s;
+  /* For Safari 3.1 to 6.0 */
+  -webkit-transform: translate3d(0, 0, 0); }
+
+.tabbed-slidebox .tsb-icons a {
+  display: inline-block;
+  width: 54px;
+  font-size: 2.5em;
+  color: rgba(0, 0, 0, 0.3);
+  -webkit-transform: translate3d(0, 8px, 0); }
+
+.tabbed-slidebox .tsb-icons a.active {
+  color: black;
+  font-size: 3.5em;
+  -webkit-transform: translate3d(0, 0, 0); }
+
+.tabbed-slidebox .tabbed-slidebox {
+  position: relative;
+  height: 100%;
+  overflow: hidden; }
+
+.tabbed-slidebox .tsb-icons:after {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 1.4em 1.4em 1.4em;
+  border-color: transparent transparent #0398dc transparent;
+  position: absolute;
+  content: "";
+  display: block;
+  bottom: -12px;
+  left: 50%;
+  margin-left: -14px; }
+
+.tsb-hscroll.scroll-view {
+  white-space: nowrap;
+  margin: 0 auto; }
+
+.tsb-hscroll.scroll-view .scroll-bar {
+  visibility: hidden; }
+
+.tsb-hscroll.scroll-view .scroll.onscroll {
+  -webkit-transition: -webkit-transform 0.3s;
+  /* For Safari 3.1 to 6.0 */ }
+
+.tabbed-slidebox .tsb-icons .scroll a {
+  width: auto;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  text-decoration: none;
+  margin: 0 15px;
+  border-bottom: 3px solid transparent; }
+
+.tabbed-slidebox .tsb-icons .scroll a.active {
+  font-size: 1.8em;
+  border-bottom: 3px solid #ccc; }
+
+.tsb-icons {
+  margin: 0 !important;
+  overflow: hidden; }
+  .tsb-icons:after {
+    display: none !important; }
+  .tsb-icons .tsb-ic-wrp {
+    display: block; }
+    .tsb-icons .tsb-ic-wrp a {
+      width: 33.33333%;
+      font-size: 13px;
+      text-decoration: none;
+      display: block;
+      float: left;
+      transform: initial;
+      -webkit-transform: initial;
+      padding: 6px;
+      border-bottom: 2px solid transparent; }
+      .tsb-icons .tsb-ic-wrp a.active {
+        font-size: 14px;
+        border-bottom: 2px solid #333; }
+
+.remove-style-bar {
+  background-position: inherit;
+  background-image: initial; }
+  .remove-style-bar .button {
+    background-color: transparent !important;
+    width: 50px !important; }
+    .remove-style-bar .button:before {
+      font-size: 26px !important;
+      color: #444 !important; }
+  .remove-style-bar .root-avatar .img-color {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: gray;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 28px;
+    margin-right: 5px; }
+
+.hide-slide .remove-style-bar, .hide-slide .tsb-icons {
+  display: none !important; }
+
+.hide-slide .content-has-slide {
+  top: 0 !important; }
+
+.no-public-channel {
+  padding: 10px; }
+  .no-public-channel i {
+    font-size: 50px;
+    color: #ddd; }

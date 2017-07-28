@@ -154,7 +154,7 @@ angular.module('starter.controllers', [])
       $http.post(config.url + config.api.verify, $scope.data.user).then(function successCallback(response) {
         if (response.data.success) {
           localStorageService.set('wohoo-user', response.data.user);
-          $state.go('tab.contacts');
+          $state.go('tab.chat');
         } else {
           $scope.data.err = true;
         }
@@ -166,6 +166,21 @@ angular.module('starter.controllers', [])
   })
 
   .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket, $rootScope, $ionicPopup, $timeout, $interval, $ionicPlatform) {
+    $ionicModal.fromTemplateUrl('./templates/modals/contacts.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalContacts = modal;
+    });
+
+    $scope.openModalContacts = function () {
+      $scope.modalContacts.show();
+    };
+
+    $scope.hideModalContacts = function () {
+      $scope.modalContacts.hide();
+    };
+
     $rootScope.getMap = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyB2em2A71pWii9i9m4Grt1HRytmTN-LISE&';
 
     $scope.rootData = {
@@ -202,6 +217,12 @@ angular.module('starter.controllers', [])
         $scope.modalCrop.hide();
       });
     };
+    console.log($state.current.name)
+    if ($state.current.name == 'tab.chatDetail' || $state.current.name == 'tab.publicDetail') {
+      $rootScope.hideSlide = true;
+    } else {
+      $rootScope.hideSlide = false;
+    }
 
     $scope.saveName = function () {
       $ionicLoading.show();
@@ -725,7 +746,7 @@ angular.module('starter.controllers', [])
     _init();
   })
 
-  .controller('ContactCtrl', function ($scope, $ionicScrollDelegate, $state, localStorageService, $timeout) {
+  .controller('ContactCtrl', function ($scope, $ionicScrollDelegate, $state, localStorageService, $timeout, $http, $ionicLoading, config) {
     $scope.data = {
       contacts: []
     }
@@ -755,8 +776,30 @@ angular.module('starter.controllers', [])
     };
 
     $scope.goToContactDetail = function (item, $index) {
-      localStorageService.set('wohoo-contact', item)
-      $state.go('tab.contactDetail', {id: $index})
+      // localStorageService.set('wohoo-contact', item)
+      // $state.go('tab.contactDetail', {id: $index})
+      if (!item.user) return false;
+      console.log(item);
+      var channel = {
+        users: [
+          {
+            user: $scope.rootData.user._id,
+            isRead: true
+          },
+          {
+            user: item.user._id
+          }
+        ],
+        from: $scope.rootData.user._id,
+        to: item.user._id
+      };
+
+      $ionicLoading.show();
+
+      $http.post(config.url + config.api.channel, channel).then(function (response) {
+        $ionicLoading.hide();
+        $state.go('tab.chatDetail', {id: response.data._id})
+      })
     };
 
     var _init = function () {
