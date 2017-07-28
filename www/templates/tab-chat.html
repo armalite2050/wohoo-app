@@ -12,7 +12,7 @@
   <ion-content>
     <ion-list ng-if="rootData.channels.length">
 
-      <ion-item item="item" class="item-avatar item-color" ng-repeat="item in rootData.channels " ng-click="goChatDetail(item)">
+      <ion-item item="item" class="item-avatar item-color" ng-repeat="item in rootData.channels " ng-click="goChatDetail(item)" ng-if="item.lastMessage">
 
         <div class="color" style="background-color: {{item.to.color}}" ng-if="!item.isGroup && !item.to.avatar">
           {{item.to.name[0]}}
@@ -34,7 +34,7 @@
           <div class="time" am-time-ago="item.updatedAt"></div>
 
         </div>
-        <ion-option-button class="button-assertive horizontal layout center center-justified" ng-click="delete(chanel, $index)">
+        <ion-option-button class="button-assertive horizontal layout center center-justified" ng-click="deleteChannelChat(item, $index)">
           <i class="ion ion-trash-a"></i>
         </ion-option-button>
       </ion-item>

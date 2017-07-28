@@ -640,6 +640,14 @@ angular.module('starter.controllers', [])
     };
 
 
+    $scope.deleteChannelChat = function (channel, index) {
+      console.log(channel)
+      channel.lastMessage = '';
+      $http.put(config.url + config.api.channel + channel._id, {
+        lastMessage: ''
+      })
+    };
+
     var _init = function () {
       if (localStorageService.get('fontSize')) {
         $scope.rootData.fontSize = localStorageService.get('fontSize');
