@@ -378,10 +378,14 @@ body {
 
   .chat-content-detail {
     bottom: 70px;
+    background-color: #fff;
   }
 
   .header-chat-detail {
     padding: 0;
+    background-color: #fff;
+    background-image: none;
+    border-bottom: 1px solid #ddd;
 
     .chanel-notify {
       color: #fff;
@@ -453,7 +457,7 @@ body {
   }
 
   #chat-input {
-    border: 1px solid #f1f1f1;
+    border: 1px solid #fff;
     min-height: 34px;
     border-radius: 20px;
     padding: 8px 10px;
@@ -476,6 +480,14 @@ body {
     line-height: 12px;
   }
 
+  .button-list-footer {
+    .icon-writing {
+      padding: 0;
+      font-size: 28px;
+      height: 28px;
+    }
+  }
+
   .messages {
     li {
       display: block;
@@ -491,7 +503,7 @@ body {
       }
 
       .content-message {
-        background-color: #fff;
+        background-color: #ddd;
         position: relative;
         padding: 5px 10px;
 
@@ -932,7 +944,7 @@ body {
 }
 
 .line-time {
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid #ffdbdb;
   margin: 16px 0;
   position: relative;
 
@@ -944,7 +956,7 @@ body {
     text-align: center;
     margin-left: -60px;
     top: -10px;
-    background-color: #ddd;
+    background-color: #fff;
   }
 }
 

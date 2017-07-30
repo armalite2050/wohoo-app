@@ -822,11 +822,13 @@ angular.module('starter.controllers', [])
   })
 
   .controller('ContactDetailCtrl', function ($scope, localStorageService, $http, config, $ionicLoading, $state) {
-    $scope.data = {
+    $scope.dataModal = {
       contact: localStorageService.get('wohoo-contact')
     };
 
-    $scope.createPrivateChat = function () {
+    console.log($scope.dataModal)
+
+    $scope.createPrivateChat = function (contact) {
       var channel = {
         users: [
           {
@@ -834,11 +836,11 @@ angular.module('starter.controllers', [])
             isRead: true
           },
           {
-            user: $scope.data.contact.user._id
+            user: contact.user._id
           }
         ],
         from: $scope.rootData.user._id,
-        to: $scope.data.contact.user._id
+        to: contact.user._id
       };
 
       $ionicLoading.show()
@@ -846,6 +848,7 @@ angular.module('starter.controllers', [])
       $http.post(config.url + config.api.channel, channel).then(function (response) {
         $ionicLoading.hide();
         $state.go('tab.chatDetail', {id: response.data._id})
+        $scope.modalProfile.hide();
       })
     };
 
@@ -917,6 +920,22 @@ angular.module('starter.controllers', [])
       typing: []
     };
 
+    $ionicModal.fromTemplateUrl('./templates/modals/profile.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalProfile = modal;
+    });
+
+    $scope.openModalProfile = function (item) {
+      console.log(localStorageService.get('wohoo-contact'))
+      $scope.modalProfile.show();
+    };
+
+    $scope.hideModalProfile= function () {
+      $scope.modalProfile.hide();
+    };
+
 
     var txtInput;
     $timeout(function () {
@@ -930,7 +949,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.data.heightFooter = 0;
-    $scope.data.heightScroll = 60;
+    $scope.data.heightScroll = 100;
     window.addEventListener('native.keyboardshow', keyboardShowHandler);
 
     if ($ionicPlatform.is('ios')) {
@@ -942,7 +961,7 @@ angular.module('starter.controllers', [])
         $ionicScrollDelegate.scrollBottom(true);
         if ($ionicPlatform.is('ios')) {
           $scope.data.heightFooter = e.keyboardHeight;
-          $scope.data.heightScroll = e.keyboardHeight + 88;
+          $scope.data.heightScroll = e.keyboardHeight + 120;
         }
       }, 100)
     }
@@ -951,7 +970,7 @@ angular.module('starter.controllers', [])
 
       $timeout(function () {
         $scope.data.heightFooter = 0;
-        $scope.data.heightScroll = 60;
+        $scope.data.heightScroll = 100;
         $scope.$apply();
       }, 100)
     }
@@ -1058,9 +1077,10 @@ angular.module('starter.controllers', [])
         phone: item.phone,
         user: item
       };
-
+      $scope.data.contactProfile = params;
+      console.log($scope.data.contactProfile)
       localStorageService.set('wohoo-contact', params)
-      $state.go('tab.contactDetail', {id: 1})
+      $scope.openModalProfile()
     };
 
     $scope.showConfirmDelte = function (id, index) {
