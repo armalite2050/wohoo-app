@@ -8,7 +8,7 @@
   <ion-content>
     <div class="list">
 
-      <a class="item item-thumbnail-left" ng-repeat="item in data.publics" ng-click="goPublicDetail(item._id)">
+      <a class="item item-thumbnail-left" ng-repeat="item in data.publics" ng-click="goPublicDetail(item._id)" style="    border-radius: 50%;">
         <img ng-src="{{item.avatar}}">
         <h2>{{item.name}}</h2>
         <p>{{item.lastMessage}}</p>

@@ -4,7 +4,7 @@ Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
 <ion-header-bar class="remove-style-bar horizontal layout center">
-  <div class="button button-icon icon ion-android-add">
+  <div class="button button-icon icon ion-android-add" ng-click="modalGroup.show()">
   </div>
   <div class="flex horizontal layout center center-justified root-avatar">
     <div class="img-color" ng-if="!rootData.user.avatar">{{rootData.user.name[0]}}</div>

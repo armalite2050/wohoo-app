@@ -166,6 +166,55 @@ angular.module('starter.controllers', [])
   })
 
   .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket, $rootScope, $ionicPopup, $timeout, $interval, $ionicPlatform) {
+
+    $ionicModal.fromTemplateUrl('./templates/modals/create-group.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalGroup = modal;
+    });
+
+    $scope.selectedUser = function (item) {
+      item.selected = !item.selected;
+    };
+
+    $scope.createGroup = function (event) {
+      event.preventDefault();
+      var channel = {
+        users: [],
+        from: $scope.rootData.user._id,
+        isGroup: true,
+        lastMessage: 'Sin mensajes',
+        name: $scope.rootData.groupName
+      };
+      var name = '';
+
+      angular.forEach($scope.rootData.user.contacts, function (value) {
+        if (value.selected) {
+          channel.users.push({
+            user: value.user._id
+          });
+        }
+      });
+
+
+      channel.users.push({
+        user: $scope.rootData.user._id
+      });
+
+      if (channel.users.length > 1 && $scope.rootData.groupName) {
+        $ionicLoading.show();
+        $http.post(config.url + config.api.channel, channel).then(function (response) {
+          $http.get(config.url + config.api.channel + response.data._id).then(function (response) {
+            localStorageService.set('chatDetail', response.data);
+            $state.go('tab.chatDetail', {id: response.data._id});
+            $ionicLoading.hide();
+            $scope.modalGroup.hide();
+          })
+        })
+      }
+    }
+
     $ionicModal.fromTemplateUrl('./templates/modals/contacts.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -858,54 +907,6 @@ angular.module('starter.controllers', [])
 
     $scope.data = {};
 
-    $ionicModal.fromTemplateUrl('./templates/modals/create-group.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function (modal) {
-      $scope.modalGroup = modal;
-    });
-
-    $scope.selectedUser = function (item) {
-      item.selected = !item.selected;
-    };
-
-    $scope.createGroup = function (event) {
-      event.preventDefault();
-      var channel = {
-        users: [],
-        from: $scope.rootData.user._id,
-        isGroup: true,
-        lastMessage: 'Sin mensajes',
-        name: $scope.data.groupName
-      };
-      var name = '';
-
-      angular.forEach($scope.rootData.user.contacts, function (value) {
-        if (value.selected) {
-          channel.users.push({
-            user: value.user._id
-          });
-        }
-      });
-
-
-      channel.users.push({
-        user: $scope.rootData.user._id
-      });
-
-      if (channel.users.length > 1 && $scope.data.groupName) {
-        $ionicLoading.show();
-        $http.post(config.url + config.api.channel, channel).then(function (response) {
-          $http.get(config.url + config.api.channel + response.data._id).then(function (response) {
-            localStorageService.set('chatDetail', response.data);
-            $state.go('tab.chatDetail', {id: response.data._id});
-            $ionicLoading.hide();
-            $scope.modalGroup.hide();
-          })
-        })
-      }
-    }
-
     $scope.goChatDetail = function (item) {
       localStorageService.set('chatDetail', item);
       $state.go('tab.chatDetail', {id: item._id});
@@ -1532,6 +1533,47 @@ angular.module('starter.controllers', [])
           $scope.data.isTyping = false;
         }, 10000)
       }
+    };
+
+    $scope.showFullSizeImage = function (image, index) {
+      var items = [];
+
+      items.push({
+        src: image,
+        w: -1,
+        h: -1,
+        title: ''
+      })
+      var pswpElement = document.querySelectorAll('.pswp')[0];
+      var options = {
+        history: false,
+        focus: false,
+        showAnimationDuration: 0,
+        hideAnimationDuration: 0,
+        index: index,
+        pinchToClose : false,
+        closeOnScroll: false,
+        closeOnVerticalDrag: true,
+        tapToClose: false,
+      };
+
+      var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+
+      gallery.listen('imageLoadComplete', function(index, item) {
+        if (item.w < 1 || item.h < 1) {
+          var img = new Image();
+          img.src = item.src;
+          img.onload = function() {
+            item.w = this.width;
+            item.h = this.height;
+            gallery.invalidateCurrItems();
+            gallery.updateSize(true);
+
+          }
+        }
+      });
+
+      gallery.init();
     };
 
     var _init = function () {
