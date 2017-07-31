@@ -165,7 +165,27 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket, $rootScope, $ionicPopup, $timeout, $interval, $ionicPlatform) {
+  .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket, $rootScope, $ionicPopup, $timeout, $interval, $ionicPlatform, $ionicActionSheet) {
+
+    $scope.sendSms = function (number, event) {
+      if (event) event.stopPropagation()
+      var message = 'Únase a mí en TamTam, una aplicación gratuita y sorprendente para llamadas y mensajes! www.tamtam.website';
+
+      //CONFIGURATION
+      var options = {
+        replaceLineBreaks: false, // true to replace \n by a new line, false by default
+        android: {
+          intent: 'INTENT'  // send SMS with the native android SMS messaging
+          //intent: '' // send SMS without open any other app
+        }
+      };
+
+      var success = function () {
+      };
+      var error = function (e) {
+      };
+      sms.send(number, message, options, success, error);
+    };
 
     $ionicModal.fromTemplateUrl('./templates/modals/create-group.html', {
       scope: $scope,
@@ -214,6 +234,34 @@ angular.module('starter.controllers', [])
         })
       }
     }
+
+    $scope.showActionTop = function(event) {
+
+     // Show the action sheet
+     var hideSheet = $ionicActionSheet.show({
+       buttons: [
+         { text: 'New Chat' },
+         { text: 'New Group' },
+         { text: 'Invite people to Wohoo' },
+       ],
+       cancelText: 'Cancel',
+       cancel: function() {
+            // add cancel code..
+          },
+       buttonClicked: function(index) {
+          if (index == 0) {
+            $scope.openModalContacts();
+          } else if (index == 1) {
+            $scope.modalGroup.show();
+          } else if (index == 2) {
+            $scope.sendSms('')
+          }
+
+         return true;
+       }
+     });
+
+   };
 
     $ionicModal.fromTemplateUrl('./templates/modals/contacts.html', {
       scope: $scope,
@@ -802,26 +850,6 @@ angular.module('starter.controllers', [])
 
     $scope.scrollToTop = function () {
       $ionicScrollDelegate.scrollTop();
-    };
-
-    $scope.sendSms = function (number, event) {
-      event.stopPropagation()
-      var message = 'Únase a mí en TamTam, una aplicación gratuita y sorprendente para llamadas y mensajes! www.tamtam.website';
-
-      //CONFIGURATION
-      var options = {
-        replaceLineBreaks: false, // true to replace \n by a new line, false by default
-        android: {
-          intent: 'INTENT'  // send SMS with the native android SMS messaging
-          //intent: '' // send SMS without open any other app
-        }
-      };
-
-      var success = function () {
-      };
-      var error = function (e) {
-      };
-      sms.send(number, message, options, success, error);
     };
 
     $scope.goToContactDetail = function (item, $index) {

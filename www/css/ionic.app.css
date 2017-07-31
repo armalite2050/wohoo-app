@@ -10639,3 +10639,9 @@ body {
   .no-public-channel i {
     font-size: 50px;
     color: #ddd; }
+
+.tab-public-detail .content-message {
+  background-color: #fff !important; }
+
+.action-sheet .button {
+  font-size: 16px; }

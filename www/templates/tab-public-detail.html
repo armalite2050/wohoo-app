@@ -4,7 +4,7 @@
     <div class="title" ng-click="openPublic()"><img ng-src="{{data.public.avatar}}" alt="" style="width: 30px;
     height: 30px;
     position: relative;
-    top: 7px;"> {{data.public.name}}</div>
+    top: 7px; border-radius: 50%;"> {{data.public.name}}</div>
     <button class="button button-icon" ng-click="addMessage()" ng-if="data.public.from == rootData.user._id">
       <img src="./img/add.png" alt="" class="img-responsive" width="20">
     </button>
