@@ -960,13 +960,54 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('ChatDetailCtrl', function ($scope, localStorageService, $http, config, $stateParams, $timeout, $ionicPlatform, $ionicActionSheet, $ionicScrollDelegate, $state, $ionicPopup, socket, $ionicLoading, codeService, unixString, $ionicModal) {
+  .controller('ChatDetailCtrl', function ($interval, $scope, localStorageService, $http, config, $stateParams, $timeout, $ionicPlatform, $ionicActionSheet, $ionicScrollDelegate, $state, $ionicPopup, socket, $ionicLoading, codeService, unixString, $ionicModal) {
     $scope.data = {
       channel: localStorageService.get('chatDetail'),
       messages: [],
       message: {},
-      typing: []
+      typing: [],
+      count: 0
     };
+
+    var stop;
+    $scope.fightCount = function() {
+      $scope.data.count = 0;
+      // Don't start a new fight if we are already fighting
+      if ( angular.isDefined(stop) ) return;
+
+      stop = $interval(function() {
+        $scope.data.count += 1
+      }, 1000);
+    };
+
+    $scope.stopFight = function() {
+      if (angular.isDefined(stop)) {
+        $interval.cancel(stop);
+        stop = undefined;
+      }
+    };
+
+    $scope.seconds2time = function (seconds) {
+      var hours   = Math.floor(seconds / 3600);
+      var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+      var seconds = seconds - (hours * 3600) - (minutes * 60);
+      var time = "";
+
+      if (hours != 0) {
+        time = hours+":";
+      }
+      if (minutes != 0 || time !== "") {
+        minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
+        time += minutes+":";
+      }
+      if (time === "") {
+        time = seconds+"s";
+      }
+      else {
+        time += (seconds < 10) ? "0"+seconds : String(seconds);
+      }
+      return time;
+    }
 
     $ionicModal.fromTemplateUrl('./templates/modals/profile.html', {
       scope: $scope,

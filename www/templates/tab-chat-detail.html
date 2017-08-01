@@ -170,7 +170,7 @@
         <i class="ion ion-ios-paperplane-outline"></i>
       </div>
 
-      <div class="flex" ng-if="data.recordingStatus">Recording...</div>
+      <div class="flex padding" ng-if="data.recordingStatus">Recording... <span ng-if="data.count">{{seconds2time(data.count)}}</span></div>
 
       <div class="icon-writing horizontal layout center end" hold-record ng-if="!data.message.text">
         <i class="ion-ios-mic-outline"></i>

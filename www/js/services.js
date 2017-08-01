@@ -143,10 +143,12 @@ angular.module('starter.services', [])
           audioRecording.startRecord();
           scope.updateRecording(true);
           scope.$apply();
+          scope.fightCount();
         }, element);
 
         var releaseGesture = $ionicGesture.on('release', function() {
           audioRecording.stopRecord();
+          scope.stopFight();
         }, element);
 
         scope.$on('$destroy', function () {
