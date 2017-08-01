@@ -167,6 +167,22 @@ angular.module('starter.controllers', [])
 
   .controller('MainCtrl', function ($scope, $http, config, $ionicLoading, $state, localStorageService, $ionicModal, socket, $rootScope, $ionicPopup, $timeout, $interval, $ionicPlatform, $ionicActionSheet) {
 
+    $ionicModal.fromTemplateUrl('./templates/modals/public.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modalPublic = modal;
+    });
+
+    $scope.openModalPublic = function () {
+      $scope.modalPublic.show();
+    };
+
+    $scope.closeModalPublic = function () {
+      $scope.modalPublic.hide();
+    };
+
+
     $scope.sendSms = function (number, event) {
       if (event) event.stopPropagation()
       var message = 'Únase a mí en TamTam, una aplicación gratuita y sorprendente para llamadas y mensajes! www.tamtam.website';
@@ -242,6 +258,7 @@ angular.module('starter.controllers', [])
        buttons: [
          { text: 'New Chat' },
          { text: 'New Group' },
+         { text: 'New Public Channel' },
          { text: 'Invite people to Wohoo' },
        ],
        cancelText: 'Cancel',
@@ -254,6 +271,8 @@ angular.module('starter.controllers', [])
           } else if (index == 1) {
             $scope.modalGroup.show();
           } else if (index == 2) {
+            $scope.modalPublic.show();
+          } else if (index == 3) {
             $scope.sendSms('')
           }
 
@@ -1800,21 +1819,6 @@ angular.module('starter.controllers', [])
       public: {
         images: []
       }
-    };
-
-    $ionicModal.fromTemplateUrl('./templates/modals/public.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function (modal) {
-      $scope.modalPublic = modal;
-    });
-
-    $scope.openModalPublic = function () {
-      $scope.modalPublic.show();
-    };
-
-    $scope.closeModalPublic = function () {
-      $scope.modalPublic.hide();
     };
 
     $scope.uploadImageBanner = function (file) {
