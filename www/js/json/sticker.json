@@ -2,131 +2,87 @@
   {
 
     "name": "tab1",
-    "url": "http://193.70.44.88/folder1/image.gif",
+    "url": "https://static.stickerpipe.com/sticker/casual50/tab_icon_xxhdpi.png?scl=21&sh=fBBnNzyQ4tghoVX8SqkwnA",
     "images": [
       {
         "name": "image1",
-        "url": "http://193.70.44.88/folder1/image1.gif"
+        "url": "./img/stickers/1.png"
       },
       {
         "name": "image2",
-        "url": "http://193.70.44.88/folder1/image2.gif"
+        "url": "./img/stickers/2.png"
       },
       {
         "name": "image3",
-        "url": "http://193.70.44.88/folder1/image3.gif"
+        "url": "./img/stickers/3.png"
       },
       {
         "name": "image4",
-        "url": "http://193.70.44.88/folder1/image4.gif"
+        "url": "./img/stickers/4.png"
       },
       {
         "name": "image5",
-        "url": "http://193.70.44.88/folder1/image5.gif"
+        "url": "./img/stickers/5.png"
       },
       {
         "name": "image6",
-        "url": "http://193.70.44.88/folder1/image6.gif"
+        "url": "./img/stickers/6.png"
       },
       {
-        "name": "image7",
-        "url": "http://193.70.44.88/folder1/image7.gif"
+        "name": "image1",
+        "url": "./img/stickers/7.png"
       },
       {
-        "name": "image8",
-        "url": "http://193.70.44.88/folder1/image8.gif"
+        "name": "image1",
+        "url": "./img/stickers/8.png"
       },
       {
-        "name": "image9",
-        "url": "http://193.70.44.88/folder1/image9.gif"
+        "name": "image1",
+        "url": "./img/stickers/9.png"
       },
       {
-        "name": "image10",
-        "url": "http://193.70.44.88/folder1/image10.gif"
+        "name": "image1",
+        "url": "./img/stickers/10.png"
       },
       {
-        "name": "image11",
-        "url": "http://193.70.44.88/folder1/image11.gif"
+        "name": "image1",
+        "url": "./img/stickers/11.png"
       },
       {
-        "name": "image12",
-        "url": "http://193.70.44.88/folder1/image12.gif"
+        "name": "image1",
+        "url": "./img/stickers/12.png"
       },
       {
-        "name": "image13",
-        "url": "http://193.70.44.88/folder1/image13.gif"
+        "name": "image1",
+        "url": "./img/stickers/13.png"
       },
       {
-        "name": "image14",
-        "url": "http://193.70.44.88/folder1/image14.gif"
+        "name": "image1",
+        "url": "./img/stickers/14.png"
       },
       {
-        "name": "image15",
-        "url": "http://193.70.44.88/folder1/image15.gif"
+        "name": "image1",
+        "url": "./img/stickers/15.png"
       },
       {
-        "name": "image16",
-        "url": "http://193.70.44.88/folder1/image16.gif"
+        "name": "image1",
+        "url": "./img/stickers/16.png"
       },
       {
-        "name": "image17",
-        "url": "http://193.70.44.88/folder1/image17.gif"
+        "name": "image1",
+        "url": "./img/stickers/17.png"
       },
       {
-        "name": "image18",
-        "url": "http://193.70.44.88/folder1/image18.gif"
+        "name": "image1",
+        "url": "./img/stickers/18.png"
       },
       {
-        "name": "image19",
-        "url": "http://193.70.44.88/folder1/image19.gif"
+        "name": "image1",
+        "url": "./img/stickers/19.png"
       },
       {
-        "name": "image20",
-        "url": "http://193.70.44.88/folder1/image20.gif"
-      },
-      {
-        "name": "image21",
-        "url": "http://193.70.44.88/folder1/image21.gif"
-      },
-      {
-        "name": "image22",
-        "url": "http://193.70.44.88/folder1/image22.gif"
-      },
-      {
-        "name": "image23",
-        "url": "http://193.70.44.88/folder1/image23.gif"
-      },
-      {
-        "name": "image24",
-        "url": "http://193.70.44.88/folder1/image24.gif"
-      },
-      {
-        "name": "image25",
-        "url": "http://193.70.44.88/folder1/image25.gif"
-      },
-      {
-        "name": "image26",
-        "url": "http://193.70.44.88/folder1/image26.gif"
-      },
-      {
-        "name": "image27",
-        "url": "http://193.70.44.88/folder1/image27.gif"
-      },
-      {
-        "name": "image28",
-        "url": "http://193.70.44.88/folder1/image28.gif"
-      },
-      {
-        "name": "image29",
-        "url": "http://193.70.44.88/folder1/image29.gif"
-      },
-      {
-        "name": "image30",
-        "url": "http://193.70.44.88/folder1/image30.gif"
-      },
-      {
-        "name": "image31",
-        "url": "http://193.70.44.88/folder1/image31.gif"
+        "name": "image1",
+        "url": "./img/stickers/20.png"
       }
     ]
   }

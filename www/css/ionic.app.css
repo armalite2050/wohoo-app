@@ -10703,3 +10703,8 @@ body {
 
 .platform-ios .header-profile button {
   margin-top: 30px; }
+
+.stickers-image li {
+  width: 33%;
+  float: left;
+  padding: 10px; }
