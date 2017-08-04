@@ -1158,6 +1158,24 @@ body {
       left: 50%;
       margin-left: -50px;
       bottom: -30px;
+      border: 1px solid #ddd;
+    }
+
+    i {
+      position: absolute;
+      right: 0;
+      padding: 11px;
+      font-size: 40px;
+      color: #888;
+      top: 10px;
+
+      &:before {
+        background-color: rgba(56, 126, 245, 0.78);
+        padding: 8px 10px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 30px;
+      }
     }
   }
 
@@ -1172,6 +1190,7 @@ body {
       margin-left: 0;
       padding-right: 0;
       padding-left: 0;
+      font-size: 14px;
 
       &.item-icon-left {
         padding-left: 40px !important;

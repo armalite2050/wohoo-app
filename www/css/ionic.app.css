@@ -10662,7 +10662,21 @@ body {
     position: absolute;
     left: 50%;
     margin-left: -50px;
-    bottom: -30px; }
+    bottom: -30px;
+    border: 1px solid #ddd; }
+  .modal-profile .header-profile i {
+    position: absolute;
+    right: 0;
+    padding: 11px;
+    font-size: 40px;
+    color: #888;
+    top: 10px; }
+    .modal-profile .header-profile i:before {
+      background-color: rgba(56, 126, 245, 0.78);
+      padding: 8px 10px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 30px; }
 
 .modal-profile .list .item {
   border: none;
@@ -10673,13 +10687,14 @@ body {
   margin-right: 0;
   margin-left: 0;
   padding-right: 0;
-  padding-left: 0; }
+  padding-left: 0;
+  font-size: 14px; }
   .modal-profile .list .item.item-icon-left {
     padding-left: 40px !important; }
   .modal-profile .list .item i {
     font-size: 22px;
     left: 0; }
-  .modal-profile .list .item .toggle.toggle-assertive {
+  .modal-profile .list .item .toggle {
     right: 0; }
   .modal-profile .list .item span {
     float: right;
