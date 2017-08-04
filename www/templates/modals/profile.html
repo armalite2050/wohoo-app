@@ -1,94 +1,167 @@
-<ion-modal-view class="contact-detail-view bg-app" ng-controller="ContactDetailCtrl">
-  <ion-header-bar class="bar-royal">
-    <button class="button button-icon icon ion-ios-arrow-left" ng-click="modalProfile.hide()"></button>
-    <div class="title" ng-if="data.contactProfile.active">
-      {{data.contactProfile.user.name}}
-    </div>
-    <div class="title" ng-if="!data.contactProfile.active">
-      {{data.contactProfile.name}}
-    </div>
-  </ion-header-bar>
+<ion-modal-view class="contact-detail-view bg-app modal-profile" ng-controller="ContactDetailCtrl">
+  <!--<ion-header-bar class="bar-royal">-->
+    <!--<button class="button button-icon icon ion-ios-arrow-left" ng-click="modalProfile.hide()"></button>-->
+    <!--<div class="title" ng-if="data.contactProfile.active">-->
+      <!--{{data.contactProfile.user.name}}-->
+    <!--</div>-->
+    <!--<div class="title" ng-if="!data.contactProfile.active">-->
+      <!--{{data.contactProfile.name}}-->
+    <!--</div>-->
+  <!--</ion-header-bar>-->
   <ion-content>
-    <div ng-if="data.contactProfile.active">
-      <div class="bg-contact royal-bg horizontal layout center center-justified">
-        <img ng-src="{{data.contactProfile.user.avatar}}" alt="" class="img-responsive"
-             ng-if="data.contactProfile.user.avatar">
-        <div ng-if="!data.contactProfile.user.avatar" ng-style="{'background-color': data.contact.user.color}"
-             style="width:100%;height:100%;color: rgb(255, 255, 255);text-align: center;font-size: 26px;line-height: 360px;background-color: rgb(246, 215, 118);">
-          {{data.contactProfile.user.name[0]}}
-        </div>
-      </div>
-      <div class="light text-center" style="margin-top: 3px;margin-bottom: 3px;">
-        <span style="font-weight: bold; font-size: 18px;" ng-cloak ng-if="data.contactProfile.user.phone">{{data.contactProfile.user.name}}</span>
-        <p ng-if="data.contactProfile.user.status" style="    padding: 0 10px;font-size: 16px;
-    margin: 0;" ng-cloak>{{data.contactProfile.user.status}}</p>
-      </div>
-      <div class="horizontal layout contact-button">
-        <div class="flex text-center">
-          <button class="button button-royal" ng-click="openVideoView()">
-            Llamada gratis
-          </button>
-        </div>
-        <div class="flex text-center">
-          <button class="button button-royal" ng-click="createPrivateChat(data.contactProfile)">
-            Mensaje gratuito
-          </button>
-        </div>
-      </div>
 
-      <div class="list">
-
-        <div class="item item-divider">
-          Número de Móvil {{data.contactProfile.user.phone}}
-        </div>
-
-
-        <a class="item" ng-click="blockContact()" ng-if="!data.contactProfile.isBlock">
-
-          Bloquear contacto
-        </a>
-
-        <a class="item" ng-click="unlockContact()" ng-if="data.contactProfile.isBlock">
-
-          Desbloquear contacto
-        </a>
-
-      </div>
+    <div class="header-profile" ng-style="{'background-color': dataModal.contact.user.color}">
+      <button class="button button-icon button-clear icon ion-android-close" ng-click="modalProfile.hide()"></button>
+      <img ng-src="{{dataModal.contact.user.avatar}}" alt="" ng-if="dataModal.contact.user.avatar">
+      <img ng-src="./img/default_avatar.png" alt="" ng-if="!dataModal.contact.user.avatar">
     </div>
 
-    <div ng-if="!data.contactProfile.active">
-      <div class="bg-contact horizontal layout center center-justified">
-        <div ng-style="{'background-color': data.contact.color}"
-             style="width:100%;height:100%;color: rgb(255, 255, 255);text-align: center;font-size: 26px;line-height: 360px;background-color: rgb(246, 215, 118);">
-          {{data.contactProfile.name[0]}}
-        </div>
-      </div>
+    <div class="text-center" style="
+    font-weight: 500;
+    font-size: 17px;    margin-bottom: 10px;">
+      {{dataModal.contact.user.name}}
+    </div>
 
-      <div class="horizontal layout contact-button">
-        <div class="flex text-center">
-          <button class="button button-royal">
-            Llamada externa
-          </button>
-        </div>
-        <div class="flex text-center">
-          <button class="button button-royal" ng-click="sendSms(data.contactProfile.phone, $event)">
-            Invitar a TamTam
-          </button>
-        </div>
-      </div>
-
+    <div class="padding">
       <div class="list">
-        <div class="item item-divider">
-          Número de Móvil {{data.contactProfile.phone}}
-        </div>
 
+        <a class="item item-icon-left">
+          <i class="icon ion-chatbubbles"></i>
+          Send message
+        </a>
+
+        <a class="item item-icon-left">
+          <i class="icon ion-ios-telephone"></i>
+          Start call
+        </a>
+
+        <a class="item item-icon-left">
+          <i class="icon ion-ios-videocam"></i>
+          Start video call
+        </a>
+
+        <a class="item item-icon-left">
+          <i class="icon ion-ios-people"></i>
+          Create new group
+        </a>
+        <div class="label" style="    padding: 5px 0;
+    font-size: 16px;
+    margin-top: 20px;
+    color: #8e8e8e;">Profile</div>
         <a class="item">
-          llamada externa
-          <p class="balanced">Muy pronto llamadas a bajo coste desde TamTam!</p>
+          Phone number
+          <span class="pull-right">{{dataModal.contact.user.phone}}</span>
         </a>
+        
+        <li class="item item-toggle">
+          Notification
+          <label class="toggle toggle-assertive">
+            <input type="checkbox">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </li>
 
+        <li class="item item-toggle">
+          Pin Chat
+          <label class="toggle toggle-assertive">
+            <input type="checkbox">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </li>
+
+        <li class="item">
+          Delete chat
+        </li>
+
+        <li class="item" style="color: plum">
+          Block contact
+        </li>
       </div>
     </div>
+    <!--<div ng-if="data.contactProfile.active">-->
+      <!--<div class="bg-contact royal-bg horizontal layout center center-justified">-->
+        <!--<img ng-src="{{data.contactProfile.user.avatar}}" alt="" class="img-responsive"-->
+             <!--ng-if="data.contactProfile.user.avatar">-->
+        <!--<div ng-if="!data.contactProfile.user.avatar" ng-style="{'background-color': data.contact.user.color}"-->
+             <!--style="width:100%;height:100%;color: rgb(255, 255, 255);text-align: center;font-size: 26px;line-height: 360px;background-color: rgb(246, 215, 118);">-->
+          <!--{{data.contactProfile.user.name[0]}}-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="light text-center" style="margin-top: 3px;margin-bottom: 3px;">-->
+        <!--<span style="font-weight: bold; font-size: 18px;" ng-cloak ng-if="data.contactProfile.user.phone">{{data.contactProfile.user.name}}</span>-->
+        <!--<p ng-if="data.contactProfile.user.status" style="    padding: 0 10px;font-size: 16px;-->
+    <!--margin: 0;" ng-cloak>{{data.contactProfile.user.status}}</p>-->
+      <!--</div>-->
+      <!--<div class="horizontal layout contact-button">-->
+        <!--<div class="flex text-center">-->
+          <!--<button class="button button-royal" ng-click="openVideoView()">-->
+            <!--Llamada gratis-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="flex text-center">-->
+          <!--<button class="button button-royal" ng-click="createPrivateChat(data.contactProfile)">-->
+            <!--Mensaje gratuito-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="list">-->
+
+        <!--<div class="item item-divider">-->
+          <!--Número de Móvil {{data.contactProfile.user.phone}}-->
+        <!--</div>-->
+
+
+        <!--<a class="item" ng-click="blockContact()" ng-if="!data.contactProfile.isBlock">-->
+
+          <!--Bloquear contacto-->
+        <!--</a>-->
+
+        <!--<a class="item" ng-click="unlockContact()" ng-if="data.contactProfile.isBlock">-->
+
+          <!--Desbloquear contacto-->
+        <!--</a>-->
+
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div ng-if="!data.contactProfile.active">-->
+      <!--<div class="bg-contact horizontal layout center center-justified">-->
+        <!--<div ng-style="{'background-color': data.contact.color}"-->
+             <!--style="width:100%;height:100%;color: rgb(255, 255, 255);text-align: center;font-size: 26px;line-height: 360px;background-color: rgb(246, 215, 118);">-->
+          <!--{{data.contactProfile.name[0]}}-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="horizontal layout contact-button">-->
+        <!--<div class="flex text-center">-->
+          <!--<button class="button button-royal">-->
+            <!--Llamada externa-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="flex text-center">-->
+          <!--<button class="button button-royal" ng-click="sendSms(data.contactProfile.phone, $event)">-->
+            <!--Invitar a TamTam-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="list">-->
+        <!--<div class="item item-divider">-->
+          <!--Número de Móvil {{data.contactProfile.phone}}-->
+        <!--</div>-->
+
+        <!--<a class="item">-->
+          <!--llamada externa-->
+          <!--<p class="balanced">Muy pronto llamadas a bajo coste desde TamTam!</p>-->
+        <!--</a>-->
+
+      <!--</div>-->
+    <!--</div>-->
 
   </ion-content>
 </ion-modal-view>

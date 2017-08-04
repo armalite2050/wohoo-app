@@ -71,6 +71,8 @@
   </ion-header-bar>
 
   <ion-content class="padding chat-content-detail" style="bottom: {{data.heightScroll + 'px'}}">
+
+    <div id="stickerPipe"></div>
     <div class="chat-day" ng-repeat="data in data.messages" ng-if="data.chats.length">
       <div class="line-time">
         <span am-time-ago="data.day" ng-if="$index != indexMessage - 1"></span>

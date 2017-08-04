@@ -922,7 +922,8 @@ angular.module('starter.controllers', [])
       contact: localStorageService.get('wohoo-contact')
     };
 
-    console.log($scope.dataModal)
+
+    console.log($scope.dataModal.contact)
 
     $scope.createPrivateChat = function (contact) {
       var channel = {

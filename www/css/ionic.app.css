@@ -10645,3 +10645,46 @@ body {
 
 .action-sheet .button {
   font-size: 16px; }
+
+.modal-profile .header-profile {
+  height: 160px;
+  position: relative;
+  margin-bottom: 40px; }
+  .modal-profile .header-profile button {
+    margin-left: 10px;
+    margin-top: 10px;
+    color: #fff; }
+  .modal-profile .header-profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    bottom: -30px; }
+
+.modal-profile .list .item {
+  border: none;
+  border-bottom: 1px solid #d4d4d4;
+  margin: 0;
+  margin-bottom: 1px;
+  font-weight: 500;
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-left: 0; }
+  .modal-profile .list .item.item-icon-left {
+    padding-left: 40px !important; }
+  .modal-profile .list .item i {
+    font-size: 22px;
+    left: 0; }
+  .modal-profile .list .item .toggle.toggle-assertive {
+    right: 0; }
+  .modal-profile .list .item span {
+    float: right;
+    font-weight: 400;
+    color: #8e8e8e; }
+
+.platform-ios .header-profile button {
+  margin-top: 30px; }
