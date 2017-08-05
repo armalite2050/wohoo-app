@@ -10180,6 +10180,8 @@ body {
       background-color: #ddd;
       position: relative;
       padding: 5px 10px; }
+      .chat-detail .messages li .content-message .img-sticker {
+        max-width: 50%; }
       .chat-detail .messages li .content-message:before, .chat-detail .messages li .content-message:after {
         right: 100%;
         top: 15px;
@@ -10200,6 +10202,8 @@ body {
         border-radius: 4px;
         position: relative;
         padding: 5px 10px; }
+        .chat-detail .messages li.from .content-message .img-sticker {
+          float: right; }
         .chat-detail .messages li.from .content-message:before {
           left: 100%;
           top: 15px;
@@ -10221,13 +10225,16 @@ body {
         text-transform: uppercase;
         color: #fff;
         position: absolute;
-        right: 0; }
-      .chat-detail .messages li.from .status-message .time {
-        font-size: 11px;
-        font-style: italic;
-        color: #cecece; }
-      .chat-detail .messages li.from .status-message i {
-        margin-left: 10px; }
+        right: 0;
+        border: 1px solid #f1f1f1; }
+      .chat-detail .messages li.from .status-message {
+        text-align: right; }
+        .chat-detail .messages li.from .status-message .time {
+          font-size: 11px;
+          font-style: italic;
+          color: #cecece; }
+        .chat-detail .messages li.from .status-message i {
+          margin-left: 10px; }
     .chat-detail .messages li.to {
       padding-left: 48px; }
       .chat-detail .messages li.to .avatar {
@@ -10239,7 +10246,8 @@ body {
         text-transform: uppercase;
         color: #fff;
         position: absolute;
-        left: 0; }
+        left: 0;
+        border: 1px solid #f1f1f1; }
       .chat-detail .messages li.to .status-message .time {
         font-size: 11px;
         font-style: italic;
@@ -10252,6 +10260,10 @@ body {
           border-right-color: #fff;
           border-width: 6px;
           margin-top: -6px; }
+    .chat-detail .messages li.sticker-img .content-message {
+      background-color: transparent !important; }
+      .chat-detail .messages li.sticker-img .content-message:before {
+        display: none; }
   .chat-detail .contact {
     text-align: center; }
     .chat-detail .contact .contact-avatar {
@@ -10708,3 +10720,11 @@ body {
   width: 33%;
   float: left;
   padding: 10px; }
+
+.img-item-sticker {
+  width: 42px;
+  height: 42px;
+  margin: 0 10px;
+  padding: 7px; }
+  .img-item-sticker.active {
+    background-color: #ddd; }

@@ -79,7 +79,7 @@
         <span ng-if="$index == indexMessage - 1">Today</span>
       </div>
       <ul class="messages">
-        <li ng-repeat="item in data.chats" ng-class="{'from': item.from.userId == rootData.user._id, 'to': item.from.userId != rootData.user._id, 'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text}" ng-if="item.text || item.image || item.voiceMessage || item.sticker || item.video || item.contact ||item.location">
+        <li ng-repeat="item in data.chats" ng-class="{'from': item.from.userId == rootData.user._id, 'to': item.from.userId != rootData.user._id, 'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text, 'sticker-img': item.sticker}" ng-if="item.text || item.image || item.voiceMessage || item.sticker || item.video || item.contact ||item.location">
 
           <img ng-src="{{item.from.avatar}}" alt="" class="avatar" ng-click="viewProfile(item.from)" ng-if="item.from.avatar">
           <div class="bg-chat-avatar avatar" ng-if="!item.from.avatar" ng-style="{'background-color': item.from.color}" ng-click="viewProfile(item.from)">
@@ -92,6 +92,7 @@
           <div class="content-message" ng-class="{'no-bg': item.image}">
             <div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>
             <img ng-src="{{item.image}}" alt="" class="img-responsive" ng-if="item.image" style="max-width: 200px;" ng-click="showFullSizeImage(item.image, 1)">
+            <img ng-src="{{item.sticker}}" alt="" class="img-responsive img-sticker" ng-if="item.sticker">
             <a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">
               <img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img" style="max-width: 150px;">
             </a>

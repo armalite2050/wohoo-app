@@ -2,7 +2,7 @@
   {
 
     "name": "tab1",
-    "url": "https://static.stickerpipe.com/sticker/casual50/tab_icon_xxhdpi.png?scl=21&sh=fBBnNzyQ4tghoVX8SqkwnA",
+    "url": "./img/stickers/1-1.png",
     "images": [
       {
         "name": "image1",
@@ -83,6 +83,245 @@
       {
         "name": "image1",
         "url": "./img/stickers/20.png"
+      }
+    ]
+  },
+  {
+
+    "name": "tab1",
+    "url": "./img/stickers/2-1-1.png",
+    "images": [
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-1.png"
+      },
+      {
+        "name": "image2",
+        "url": "./img/stickers/2-2.png"
+      },
+      {
+        "name": "image3",
+        "url": "./img/stickers/2-3.png"
+      },
+      {
+        "name": "image4",
+        "url": "./img/stickers/2-4.png"
+      },
+      {
+        "name": "image5",
+        "url": "./img/stickers/2-5.png"
+      },
+      {
+        "name": "image6",
+        "url": "./img/stickers/2-6.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-7.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-8.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-9.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-10.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-11.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-12.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-13.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-14.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-15.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-16.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-17.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-18.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-19.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/2-20.png"
+      }
+    ]
+  }
+,
+  {
+
+    "name": "tab1",
+    "url": "./img/stickers/3-1.png",
+    "images": [
+      {
+        "name": "image2",
+        "url": "./img/stickers/3-2.png"
+      },
+      {
+        "name": "image3",
+        "url": "./img/stickers/3-3.png"
+      },
+      {
+        "name": "image4",
+        "url": "./img/stickers/3-4.png"
+      },
+      {
+        "name": "image5",
+        "url": "./img/stickers/3-5.png"
+      },
+      {
+        "name": "image6",
+        "url": "./img/stickers/3-6.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-7.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-8.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-9.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-10.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-11.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-12.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-13.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-14.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-15.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/3-16.png"
+      }
+    ]
+  }
+,
+  {
+
+    "name": "tab1",
+    "url": "./img/stickers/4-1.png",
+    "images": [
+      {
+        "name": "image2",
+        "url": "./img/stickers/4-2.png"
+      },
+      {
+        "name": "image3",
+        "url": "./img/stickers/4-3.png"
+      },
+      {
+        "name": "image4",
+        "url": "./img/stickers/4-4.png"
+      },
+      {
+        "name": "image5",
+        "url": "./img/stickers/4-5.png"
+      },
+      {
+        "name": "image6",
+        "url": "./img/stickers/4-6.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-7.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-8.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-9.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-10.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-11.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-12.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-13.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-14.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-15.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-16.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-17.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-18.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-19.png"
+      },
+      {
+        "name": "image1",
+        "url": "./img/stickers/4-20.png"
       }
     ]
   }

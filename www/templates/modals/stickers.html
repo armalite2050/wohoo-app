@@ -1,6 +1,8 @@
 <ion-bottom-sheet-view class="emoji-modal stickers">
-    <ion-header-bar class="horizontal layout center">
-        <span class="flex horizontal layout center center-justified">Nuevos Stickers en breve!!</span>
+    <ion-header-bar class="horizontal layout center" style="padding: 0;">
+        <span class="flex horizontal layout center">
+            <img ng-src="{{item.url}}" alt="" class="img-responsive img-item-sticker" ng-repeat="item in data.stickers" ng-class="{active: data.sticker.url == item.url}" ng-click="selectStickerTab(item)">
+        </span>
         <button class="button button-icon icon " ng-click="modalSticker.hide()">
             <img src="./img/close.png" alt="" class="img-responsive" width="27">
         </button>

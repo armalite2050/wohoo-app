@@ -507,6 +507,10 @@ body {
         position: relative;
         padding: 5px 10px;
 
+        .img-sticker {
+          max-width: 50%;
+        }
+
         &:before, &:after {
           right: 100%;
           top: 15px;
@@ -534,6 +538,10 @@ body {
           position: relative;
           padding: 5px 10px;
 
+          .img-sticker {
+            float: right;
+          }
+
           &:before {
             left: 100%;
             top: 15px;
@@ -559,9 +567,11 @@ body {
           color: #fff;
           position: absolute;
           right: 0;
+          border: 1px solid #f1f1f1;
         }
 
         .status-message {
+          text-align: right;
           .time {
             font-size: 11px;
             font-style: italic;
@@ -587,6 +597,7 @@ body {
           color: #fff;
           position: absolute;
           left: 0;
+          border: 1px solid #f1f1f1;
         }
 
         .status-message {
@@ -606,6 +617,16 @@ body {
             border-right-color: #fff;
             border-width: 6px;
             margin-top: -6px;
+          }
+        }
+      }
+
+      &.sticker-img {
+        .content-message {
+          background-color: transparent !important;
+
+          &:before {
+            display: none;
           }
         }
       }
@@ -1227,5 +1248,15 @@ body {
     width: 33%;
     float: left;
     padding: 10px;
+  }
+}
+.img-item-sticker {
+  width: 42px;
+  height: 42px;
+  margin: 0 10px;
+  padding: 7px;
+
+  &.active {
+    background-color: #ddd;
   }
 }

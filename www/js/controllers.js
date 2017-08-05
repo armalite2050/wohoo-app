@@ -1130,6 +1130,10 @@ angular.module('starter.controllers', [])
         params.voiceMessage = $scope.data.message.voiceMessage;
       }
 
+      if ($scope.data.message.sticker) {
+        params.sticker = $scope.data.message.sticker;
+      }
+
       $scope.data.messages[$scope.data.messages.length - 1].chats.push(params);
       var index = $scope.data.messages[$scope.data.messages.length - 1].chats.length - 1;
       if ($scope.data.message.image) {
@@ -1338,6 +1342,8 @@ angular.module('starter.controllers', [])
     $scope.addSticker = function (item) {
       $scope.data.message.sticker = item.url;
       $scope.modalSticker.hide();
+
+      sendMessage();
     };
 
     $ionicModal.fromTemplateUrl('./templates/modals/share-contact.html', {
