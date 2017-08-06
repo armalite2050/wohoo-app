@@ -96,15 +96,17 @@
             <a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">
               <img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img" style="max-width: 150px;">
             </a>
-            <div class="contact" ng-if="item.contact" ng-click="goToContactDetail(item.contact, 1)">
+            <div class="contact" ng-if="item.contact" ng-click="viewProfile(item.contact.user)">
               <div ng-if="item.contact.user">
                 <img ng-src="{{item.contact.user.avatar}}" class="contact-avatar" ng-if="item.contact.user.avatar">
                 <div ng-style="{'background-color': item.contact.user.color}" class="contact-avatar" ng-if="!item.contact.user.avatar">{{item.contact.user.name[0]}}</div>
-                {{item.contact.user.name}}
+                {{item.contact.user.name}} <br>
+                {{item.contact.user.phone}}
               </div>
               <div ng-if="!item.contact.user" ng-click="viewProfile(item.contact)">
                 <div ng-style="{'background-color': item.contact.color}" class="contact-avatar">{{item.contact.name[0]}}</div>
-                {{item.contact.name}}
+                {{item.contact.name}} <br>
+                {{item.contact.phone}}
               </div>
             </div>
             <div ng-if="item.voiceMessage" class="voice-mess-item">
