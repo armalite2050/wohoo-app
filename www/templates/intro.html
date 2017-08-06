@@ -1,27 +1,35 @@
 <ion-view class="intro-view">
-  <ion-content scroll="false">
-    <div class="logo text-center">
+  <ion-content scroll="false" class="vertical layout">
+    <div class="logo flex text-center horizontal layout center center-justified">
       <img src="./img/logo.png" alt="" class="img-responsive">
     </div>
 
-    <h1>Bienvenido a TamTam</h1>
-    <div class="slogan text-center">
-      Llamadas y mensajes gratis.
-      <p>Envio de stikers de gran calidad.</p>
+    <div class="flex">
+      <!--<div class="slogan text-center">-->
+        <!--Llamadas y mensajes gratis.-->
+        <!--<p>Envio de stikers de gran calidad.</p>-->
+      <!--</div>-->
+      <h1>Bienvenido a Wohoo</h1>
+
+      <div class="term text-center">
+        Al seleccionar Continuar, usted acepta Wohoo <a href="http://tamtam.website/politica/terminos.html">Terminos y Pólitica de privacidad</a>
+      </div>
+
+      <div class="text-center">
+        <button class="button button-positive button-clear" ui-sref="login" style="font-size: 18px;">Agree & Continuar</button>
+      </div>
     </div>
 
-    <div class="term text-center">
-      Al seleccionar Continuar, usted acepta <a href="http://tamtam.website/politica/terminos.html">Terminos y Pólitica de privacidad</a>
-    </div>
 
-    <div class="start text-center">
-      <button class="button button-royal" ui-sref="login">Continuar</button>
-    </div>
+
+    <!--<div class="start text-center">-->
+      <!--<button class="button button-royal" ui-sref="login">Continuar</button>-->
+    <!--</div>-->
 
   </ion-content>
-  <ion-footer-bar class="bar-stable" style="background-image: none; background-color: transparent; border-color: transparent;">
-    <div class="slogan text-center" style="color:#006fff">
-      Copyright 2017 Twister Global S.L
-    </div>
-  </ion-footer-bar>
+  <!--<ion-footer-bar class="bar-stable" style="background-image: none; background-color: transparent; border-color: transparent;">-->
+    <!--<div class="slogan text-center" style="color:#006fff">-->
+      <!--Copyright 2017 Twister Global S.L-->
+    <!--</div>-->
+  <!--</ion-footer-bar>-->
 </ion-view>

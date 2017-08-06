@@ -62,9 +62,9 @@ body {
     text-align: center;
     max-width: 280px;
     margin: 0 auto;
-    color: #006fff;
-    font-size: 28px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #000;
   }
 
   .slogan {
@@ -78,11 +78,15 @@ body {
 
   .term {
     color: #616161;
-    max-width: 250px;
+    max-width: 300px;
     margin: 0 auto;
     font-size: 13px;
     line-height: 16px;
     padding-bottom: 20px;
+
+    a {
+      text-decoration: none;
+    }
   }
 
   .start button {
@@ -95,7 +99,7 @@ body {
   background-color: #f3f3f3;
 
   .country {
-    color: #888;
+    color: #006fff;
     display: block;
     padding: 10px;
     height: 48px;
@@ -112,6 +116,12 @@ body {
   .phone-number {
     padding: 6px 10px;
     font-size: 13px;
+
+    span {
+      color: #006fff;
+      display: block;
+      margin-right: 10px;
+    }
   }
 }
 
@@ -185,6 +195,12 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
     top: 50%;
     margin-top: -15px;
   }
+}
+
+.login-label {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 20px 10px;
 }
 
 .contact-view {

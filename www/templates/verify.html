@@ -1,13 +1,15 @@
 <ion-view class="login-view">
     <ion-header-bar class="bar-royal">
         <div class="title">Verificación TamTam</div>
+      <button class="button button-clear" style="color: #222" ng-click="login()" ng-disabled="!data.user.code" ng-click="verify()">Done</button>
+
     </ion-header-bar>
     <ion-content scroll="false">
-        <div class="bold login-label padding">
+        <div class="bold login-label padding text-center">
             Introduzca su código SMS
         </div>
         <div class="list">
-            <label class="item item-input country" ng-click="openModal()">
+            <label class="item item-input country" ng-click="openModal()" style="color: #222; font-size: 16px">
                 <span>{{data.user.phone}}</span>
             </label>
             <label class="item item-input phone-number" ng-class="{error: data.err}">
@@ -15,13 +17,13 @@
             </label>
         </div>
 
-        <div class="start text-center">
-            <button class="button button-royal" ng-disabled="!data.user.code" ng-click="verify()">Continuar</button>
-        </div>
-        <br>
-        <div class="term text-center" style="font-size: 12px">
-        <p>Introduzca código recibido vía SMS</p>
-        
-        </div>
+        <!--<div class="start text-center">-->
+            <!--<button class="button button-royal" ng-disabled="!data.user.code" ng-click="verify()">Continuar</button>-->
+        <!--</div>-->
+        <!--<br>-->
+        <!--<div class="term text-center" style="font-size: 12px">-->
+        <!--<p>Introduzca código recibido vía SMS</p>-->
+
+        <!--</div>-->
     </ion-content>
 </ion-view>
