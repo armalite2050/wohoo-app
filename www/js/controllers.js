@@ -1171,8 +1171,10 @@ angular.module('starter.controllers', [])
         phone: item.phone,
         user: item
       };
-      $scope.data.contactProfile = params;
-      console.log($scope.data.contactProfile)
+      $scope.dataModal = {
+        contact: params
+      };
+      console.log($scope.dataModal)
       localStorageService.set('wohoo-contact', params)
       $scope.openModalProfile()
     };
@@ -1207,6 +1209,12 @@ angular.module('starter.controllers', [])
           $http.put(config.url + config.api.channel + 'delete/' + $scope.data.channel._id, {
             userId: $scope.rootData.user._id
           }).then(function (response) {
+            $scope.data.messages = [
+              {
+                day: new Date(),
+                chats: []
+              }
+            ];
           })
         } else {
 

@@ -1,4 +1,4 @@
-<ion-modal-view class="contact-detail-view bg-app modal-profile" ng-controller="ContactDetailCtrl">
+<ion-modal-view class="contact-detail-view bg-app modal-profile">
   <!--<ion-header-bar class="bar-royal">-->
     <!--<button class="button button-icon icon ion-ios-arrow-left" ng-click="modalProfile.hide()"></button>-->
     <!--<div class="title" ng-if="data.contactProfile.active">-->
@@ -11,7 +11,7 @@
   <ion-content>
 
     <div class="header-profile" ng-style="{'background-color': dataModal.contact.user.color}">
-      <button class="button button-icon button-clear icon ion-android-close" ng-click="modalProfile.hide()"></button>
+      <button class="button button-icon button-clear icon ion-android-close" ng-click="modalProfile.hide()" style="color: #fff"></button>
       <img ng-src="{{dataModal.contact.user.avatar}}" alt="" ng-if="dataModal.contact.user.avatar">
       <img ng-src="./img/default_avatar.png" alt="" ng-if="!dataModal.contact.user.avatar">
     </div>

@@ -102,7 +102,7 @@
                 <div ng-style="{'background-color': item.contact.user.color}" class="contact-avatar" ng-if="!item.contact.user.avatar">{{item.contact.user.name[0]}}</div>
                 {{item.contact.user.name}}
               </div>
-              <div ng-if="!item.contact.user">
+              <div ng-if="!item.contact.user" ng-click="viewProfile(item.contact)">
                 <div ng-style="{'background-color': item.contact.color}" class="contact-avatar">{{item.contact.name[0]}}</div>
                 {{item.contact.name}}
               </div>
