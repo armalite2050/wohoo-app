@@ -26,9 +26,9 @@
         <div class="padding">
             <b>Usuarios de grupo</b>
         </div>
-        <ion-list ng-if="data.channelEditting.from == rootData.user._id">
+        <ion-list>
 
-            <ion-item item="item" class="item-avatar" ng-repeat="user in data.channelEditting.users" ng-if="user.user._id != rootData.user._id && user.user._id != user.from">
+            <ion-item item="item" class="item-avatar" ng-repeat="user in data.channelEditting.users">
 
                 <img ng-src="{{user.user.avatar}}" alt="" ng-if="user.user.avatar">
                 <div class="img-avatar" ng-style="{'background-color': user.user.color}" ng-if="!user.user.avatar" >
@@ -37,6 +37,7 @@
 
                 <h2 ng-if="user.user.name">{{user.user.name}}</h2>
                 <h2 ng-if="!user.user.name">{{user.user.phone}}</h2>
+                <span ng-if="data.channelEditting.from == user.user._id" class="admin">Admin</span>
                 <ion-option-button class="button-assertive horizontal layout center center-justified" ng-click="removeUsers($index)">
                     <i class="ion ion-trash-a"></i>
                 </ion-option-button>

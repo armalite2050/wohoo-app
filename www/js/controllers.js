@@ -1134,6 +1134,10 @@ angular.module('starter.controllers', [])
         params.sticker = $scope.data.message.sticker;
       }
 
+      if ($scope.data.message.admin) {
+        params.admin = $scope.data.message.admin;
+      }
+
       $scope.data.messages[$scope.data.messages.length - 1].chats.push(params);
       var index = $scope.data.messages[$scope.data.messages.length - 1].chats.length - 1;
       if ($scope.data.message.image) {
@@ -1515,7 +1519,14 @@ angular.module('starter.controllers', [])
     };
 
     $scope.removeUsers = function (index, check) {
+      console.log($scope.data.channelEditting.from, $scope.rootData.user)
+      if (!check && $scope.data.channelEditting.from == $scope.data.channelEditting.users[index]._id) {
+        return
+      }
+      var name = $scope.data.channelEditting.users[index].user.name;
+      console.log($scope.data.channelEditting.users[index]);
       $scope.data.channelEditting.users.splice(index, 1);
+
       var params = [];
       angular.forEach($scope.data.channelEditting.users, function (value) {
         params.push({
@@ -1532,6 +1543,13 @@ angular.module('starter.controllers', [])
         $scope.modalEdit.hide();
         if (check) {
           $state.go('tab.chat');
+          $scope.data.message.admin = true;
+          $scope.data.message.text = $scope.rootData.user.name + ' has left group';
+          sendMessage();
+        } else {
+          $scope.data.message.admin = true;
+          $scope.data.message.text = $scope.rootData.user.name + ' kicked ' + name + ' in group';
+          sendMessage();
         }
         $ionicLoading.hide();
       })

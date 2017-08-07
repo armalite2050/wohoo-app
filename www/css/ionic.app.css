@@ -10275,6 +10275,16 @@ body {
       background-color: transparent !important; }
       .chat-detail .messages li.sticker-img .content-message:before {
         display: none; }
+    .chat-detail .messages li.admin-mes {
+      text-align: center;
+      width: 100%;
+      padding: 0 !important;
+      margin-top: 10px; }
+      .chat-detail .messages li.admin-mes .message-admin {
+        display: inline-block;
+        background-color: #ddd;
+        padding: 5px 20px;
+        border-radius: 15px; }
   .chat-detail .contact {
     text-align: center; }
     .chat-detail .contact .contact-avatar {
@@ -10739,3 +10749,9 @@ body {
   padding: 7px; }
   .img-item-sticker.active {
     background-color: #ddd; }
+
+.admin {
+  position: absolute;
+  right: 10px;
+  top: 27px;
+  color: red; }

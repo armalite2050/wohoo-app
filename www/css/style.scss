@@ -646,6 +646,20 @@ body {
           }
         }
       }
+
+      &.admin-mes {
+        text-align: center;
+        width: 100%;
+        padding: 0 !important;
+        margin-top: 10px;
+
+        .message-admin {
+          display: inline-block;
+          background-color: #ddd;
+          padding: 5px 20px;
+          border-radius: 15px;
+        }
+      }
     }
   }
 
@@ -1276,3 +1290,12 @@ body {
     background-color: #ddd;
   }
 }
+
+.admin {
+  position: absolute;
+  right: 10px;
+  top: 27px;
+  color: red;
+}
+
+

@@ -79,78 +79,48 @@
         <span ng-if="$index == indexMessage - 1">Today</span>
       </div>
       <ul class="messages">
-        <li ng-repeat="item in data.chats" ng-class="{'from': item.from.userId == rootData.user._id, 'to': item.from.userId != rootData.user._id, 'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text, 'sticker-img': item.sticker}" ng-if="item.text || item.image || item.voiceMessage || item.sticker || item.video || item.contact ||item.location">
+        <li ng-repeat="item in data.chats" ng-class="{'from': item.from.userId == rootData.user._id, 'to': item.from.userId != rootData.user._id, 'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text, 'sticker-img': item.sticker, 'admin-mes': item.admin}">
+          <div ng-if="!item.admin">
+            <img ng-src="{{item.from.avatar}}" alt="" class="avatar" ng-click="viewProfile(item.from)" ng-if="item.from.avatar">
+            <div class="bg-chat-avatar avatar" ng-if="!item.from.avatar" ng-style="{'background-color': item.from.color}" ng-click="viewProfile(item.from)">
+              {{item.from.name[0]}}
+            </div>
 
-          <img ng-src="{{item.from.avatar}}" alt="" class="avatar" ng-click="viewProfile(item.from)" ng-if="item.from.avatar">
-          <div class="bg-chat-avatar avatar" ng-if="!item.from.avatar" ng-style="{'background-color': item.from.color}" ng-click="viewProfile(item.from)">
-            {{item.from.name[0]}}
-          </div>
-
-          <div class="status-message">
-            <span class="time" am-time-ago="item.updatedAt"></span> <i class="ion ion-trash-a" ng-if="item.from.userId == rootData.user._id" ng-click="showConfirmDelte(item._id, $index)"></i>
-          </div>
-          <div class="content-message" ng-class="{'no-bg': item.image}">
-            <div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>
-            <img ng-src="{{item.image}}" alt="" class="img-responsive" ng-if="item.image" style="max-width: 200px;" ng-click="showFullSizeImage(item.image, 1)">
-            <img ng-src="{{item.sticker}}" alt="" class="img-responsive img-sticker" ng-if="item.sticker">
-            <a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">
-              <img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img" style="max-width: 150px;">
-            </a>
-            <div class="contact" ng-if="item.contact" ng-click="viewProfile(item.contact.user)">
-              <div ng-if="item.contact.user">
-                <img ng-src="{{item.contact.user.avatar}}" class="contact-avatar" ng-if="item.contact.user.avatar">
-                <div ng-style="{'background-color': item.contact.user.color}" class="contact-avatar" ng-if="!item.contact.user.avatar">{{item.contact.user.name[0]}}</div>
-                {{item.contact.user.name}} <br>
-                {{item.contact.user.phone}}
+            <div class="status-message">
+              <span class="time" am-time-ago="item.updatedAt"></span> <i class="ion ion-trash-a" ng-if="item.from.userId == rootData.user._id" ng-click="showConfirmDelte(item._id, $index)"></i>
+            </div>
+            <div class="content-message" ng-class="{'no-bg': item.image}">
+              <div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>
+              <img ng-src="{{item.image}}" alt="" class="img-responsive" ng-if="item.image" style="max-width: 200px;" ng-click="showFullSizeImage(item.image, 1)">
+              <img ng-src="{{item.sticker}}" alt="" class="img-responsive img-sticker" ng-if="item.sticker">
+              <a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">
+                <img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img" style="max-width: 150px;">
+              </a>
+              <div class="contact" ng-if="item.contact" ng-click="viewProfile(item.contact.user)">
+                <div ng-if="item.contact.user">
+                  <img ng-src="{{item.contact.user.avatar}}" class="contact-avatar" ng-if="item.contact.user.avatar">
+                  <div ng-style="{'background-color': item.contact.user.color}" class="contact-avatar" ng-if="!item.contact.user.avatar">{{item.contact.user.name[0]}}</div>
+                  {{item.contact.user.name}} <br>
+                  {{item.contact.user.phone}}
+                </div>
+                <div ng-if="!item.contact.user" ng-click="viewProfile(item.contact)">
+                  <div ng-style="{'background-color': item.contact.color}" class="contact-avatar">{{item.contact.name[0]}}</div>
+                  {{item.contact.name}} <br>
+                  {{item.contact.phone}}
+                </div>
               </div>
-              <div ng-if="!item.contact.user" ng-click="viewProfile(item.contact)">
-                <div ng-style="{'background-color': item.contact.color}" class="contact-avatar">{{item.contact.name[0]}}</div>
-                {{item.contact.name}} <br>
-                {{item.contact.phone}}
+              <div ng-if="item.voiceMessage" class="voice-mess-item">
+                <voice-message link="item.voiceMessage">
+                </voice-message>
               </div>
             </div>
-            <div ng-if="item.voiceMessage" class="voice-mess-item">
-              <voice-message link="item.voiceMessage">
-              </voice-message>
-            </div>
-            <!--<div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>-->
-            <!--<img ng-src="{{item.image}}" alt="" class="img-reponsive img-show img-img" ng-if="item.image" ng-click="openFullImage(item.image)">-->
-            <!--<img ng-src="{{item.sticker}}" alt="" class="img-reponsive img-show img-sticker" ng-if="item.sticker">-->
-            <!--<div ng-if="item.voiceMessage" class="voice-mess-item">-->
-            <!--<voice-message link="item.voiceMessage">-->
-            <!--</voice-message>-->
-            <!--</div>-->
-            <!--<div class="video" ng-if="item.video">-->
-            <!--<video ng-src="{{item.video | trustUrl}}" controls></video>-->
-            <!--</div>-->
-            <!--<div class="contact" ng-if="item.contact" ng-click="goChatDetailContact($index, item.contact)">-->
-            <!--<div ng-if="item.contact.avatar"  style="color: #fff; text-align: center; width: 60px; height: 60px;font-size: 20px;-->
-            <!--margin: 0 auto;-->
-            <!--border-radius: 3px;">-->
-            <!--<img ng-src="{{item.contact.avatar}}" alt="" ng-click="viewProfile(item.from)"  width="50" height="50" style="width: 50px; height: 50px">-->
-
-            <!--</div>-->
-            <!--<div ng-if="!item.contact.avatar" ng-style="{'background-color': item.contact.color}" style="color: #fff; text-align: center; width: 60px; height: 60px;font-size: 20px;-->
-            <!--padding-top: 19px;     margin: 0 auto;-->
-            <!--border-radius: 3px;">-->
-            <!--<span ng-if="item.contact.name.formatted">{{item.contact.name.formatted[0] + item.contact.name.formatted[1]}}</span>-->
-
-            <!--</div>-->
-            <!--<div class="name" ng-if="item.contact.name.formatted">{{item.contact.name.formatted}}</div>-->
-            <!--<div class="phone" ng-if="item.contact.phoneNumbers">{{item.contact.phoneNumbers[0].value}}</div>-->
-            <!--</div>-->
-            <!--<a ng-if="item.location.lat" ng-click="openLink('https://google.com/maps/?q={{item.location.lat}},{{item.location.lng}}')">-->
-            <!--<img ng-src="{{getMap}}center={{item.location.lat}},{{item.location.lng}}&zoom=18&size=300x300&markers=color:red%7Clabel:S%7C{{item.location.lat}},{{item.location.lng}}" class="img-img">-->
-            <!--</a>-->
-            <!--<div class="info-message">-->
-            <!--<span class="name-user">{{item.from.name}},</span> <span class="time" am-time-ago="item.updatedAt"></span>-->
-            <!--</div>-->
-
-            <!--<div class="delete-mes" ng-if="item.from.userId == rootData.user._id" ng-class="{'delete-mes-text': item.text}" ng-click="showConfirmDelte(item._id, $index)">-->
-            <!--<i class="ion ion-trash-a"></i>-->
-            <!--</div>-->
+          </div>
+          <div ng-if="item.admin">
+            <div class="message-admin">{{item.text}} <span am-time-ago="item.updatedAt"></span></div>
           </div>
         </li>
+
+
         <li class="text-right" ng-if="data.channel.readAll">
           Visto por <span ng-repeat="item in data.channel.users" ng-if="!item.read && item.user._id != rootData.user._id">{{item.user.name}}<span ng-if="data.channel.users.length > 1 && $index != data.channel.users.length - 1">, </span></span> <i class="ion ion-checkmark-circled balanced"></i>
         </li>
