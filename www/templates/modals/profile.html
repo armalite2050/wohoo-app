@@ -9,79 +9,101 @@
     <!--</div>-->
   <!--</ion-header-bar>-->
   <ion-content>
+    <div ng-if="dataModal.contact.user">
+      <div class="header-profile" ng-style="{'background-color': dataModal.contact.user.color}">
+        <button class="button button-icon button-clear icon ion-android-close" ng-click="modalProfile.hide()" style="color: #fff"></button>
+        <img ng-src="{{dataModal.contact.user.avatar}}" alt="" ng-if="dataModal.contact.user.avatar">
+        <img ng-src="./img/default_avatar.png" alt="" ng-if="!dataModal.contact.user.avatar">
+      </div>
 
-    <div class="header-profile" ng-style="{'background-color': dataModal.contact.user.color}">
-      <button class="button button-icon button-clear icon ion-android-close" ng-click="modalProfile.hide()" style="color: #fff"></button>
-      <img ng-src="{{dataModal.contact.user.avatar}}" alt="" ng-if="dataModal.contact.user.avatar">
-      <img ng-src="./img/default_avatar.png" alt="" ng-if="!dataModal.contact.user.avatar">
-    </div>
-
-    <div class="text-center" style="
+      <div class="text-center" style="
     font-weight: 500;
     font-size: 17px;    margin-bottom: 10px;">
-      {{dataModal.contact.user.name}}
-    </div>
+        {{dataModal.contact.user.name}}
+      </div>
 
-    <div class="padding">
-      <div class="list">
+      <div class="padding">
+        <div class="list">
 
-        <a class="item item-icon-left">
-          <i class="icon ion-chatbubbles"></i>
-          Send message
-        </a>
+          <a class="item item-icon-left" ng-click="createChat(dataModal.contact)">
+            <i class="icon ion-chatbubbles"></i>
+            Send message
+          </a>
 
-        <a class="item item-icon-left">
-          <i class="icon ion-ios-telephone"></i>
-          Start call
-        </a>
+          <a class="item item-icon-left" ng-click="openUserCall(data.channel.users); modalProfile.hide();">
+            <i class="icon ion-ios-videocam"></i>
+            Start video call
+          </a>
 
-        <a class="item item-icon-left">
-          <i class="icon ion-ios-videocam"></i>
-          Start video call
-        </a>
-
-        <a class="item item-icon-left">
-          <i class="icon ion-ios-people"></i>
-          Create new group
-        </a>
-        <div class="label" style="    padding: 5px 0;
+          <div class="label" style="    padding: 5px 0;
     font-size: 16px;
     margin-top: 20px;
     color: #8e8e8e;">Profile</div>
-        <a class="item">
-          Phone number
-          <span class="pull-right">{{dataModal.contact.user.phone}}</span>
-        </a>
+          <a class="item">
+            Phone number
+            <span class="pull-right">{{dataModal.contact.user.phone}}</span>
+          </a>
 
-        <li class="item item-toggle">
-          Notification
-          <label class="toggle toggle-assertive">
-            <input type="checkbox">
-            <div class="track">
-              <div class="handle"></div>
-            </div>
-          </label>
-        </li>
+          <!--<li class="item item-toggle">-->
+          <!--Notification-->
+          <!--<label class="toggle toggle-assertive">-->
+          <!--<input type="checkbox">-->
+          <!--<div class="track">-->
+          <!--<div class="handle"></div>-->
+          <!--</div>-->
+          <!--</label>-->
+          <!--</li>-->
 
-        <li class="item item-toggle">
-          Pin Chat
-          <label class="toggle toggle-assertive">
-            <input type="checkbox">
-            <div class="track">
-              <div class="handle"></div>
-            </div>
-          </label>
-        </li>
+          <!--<li class="item item-toggle">-->
+          <!--Pin Chat-->
+          <!--<label class="toggle toggle-assertive">-->
+          <!--<input type="checkbox">-->
+          <!--<div class="track">-->
+          <!--<div class="handle"></div>-->
+          <!--</div>-->
+          <!--</label>-->
+          <!--</li>-->
 
-        <li class="item">
-          Delete chat
-        </li>
+          <!--<li class="item">-->
+          <!--Delete chat-->
+          <!--</li>-->
 
-        <li class="item" style="color: plum">
-          Block contact
-        </li>
+          <!--<li class="item" style="color: plum">-->
+          <!--Block contact-->
+          <!--</li>-->
+        </div>
       </div>
     </div>
+
+    <div ng-if="!dataModal.contact.user">
+      <div class="header-profile" ng-style="{'background-color': dataModal.contact.user.color}">
+        <button class="button button-icon button-clear icon ion-android-close" ng-click="modalProfile.hide()" style="color: #fff"></button>
+        <img ng-src="{{dataModal.contact.user.avatar}}" alt="" ng-if="dataModal.contact.user.avatar">
+        <img ng-src="./img/default_avatar.png" alt="" ng-if="!dataModal.contact.user.avatar">
+      </div>
+
+      <div class="text-center" style="
+    font-weight: 500;
+    font-size: 17px;    margin-bottom: 10px;">
+        {{dataModal.contact.name}}
+      </div>
+
+      <div class="padding">
+        <div class="list">
+
+          <div class="label" style="    padding: 5px 0;
+    font-size: 16px;
+    margin-top: 20px;
+    color: #8e8e8e;">Profile</div>
+          <a class="item">
+            Phone number
+            <span class="pull-right">{{dataModal.contact.phone}}</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
     <!--<div ng-if="data.contactProfile.active">-->
       <!--<div class="bg-contact royal-bg horizontal layout center center-justified">-->
         <!--<img ng-src="{{data.contactProfile.user.avatar}}" alt="" class="img-responsive"-->

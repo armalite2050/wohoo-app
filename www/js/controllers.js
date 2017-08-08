@@ -962,6 +962,36 @@ angular.module('starter.controllers', [])
   })
 
   .controller('ChatDetailCtrl', function ($interval, $scope, localStorageService, $http, config, $stateParams, $timeout, $ionicPlatform, $ionicActionSheet, $ionicScrollDelegate, $state, $ionicPopup, socket, $ionicLoading, codeService, unixString, $ionicModal) {
+
+    $scope.createChat = function (item) {
+      // localStorageService.set('wohoo-contact', item)
+      // $state.go('tab.contactDetail', {id: $index})
+      if (!item.user) return false;
+      console.log(item);
+      $scope.modalProfile.hide();
+      $state.go('tab.chat');
+      var channel = {
+        users: [
+          {
+            user: $scope.rootData.user._id,
+            isRead: true
+          },
+          {
+            user: item.user._id
+          }
+        ],
+        from: $scope.rootData.user._id,
+        to: item.user._id
+      };
+
+      $ionicLoading.show();
+
+      $http.post(config.url + config.api.channel, channel).then(function (response) {
+        $ionicLoading.hide();
+        $state.go('tab.chatDetail', {id: response.data._id})
+      })
+    };
+
     $scope.data = {
       channel: localStorageService.get('chatDetail'),
       messages: [],
