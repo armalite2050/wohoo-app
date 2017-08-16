@@ -895,6 +895,7 @@ angular.module('starter.controllers', [])
       $http.post(config.url + config.api.channel, channel).then(function (response) {
         $ionicLoading.hide();
         $state.go('tab.chatDetail', {id: response.data._id})
+        $scope.modalContacts.hide();
       })
     };
 
@@ -1409,6 +1410,7 @@ angular.module('starter.controllers', [])
     $scope.goToContactDetail = function (item, $index) {
       localStorageService.set('wohoo-contact', item)
       $state.go('tab.contactDetail', {id: $index})
+      $scope.modalContacts.hide()
     };
 
     $scope.sendVoiceMessage = function (voiceMessage) {
