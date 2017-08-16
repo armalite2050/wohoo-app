@@ -109,9 +109,11 @@
                   {{item.contact.phone}}
                 </div>
               </div>
-              <div ng-if="item.voiceMessage" class="voice-mess-item">
+              <div ng-if="item.voiceMessage" class="voice-mess-item" style="    width: auto;
+    min-width: 280px;margin-top: 5px;">
                 <voice-message link="item.voiceMessage">
                 </voice-message>
+                <!--<audio ng-src="{{item.voiceMessage | trustUrl}}" controls style="width: 100%"></audio>-->
               </div>
             </div>
           </div>
