@@ -87,7 +87,7 @@
             </div>
 
             <div class="status-message">
-              <span class="time" am-time-ago="item.updatedAt"></span> <i class="ion ion-trash-a" ng-if="item.from.userId == rootData.user._id" ng-click="showConfirmDelte(item._id, $index)"></i>
+              <span class="time" am-time-ago="item.updatedAt"></span> <i class="ion ion-trash-a" ng-if="item.from.userId == rootData.user._id" ng-click="showConfirmDelte(item._id, $index, data.chats)"></i>
             </div>
             <div class="content-message" ng-class="{'no-bg': item.image}">
               <div ng-if="item.text" data-tap-disabled="true" class="only-text" compile="urlify(item.text)"></div>
