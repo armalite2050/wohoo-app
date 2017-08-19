@@ -29,7 +29,7 @@
             {{item.user.name}} <i class="ion ion-ios-circle-filled" ng-class="{'balanced': item.user.online }"></i>
           </div>
           <div class="online-status" ng-if="item.user.online">
-            Online
+            En línea
           </div>
           <div class="online-status" ng-if="!item.user.online">
             Visto: <span am-time-ago="item.user.lastConnection"></span>
@@ -76,7 +76,7 @@
     <div class="chat-day" ng-repeat="data in data.messages" ng-if="data.chats.length">
       <div class="line-time">
         <span am-time-ago="data.day" ng-if="$index != indexMessage - 1"></span>
-        <span ng-if="$index == indexMessage - 1">Today</span>
+        <span ng-if="$index == indexMessage - 1">Hoy</span>
       </div>
       <ul class="messages">
         <li ng-repeat="item in data.chats" ng-class="{'from': item.from.userId == rootData.user._id, 'to': item.from.userId != rootData.user._id, 'voice': item.voiceMessage, 'video-item': item.video, 'text-message': item.text, 'sticker-img': item.sticker, 'admin-mes': item.admin}">
@@ -133,41 +133,41 @@
   <ion-footer-bar class="vertical layout" style="transition: all 0.1s ease; bottom: {{data.heightFooter + 'px'}}">
     <div class="horizontal layout">
       <div class="typing" ng-if="data.typing.length">
-        <span ng-repeat="item in data.typing">{{item.name}}</span> typing...
+        <span ng-repeat="item in data.typing">{{item.name}}</span> Escribiendo...
       </div>
       <!--<div class="icon-writing horizontal layout center end" ng-click="showActionBar()" ng-if="!data.recordingStatus">-->
         <!--<i class="ion ion-ios-plus-empty"></i>-->
       <!--</div>-->
-      <textarea msd-elastic placeholder="Write message..." class="flex" ng-model="data.message.text" id="chat-input" autocorrect="off" autocapitalize="none" ng-if="!data.recordingStatus" ng-change="typing()"></textarea>
+      <textarea msd-elastic placeholder="Escribir mensaje..." class="flex" ng-model="data.message.text" id="chat-input" autocorrect="off" autocapitalize="none" ng-if="!data.recordingStatus" ng-change="typing()"></textarea>
       <!--<div class="icon-writing horizontal layout center end" ngf-select="uploadImage($file)" name="fileImage" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB" style="padding-left: 20px" ng-if="!data.recordingStatus">-->
         <!--<i class="ion ion-ios-camera-outline"></i>-->
       <!--</div>-->
 
       <div class="icon-writing horizontal layout center end" ng-click="sendMessage()" ng-if="data.message.text" ng-if="!data.recordingStatus">
-        <i class="ion ion-ios-paperplane-outline"></i>
+         <img src="./img/send1.png" alt="" class="img-responsive" width="25">
       </div>
 
-      <div class="flex padding" ng-if="data.recordingStatus">Recording... <span ng-if="data.count">{{seconds2time(data.count)}}</span></div>
+      <div class="flex padding" ng-if="data.recordingStatus">Grabando... <span ng-if="data.count">{{seconds2time(data.count)}}</span></div>
 
       <div class="icon-writing horizontal layout center end" hold-record ng-if="!data.message.text">
-        <i class="ion-ios-mic-outline"></i>
+        <img src="./img/mic1.png" alt="" class="img-responsive" width="25">
       </div>
     </div>
 
     <div class="horizontal layout button-list-footer">
       <div class="icon-writing horizontal layout center center-justified flex" ng-click="openSticker()">
-      <i class="ion ion-images"></i>
+       <img src="./img/speech-bubble-20.png" alt="" class="img-responsive" width="23">
       </div>
 
       <div class="icon-writing horizontal layout center center-justified flex" ngf-select="uploadImage($file)" name="fileImage" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">
-        <i class="ion ion-ios-camera-outline"></i>
+        <img src="./img/photo-camera.png" alt="" class="img-responsive" width="23">
       </div>
 
       <div class="icon-writing horizontal layout center center-justified flex" ng-click="openShare()">
-        <i class="ion ion-ios-upload-outline"></i>
+         <img src="./img/user.png" alt="" class="img-responsive" width="23">
       </div>
       <div class="icon-writing horizontal layout center center-justified flex" ng-click="getLocation()">
-        <i class="ion ion-ios-location-outline"></i>
+        <img src="./img/placeholder.png" alt="" class="img-responsive" width="23">
       </div>
     </div>
 

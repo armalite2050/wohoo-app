@@ -256,10 +256,10 @@ angular.module('starter.controllers', [])
      // Show the action sheet
      var hideSheet = $ionicActionSheet.show({
        buttons: [
-         { text: 'New Chat' },
-         { text: 'New Group' },
-         { text: 'New Public Channel' },
-         { text: 'Invite people to Wohoo' },
+         { text: 'Nuevo Chat' },
+         { text: 'Nuevo Grupo' },
+         { text: 'Nuevo Canal oficial o Peña' },
+         { text: 'Invitar Contactos a Tamtam Pro Girona FC' },
        ],
        cancelText: 'Cancel',
        cancel: function() {
@@ -300,7 +300,7 @@ angular.module('starter.controllers', [])
     $rootScope.getMap = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyB2em2A71pWii9i9m4Grt1HRytmTN-LISE&';
 
     $scope.rootData = {
-      fonts: ['Pequeña', 'normal', 'Grande']
+      fonts: ['Pequeña', 'Normal', 'Grande']
     };
     $scope.cropper = {};
     $scope.cropper.sourceImage = null;
@@ -554,7 +554,7 @@ angular.module('starter.controllers', [])
       if (message.status == 1 && $scope.rootData.user._id == message.uuid) {
         var confirmPopup = $ionicPopup.confirm({
           title: 'Bạn có một cuộc gọi từ bác sĩ',
-          cancelText: 'Cancel',
+          cancelText: 'Cancelar',
           okText: 'Ok'
         });
 
