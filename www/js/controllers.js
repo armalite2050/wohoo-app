@@ -1214,7 +1214,7 @@ angular.module('starter.controllers', [])
       $scope.openModalProfile()
     };
 
-    $scope.showConfirmDelte = function (id, index) {
+    $scope.showConfirmDelte = function (id, index, array) {
       var confirmPopup = $ionicPopup.confirm({
         title: 'Eliminar mensaje',
         template: 'Deseas eliminar este mensaje?',
@@ -1224,7 +1224,7 @@ angular.module('starter.controllers', [])
 
       confirmPopup.then(function (res) {
         if (res) {
-          $scope.data.messages[$scope.data.messages.length - 1].chats.splice(index, 1);
+          array.splice(index, 1);
           $http.delete(config.url + config.api.message + id);
           console.log('You are sure');
         } else {

@@ -1,0 +1,23 @@
+<ion-modal-view ng-controller="BackgroundCtrl">
+  <ion-header-bar class="bar-light">
+    <button class="button button-icon icon ion-ios-arrow-left" ui-sref="tab.account"></button>
+    <div class="title">
+      Seleccione fondo
+    </div>
+    <button class="button" ng-click="setDefault()">Original</button>
+
+  </ion-header-bar>
+  <ion-content>
+    <ul class="background-list">
+      <li ng-repeat="item in rootData.backgrounds" ng-click="addBackground(item)">
+        <img ng-src="{{item.url}}" alt="" class="img-responsive">
+      </li>
+    </ul>
+
+    <div class="padding text-center" style="clear: both">
+      <button class="button" ngf-select="uploadBg($file)" ng-model="rootData.fileBg" name="fileImage" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB" ngf-resize="{width: 640, height: 1180}">Seleccionar foto</button>
+
+    </div>
+
+  </ion-content>
+</ion-modal-view>
