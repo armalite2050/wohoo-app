@@ -5,9 +5,9 @@
 }
 
 .bar.bar-royal {
-  border-color: #006fff;
+  border-color: #e6242d;
   background-color: #f5f5f5;
-  color: #006fff;
+  color: #e6242d;
 }
 
 .bar.bar-royal .title {
@@ -25,13 +25,13 @@
 
 .button.button-royal {
   border-color: transparent;
-  background-color: #006fff;
+  background-color: #e6242d;
   color: #fff;
 }
 
 .button.button-royal.active, .button.button-royal.activated {
   border-color: #a2a2a2;
-  background-color: #006fff;
+  background-color: #e6242d;
 }
 
 ion-view, .pane {
@@ -99,7 +99,7 @@ body {
   background-color: #f3f3f3;
 
   .country {
-    color: #006fff;
+    color: #e6242d;
     display: block;
     padding: 10px;
     height: 48px;
@@ -118,7 +118,7 @@ body {
     font-size: 13px;
 
     span {
-      color: #006fff;
+      color: #e6242d;
       display: block;
       margin-right: 10px;
     }
@@ -134,7 +134,7 @@ body {
 }
 
 ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active-royal .tab-item.active, ion-tabs.tabs-color-active-royal .tab-item.tab-item-active {
-  color: #006fff;
+  color: #e6242d;
 }
 
 .item-color {
@@ -179,7 +179,7 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
     margin-top: -15px;
 
     .ion-checkmark-circled {
-      color: #006fff;
+      color: #e6242d;
       font-size: 20px;
     }
   }
@@ -190,7 +190,7 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
     color: #fff;
     padding: 5px 15px;
     border-radius: 3px;
-    background-color: #006fff;
+    background-color: #e6242d;
     font-size: 14px;
     top: 50%;
     margin-top: -15px;
@@ -219,7 +219,7 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
     .content {
       width: 160px;
       margin: 2px auto;
-      border: 1px solid #006fff;
+      border: 1px solid #e6242d;
       border-radius: 3px;
       height: 30px;
       line-height: 28px;
@@ -232,7 +232,7 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
         font-weight: 400;
         height: 28px;
         font-size: 14px;
-        color: #006fff;
+        color: #e6242d;
 
         &:first-child {
           border-bottom-left-radius: 3px;
@@ -245,7 +245,7 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
         }
 
         &.active {
-          background-color: #006fff;
+          background-color: #e6242d;
           color: #fff;
         }
       }
@@ -255,7 +255,7 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
 
 .button {
   border-color: transparent;
-  background-color: #006fff;
+  background-color: #888;
   color: #fff;
 }
 
@@ -288,8 +288,8 @@ ion-tabs.tabs-color-active-royal .tab-item.activated, ion-tabs.tabs-color-active
 }
 
 .bar-royal .button {
-  border-color: #006fff;
-  background-color: #006fff;
+  border-color: #e6242d;
+  background-color: #e6242d;
   color: #fff;
 }
 
@@ -326,7 +326,7 @@ body {
 }
 
 .bar .button.button-icon, .bar button.button-icon {
-  color: #006fff;
+  color: #e6242d;
 }
 
 .tab-chat {
@@ -370,7 +370,7 @@ body {
 }
 
 .chat-detail {
-  background-color: #dfe0e2 !important;
+  background-color: rgb(255, 85, 93);
 
   &.Grande {
     ul {
@@ -548,7 +548,7 @@ body {
 
         .content-message {
           float: right;
-          background-color: #006fff;
+          background-color: #e6242d;
           color: #fff;
           border-radius: 4px;
           position: relative;
@@ -567,7 +567,7 @@ body {
             position: absolute;
             pointer-events: none;
             border-color: rgba(219, 244, 253, 0);
-            border-left-color: #006fff;
+            border-left-color: #e6242d;
             border-width: 6px;
             margin-top: -6px;
           }
@@ -1221,7 +1221,7 @@ body {
       top: 10px;
 
       &:before {
-        background-color: rgba(56, 126, 245, 0.78);
+        background-color: #444;
         padding: 8px 10px;
         border-radius: 50%;
         color: #fff;

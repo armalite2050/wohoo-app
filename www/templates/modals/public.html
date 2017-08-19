@@ -4,7 +4,7 @@
       <img src="./img/close.png" alt="" class="img-responsive" width="27">
     </button>
     <div class="tab-contact title">
-      Add New
+      Nuevo Canal
     </div>
 
 
@@ -12,28 +12,28 @@
   <ion-content class="create-group-view">
     <form class="list" name="publicForm">
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Name</span>
+        <span class="input-label">Nombre del canal</span>
         <input type="text" placeholder="ABC New" ng-model="data.public.name" required>
       </label>
       <label class="item item-input item-stacked-label">
-        <span class="input-label">About</span>
+        <span class="input-label">Sobre nuestro canal</span>
         <input type="text" placeholder="Suhr" ng-model="data.public.about" required>
       </label>
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Location</span>
+        <span class="input-label">Localización</span>
         <input type="text" placeholder="NY, USA" ng-model="data.public.location" required>
       </label>
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Website</span>
+        <span class="input-label">Web oficial</span>
         <input type="text" placeholder="wohoo.com" ng-model="data.public.website" required>
       </label>
       <div class="item item-input item-stacked-label input-banner">
-        <span class="input-label">Banner <b ngf-select="uploadImageBanner($file)" name="fileImage1" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">Upload <i class="ion ion-upload"></i></b></span>
+        <span class="input-label">Banner Publicitario <b ngf-select="uploadImageBanner($file)" name="fileImage1" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">Upload <i class="ion ion-upload"></i></b></span>
         <img ng-src="{{data.public.avatar}}" alt="" class="img-responsive" ng-if="data.public.avatar">
       </div>
 
       <div class="item item-input item-stacked-label input-banner">
-        <span class="input-label">Images <b ngf-select="uploadImagePublic($file)" name="fileImage1" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">Upload <i class="ion ion-upload"></i></b></span>
+        <span class="input-label">Imagenes <b ngf-select="uploadImagePublic($file)" name="fileImage1" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB">Upload <i class="ion ion-upload"></i></b></span>
         <ul>
           <li ng-repeat="item in data.public.images">
             <img ng-src="{{item}}" alt="" class="img-responsive">
@@ -46,9 +46,9 @@
       </div>
 
       <div class="padding">
-        <button class="button button-block button-assertive" ng-click="deletePublic()" ng-if="data.public._id">Delete Public Channel</button>
-        <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="createPublic()" ng-if="!data.public._id">Create Public Channel</button>
-        <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="editPublic()" ng-if="data.public._id">Edit Public Channel</button>
+        <button class="button button-block button-assertive" ng-click="deletePublic()" ng-if="data.public._id">Eliminar canal</button>
+        <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="createPublic()" ng-if="!data.public._id">Crear canal</button>
+        <button class="button button-block button-positive" ng-disabled="!data.public.avatar || publicForm.$invalid" ng-click="editPublic()" ng-if="data.public._id">Editar canal</button>
       </div>
     </form>
   </ion-content>
